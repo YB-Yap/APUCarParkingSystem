@@ -13,7 +13,7 @@ import "@mdi/font/css/materialdesignicons.min.css";
 import { routes } from "./routes";
 
 // vue components
-import Index from "./pages/Index";
+import Dashboard from "./pages/Dashboard";
 
 Vue.use(VueRouter);
 
@@ -31,6 +31,6 @@ const router = new VueRouter({
 
 const app = new Vue({
     el: '#app',
-    components: { Index },
+    components: { Dashboard },
     router,
 });

@@ -1,29 +1,17 @@
 import Dashboard from "./pages/Dashboard";
+import ParkingStatus from "./pages/ParkingStatus";
 import CarParkStatus from "./pages/CarParkStatus";
 
 export const routes = [
-    // {
-    //     path: "/",
-    //     name: "index",
-    //     component: IndexPage,
-    //     meta: {
-    //         title: "Home Page - APU Car Parking System",
-    //         // metaTags: [
-    //         //     {
-    //         //         name: "description",
-    //         //         content: "The home page of our example app."
-    //         //     },
-    //         //     {
-    //         //         property: "og:description",
-    //         //         content: "The home page of our example app."
-    //         //     }
-    //         // ]
-    //     }
-    // },
     {
-        path: "/dashboard",
+        path: "/",
         name: "dashboard",
         component: Dashboard
+    },
+    {
+        path: "/parking-status",
+        name: "parking_status",
+        component: ParkingStatus
     },
     {
         path: "/car-park-status",
