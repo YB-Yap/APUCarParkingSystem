@@ -1,0 +1,4 @@
+// fix error 404 when user type the exact url manually
+https://stackoverflow.com/questions/51008803/laravel-vue-router-returns-404-page/51009019
+
+
