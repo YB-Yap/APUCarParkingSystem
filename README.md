@@ -1,6 +1,6 @@
 ## APU Car Parking System Using Cloud-Based Service
 
-This is my FYP project.
+FYP iS fUn
 
 ## Deliverables
 APU Car Parking System allows **students**,
