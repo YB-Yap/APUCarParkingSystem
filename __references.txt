@@ -1,4 +1,8 @@
 // fix error 404 when user type the exact url manually
+// Damon -2018
 https://stackoverflow.com/questions/51008803/laravel-vue-router-returns-404-page/51009019
 
+// extract month, day from timestamp
+// Exprator - 2017
+https://stackoverflow.com/questions/45138724/how-to-extract-month-day-from-created-at-column-in-laravel/45138805
 

@@ -25,9 +25,14 @@ APU Car Parking System is able,
 - To automatically terminate expired subscriptions using time-based job scheduler.
 
 ## Change log
-######  27/10/2020  
-- Added Vue-Router, MDI  
-- Added dashboard page with dummy blocks and some testing components  
-- Resolved default page issue  
-######  26/10/2020  
+######  28/10/2020
+- Changed app timezone to Asia/Kuala_Lumpur
+- Added tables for migration [users, parkings, season_parkings, transactions]
+- Added models for [users, parkings, season_parkings, transactions]
+- Added users_table seeder [1 admin]
+######  27/10/2020
+- Added Vue-Router, MDI
+- Added dashboard page with dummy blocks and some testing components
+- Resolved default page issue
+######  26/10/2020
 - Development begins
