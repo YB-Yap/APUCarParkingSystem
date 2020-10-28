@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             // $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['student', 'lecturer', 'admin'])->default('student');
+            $table->enum('role', ['student', 'admin'])->default('student');
             $table->string('apcard_number');                    // not sure need or not
             $table->integer('apcard_balance')->default(0);
             $table->rememberToken();
