@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -15,9 +15,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    protected $fillable = ['fullname', 'tp_number', 'email', 'password', 'role', 'apcard_number', 'apcard_balance'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -25,15 +23,28 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password'
     ];
+    // protected $hidden = [
+    //     'password', 'remember_token',
+    // ];
 
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    // protected $casts = [
+    //     'email_verified_at' => 'datetime',
+    // ];
+
+    public function parking()
+    {
+        return $this->hasMany(Parking::class);
+    }
+
+    public function seasonParking()
+    {
+        return $this->hasMany(SeasonParking::class);
+    }
 }
