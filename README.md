@@ -32,6 +32,7 @@ APU Car Parking System is able,
 - Added tables for migration [users, parkings, season_parkings, transactions]
 - Added models for [users, parkings, season_parkings, transactions]
 - Added users_table seeder [1 admin, 3 students]
+- Added user authentication
 ######  27/10/2020
 - Added Vue-Router, MDI
 - Added dashboard page with dummy blocks and some testing components

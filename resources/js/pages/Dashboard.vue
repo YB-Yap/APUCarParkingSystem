@@ -7,7 +7,7 @@
                 <div v-for="col in 3" :key="col" class="dashboard-column">
                     <div v-for="row in 4" :key="row" class="dashboard-block">
                         <div class="block-content">
-                            <h1>Welcome back, {{ userName + col + row }}</h1>
+                            <h1>Welcome back, {{ user.fullname + col + row }}</h1>
                         </div>
                     </div>
                 </div>
@@ -34,6 +34,10 @@
                         <span>Car Park Status</span>
                     </a>
                 </router-link>
+                <a class="nav-link" href="/logout">
+                    <span class="mdi mdi-account"></span>
+                    <span>Logout</span>
+                </a>
             </div>
         </div>
     </div>
@@ -41,11 +45,14 @@
 
 <script>
     export default {
-        data: function () {
-            return {
-                userName: "Yap Bo Yang",
-            }
+        props: {
+            user: Object
         },
+        // data: function () {
+        //     return {
+        //         userFullname: "",
+        //     }
+        // },
         methods: {
             isDashboard: function() {
                 return this.$route.path === '/'

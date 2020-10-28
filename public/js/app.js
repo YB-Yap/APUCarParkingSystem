@@ -2053,12 +2053,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      userName: "Yap Bo Yang"
-    };
+  props: {
+    user: Object
   },
+  // data: function () {
+  //     return {
+  //         userFullname: "",
+  //     }
+  // },
   methods: {
     isDashboard: function isDashboard() {
       return this.$route.path === '/';
@@ -38424,7 +38431,7 @@ var render = function() {
                           _c("h1", [
                             _vm._v(
                               "Welcome back, " +
-                                _vm._s(_vm.userName + col + row)
+                                _vm._s(_vm.user.fullname + col + row)
                             )
                           ])
                         ])
@@ -38468,14 +38475,27 @@ var render = function() {
               _vm._v(" "),
               _c("span", [_vm._v("Car Park Status")])
             ])
-          ])
+          ]),
+          _vm._v(" "),
+          _vm._m(0)
         ],
         1
       )
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "nav-link", attrs: { href: "/logout" } }, [
+      _c("span", { staticClass: "mdi mdi-account" }),
+      _vm._v(" "),
+      _c("span", [_vm._v("Logout")])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -54096,25 +54116,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var routes = [// {
-//     path: "/",
-//     name: "index",
-//     component: IndexPage,
-//     meta: {
-//         title: "Home Page - APU Car Parking System",
-//         // metaTags: [
-//         //     {
-//         //         name: "description",
-//         //         content: "The home page of our example app."
-//         //     },
-//         //     {
-//         //         property: "og:description",
-//         //         content: "The home page of our example app."
-//         //     }
-//         // ]
-//     }
-// },
-{
+var routes = [{
   path: "/",
   name: "dashboard",
   component: _pages_Dashboard__WEBPACK_IMPORTED_MODULE_0__["default"]
