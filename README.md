@@ -4,7 +4,7 @@ FYP iS fUn
 
 ## Deliverables
 APU Car Parking System allows **students**,
-- To login and logout from the system.
+- **DONE** To login and logout from the system.
 - To check the availability of car parking areas.
 - To check the time of entry and exit of the day.
 - To check the estimated parking fee of the day.
@@ -16,7 +16,7 @@ APU Car Parking System allows **students**,
 - To search for empty parking space before charging when the parking area is full for 15 minutes.
   
 APU Car Parking System allows **admin**,
-- To login and logout from the system.
+- **DONE** To login and logout from the system.
 - To check the availability of car parking areas.
 - To check all records.
 - To check all subscription.
