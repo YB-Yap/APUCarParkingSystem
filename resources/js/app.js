@@ -8,16 +8,18 @@ require('./bootstrap');
 
 // packages
 import Vue from "vue";
+import _ from "lodash";
 import VueRouter from "vue-router";
 import "@mdi/font/css/materialdesignicons.min.css";
 import { routes } from "./routes";
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 // vue components
 import Dashboard from "./pages/Dashboard";
 
 Vue.use(VueRouter);
-
-// Vue.component('index', Index);
+Vue.use(VueSweetalert2);
 
 const router = new VueRouter({
     mode: "history",
