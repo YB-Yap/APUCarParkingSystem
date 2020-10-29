@@ -31,6 +31,9 @@ APU Car Parking System is able,
 - Changed /dashboard to be the first page ['/' will be redirected to '/dashboard']
 - Added Vue-Sweetalert2
 - Added UserController to handle authentication [login, logout]
+- Added authentication error message
+- Updated dashboard UI [navbar, content]
+- Updated login page UI
 ######  28/10/2020
 - Changed app timezone to Asia/Kuala_Lumpur
 - Added tables for migration [users, parkings, season_parkings, transactions]
