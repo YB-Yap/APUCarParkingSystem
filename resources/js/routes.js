@@ -5,6 +5,11 @@ import CarParkStatus from "./pages/CarParkStatus";
 export const routes = [
     {
         path: "/",
+        name: "index",
+        redirect: "/dashboard",
+    },
+    {
+        path: "/dashboard",
         name: "dashboard",
         component: Dashboard
     },
