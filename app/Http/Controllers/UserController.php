@@ -12,18 +12,31 @@ class UserController extends Controller
     public function login(Request $request)
     {
         if ($request->isMethod('post')) {
+            // check if the email is valid
+            $user = User::where('email', $request->email)->first();
+            // no matched email
+            if (!$user) {
+                // redirect back to previous page with error message and user input
+                return back()
+                    ->withErrors(['email' => 'Email not found.'])
+                    ->withInput();
+            }
+
+            // email is valid, attempt to login
             $is_logged_in = Auth::attempt(['email' => request('email'), 'password' => request('password')]);
-
-            if ($is_logged_in) {
-                $user = User::where('email', $request->email)->first();
-                Auth::login($user);
-
-                return redirect('/');
+            if (!$is_logged_in) {
+                // password not match
+                return back()
+                    ->withErrors(['password' => 'Password is incorrect.'])
+                    ->withInput();
             } else {
-                return back()->withErrors(['Login failed']);
+                // attempt successful
+                Auth::login($user);
+                return redirect('/dashboard');
             }
         }
 
+        // if a user is logged, the user will be logged out
         if (Auth::check()) {
             Auth::logout();
         }
