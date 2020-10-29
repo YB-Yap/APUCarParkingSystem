@@ -6551,7 +6551,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".content-container {\n  width: 100%;\n  height: 100%;\n}\n.content {\n  width: 100%;\n  height: calc(100% - 57px);\n  background-color: #303030;\n  overflow-x: hidden;\n  overflow-y: auto;\n}\n.btm-navbar {\n  position: absolute;\n  z-index: 100;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  height: 57px;\n  background-color: #212121;\n  color: #e8e6e6;\n}\n.dashboard-wrapper {\n  display: flex;\n  flex-wrap: wrap;\n  flex-direction: row;\n}\n.dashboard-wrapper .dashboard-column {\n  flex-basis: 100%;\n  flex-grow: 1;\n}\n@media (min-width: 768px) {\n.dashboard-wrapper .dashboard-column {\n    flex-basis: 50%;\n}\n}\n@media (min-width: 992px) {\n.dashboard-wrapper .dashboard-column {\n    flex-basis: 33.333%;\n}\n}\n.dashboard-wrapper .dashboard-column .dashboard-block {\n  padding: 20px;\n  width: 100%;\n}\n.dashboard-wrapper .dashboard-column .dashboard-block .block-content {\n  display: flex;\n  padding: 15px;\n  background-color: #424242;\n  color: #e8e6e6;\n  width: 100%;\n}", ""]);
+exports.push([module.i, ".content-container {\n  width: 100%;\n  height: 100%;\n}\n.content {\n  width: 100%;\n  height: calc(100% - 58px);\n  background-color: #212121;\n  overflow-x: hidden;\n  overflow-y: auto;\n}\n.btm-navbar {\n  position: absolute;\n  z-index: 100;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  height: 58px;\n  background-color: #212121;\n  color: #e8e6e6;\n  border-top: 1px solid #00000033;\n}\n.btm-navbar .nav-icon {\n  display: block;\n  text-align: center;\n  font-size: 23px;\n  margin: -10px;\n  height: 38px;\n}\n.btm-navbar .nav-link {\n  color: #9e9e9e;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  overflow: hidden;\n  text-decoration: none;\n  flex-basis: 168px;\n  text-align: center;\n}\n.btm-navbar .nav-link:hover {\n  color: #3490dc;\n}\n.btm-navbar .btm-nav-active {\n  color: #3490dc;\n}\n.dashboard-wrapper {\n  display: flex;\n  flex-wrap: wrap;\n  flex-direction: row;\n}\n.dashboard-wrapper .dashboard-column {\n  flex-basis: 100%;\n  flex-grow: 1;\n}\n@media (min-width: 768px) {\n.dashboard-wrapper .dashboard-column {\n    flex-basis: 50%;\n}\n}\n@media (min-width: 992px) {\n.dashboard-wrapper .dashboard-column {\n    flex-basis: 33.333%;\n}\n}\n.dashboard-wrapper .dashboard-column .dashboard-block {\n  padding: 20px;\n  width: 100%;\n}\n.dashboard-wrapper .dashboard-column .dashboard-block .block-content {\n  display: flex;\n  padding: 15px;\n  background-color: #303030;\n  color: #e8e6e6;\n  width: 100%;\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n  border-radius: 6px;\n}", ""]);
 
 // exports
 
@@ -45314,31 +45314,37 @@ var render = function() {
     _c("div", { staticClass: "btm-navbar" }, [
       _c(
         "div",
-        { staticClass: "row justify-content-center" },
+        { staticClass: "row flex flex-nowrap justify-content-center" },
         [
-          _c("router-link", { attrs: { to: "/dashboard" } }, [
-            _c("a", { staticClass: "nav-link" }, [
-              _c("span", { staticClass: "mdi mdi-home" }),
+          _c(
+            "router-link",
+            { staticClass: "nav-link", attrs: { to: "/dashboard" } },
+            [
+              _c("span", { staticClass: "nav-icon mdi mdi-home" }),
               _vm._v(" "),
               _c("span", [_vm._v("Dashboard")])
-            ])
-          ]),
+            ]
+          ),
           _vm._v(" "),
-          _c("router-link", { attrs: { to: "parking-status" } }, [
-            _c("a", { staticClass: "nav-link" }, [
-              _c("span", { staticClass: "mdi mdi-account" }),
+          _c(
+            "router-link",
+            { staticClass: "nav-link", attrs: { to: "parking-status" } },
+            [
+              _c("span", { staticClass: "nav-icon mdi mdi-eye" }),
               _vm._v(" "),
               _c("span", [_vm._v("Parking Status")])
-            ])
-          ]),
+            ]
+          ),
           _vm._v(" "),
-          _c("router-link", { attrs: { to: "car-park-status" } }, [
-            _c("a", { staticClass: "nav-link" }, [
-              _c("span", { staticClass: "mdi mdi-car" }),
+          _c(
+            "router-link",
+            { staticClass: "nav-link", attrs: { to: "car-park-status" } },
+            [
+              _c("span", { staticClass: "nav-icon mdi mdi-parking" }),
               _vm._v(" "),
               _c("span", [_vm._v("Car Park Status")])
-            ])
-          ]),
+            ]
+          ),
           _vm._v(" "),
           _c(
             "a",
@@ -45351,7 +45357,7 @@ var render = function() {
               }
             },
             [
-              _c("span", { staticClass: "mdi mdi-account" }),
+              _c("span", { staticClass: "nav-icon mdi mdi-logout" }),
               _vm._v(" "),
               _c("span", [_vm._v("Logout")])
             ]
@@ -60756,7 +60762,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
   mode: "history",
   base: "/",
   routes: _routes__WEBPACK_IMPORTED_MODULE_4__["routes"],
-  linkActiveClass: "active",
+  linkActiveClass: "btm-nav-active",
   scrollBehavior: function scrollBehavior() {
     return {
       x: 0,

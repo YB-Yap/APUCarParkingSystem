@@ -25,7 +25,7 @@ const router = new VueRouter({
     mode: "history",
     base: "/",
     routes,
-    linkActiveClass: "active",
+    linkActiveClass: "btm-nav-active",
     scrollBehavior() {
         return { x: 0, y: 0 };
     }
