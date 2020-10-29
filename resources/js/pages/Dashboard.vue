@@ -16,7 +16,7 @@
         </div>
         <div class="btm-navbar">
             <div class="row justify-content-center">
-                <router-link to="/">
+                <router-link to="/dashboard">
                     <a class="nav-link">
                         <span class="mdi mdi-home"></span>
                         <span>Dashboard</span>
@@ -34,7 +34,8 @@
                         <span>Car Park Status</span>
                     </a>
                 </router-link>
-                <a class="nav-link" href="/logout">
+                <!-- <a class="nav-link" href="/logout"> -->
+                <a class="nav-link" @click="logout()">
                     <span class="mdi mdi-account"></span>
                     <span>Logout</span>
                 </a>
@@ -55,7 +56,24 @@
         // },
         methods: {
             isDashboard: function() {
-                return this.$route.path === '/'
+                return this.$route.path === '/dashboard'
+            },
+            logout: function() {
+                console.log($('.btm-navbar'))
+                console.log(`logout`)
+
+                this.$swal.fire({
+                    text: 'Are you sure you want to log out?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Logout',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    // clicked 'Logout'
+                    if (result.value) {
+                        window.location.href = '/logout'
+                    }
+                })
             }
         }
     }

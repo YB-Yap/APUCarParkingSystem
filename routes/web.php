@@ -11,25 +11,17 @@
 |
 */
 
-Auth::routes();
-
-// Route::get('/home', 'DashboardController@index');
+// login
+Route::get('/login', 'UserController@login')->name('login');
+Route::post('/login', 'UserController@login')->name('login');
 
 // This is the first page and other pages
 // The URLs are processed by Vue.js
-// fix error 404 when user type the exact url manually
 
-
-// Route::get('/login', 'Auth\LoginController');
-// Route::get('/login', function() {
-//     return view('auth.login');
-// });
-
+// middleware is used to check if the user is authenticated when visiting these pages.
+// if user is not authenticated, user will be redirected to login page
 Route::group(['middleware' => ['auth']], function () {
-    // Route::prefix('user')->name('user.')->group(function () {
-
-    // });
-    Route::get('/logout', 'Auth\LoginController@logout');
+    Route::get('/logout', 'UserController@logout')->name('user.logout');
 
     Route::get('/{vue_capture?}', function () {
         return view('index');
