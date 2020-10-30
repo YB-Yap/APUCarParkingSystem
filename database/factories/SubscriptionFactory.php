@@ -2,10 +2,10 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Models\SeasonParking;
+use App\Models\Subscription;
 use Faker\Generator as Faker;
 
-$factory->define(SeasonParking::class, function (Faker $faker) {
+$factory->define(Subscription::class, function (Faker $faker) {
     return [
         //
     ];

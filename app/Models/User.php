@@ -40,8 +40,8 @@ class User extends Authenticatable
         return $this->hasMany(Parking::class);
     }
 
-    public function seasonParking()
+    public function subscription()
     {
-        return $this->hasMany(SeasonParking::class);
+        return $this->hasMany(Subscription::class);
     }
 }

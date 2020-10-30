@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SeasonParking;
+use App\Models\Subscription;
 use Illuminate\Http\Request;
 
-class SeasonParkingController extends Controller
+class SubscriptionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class SeasonParkingController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\SeasonParking  $seasonParking
+     * @param  \App\Models\Subscription  $subscription
      * @return \Illuminate\Http\Response
      */
-    public function show(SeasonParking $seasonParking)
+    public function show(Subscription $subscription)
     {
         //
     }
@@ -52,10 +52,10 @@ class SeasonParkingController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\SeasonParking  $seasonParking
+     * @param  \App\Models\Subscription  $subscription
      * @return \Illuminate\Http\Response
      */
-    public function edit(SeasonParking $seasonParking)
+    public function edit(Subscription $subscription)
     {
         //
     }
@@ -64,10 +64,10 @@ class SeasonParkingController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\SeasonParking  $seasonParking
+     * @param  \App\Models\Subscription  $subscription
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SeasonParking $seasonParking)
+    public function update(Request $request, Subscription $subscription)
     {
         //
     }
@@ -75,10 +75,10 @@ class SeasonParkingController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\SeasonParking  $seasonParking
+     * @param  \App\Models\Subscription  $subscription
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SeasonParking $seasonParking)
+    public function destroy(Subscription $subscription)
     {
         //
     }

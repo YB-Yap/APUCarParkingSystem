@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSeasonParkingsTable extends Migration
+class CreateSubscriptionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateSeasonParkingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('season_parkings', function (Blueprint $table) {
+        Schema::create('subscriptions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->index();
-            $table->timestamp('starts_at');
-            $table->timestamp('expires_at');
+            $table->date('valid_at');
+            $table->date('valid_till');
+            $table->boolean('is_active');
             $table->timestamps();
             $table->softDeletes();
 
@@ -32,6 +33,6 @@ class CreateSeasonParkingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('season_parkings');
+        Schema::dropIfExists('subscriptions');
     }
 }
