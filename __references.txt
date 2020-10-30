@@ -6,3 +6,7 @@ https://stackoverflow.com/questions/51008803/laravel-vue-router-returns-404-page
 // Exprator - 2017
 https://stackoverflow.com/questions/45138724/how-to-extract-month-day-from-created-at-column-in-laravel/45138805
 
+// creating gloabl helper function
+http://bmatovu.com/creating-custom-global-helper-functions-in-laravel/
+
+
