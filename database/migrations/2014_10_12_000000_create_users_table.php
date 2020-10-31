@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->enum('role', ['student', 'admin'])->default('student');
             $table->string('apcard_number');                    // not sure need or not
             $table->integer('apcard_balance')->default(0);
+            $table->string('profile_pic_path');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -20,7 +20,8 @@ class UserSeeder extends Seeder
             'password' => '$2y$10$8YJTM6c3pJ2yZmuRKps0f.sONdOoRXd9y7H372pkhYjecvlaK6vn6', // 123123
             'role' => 'admin',
             'apcard_number' => '000001',
-            'apcard_balance' => 99999
+            'apcard_balance' => 99999,
+            'profile_pic_path' => '/images/avatar-2.png'
         ]);
 
         // insert Students
@@ -32,7 +33,8 @@ class UserSeeder extends Seeder
                 'password' => '$2y$10$8YJTM6c3pJ2yZmuRKps0f.sONdOoRXd9y7H372pkhYjecvlaK6vn6', // 123123
                 'role' => 'student',
                 'apcard_number' => '049727',
-                'apcard_balance' => 5000
+                'apcard_balance' => 5000,
+                'profile_pic_path' => '/images/my-avatar.png'
             ],
             [
                 'fullname' => 'Low Chi Haw',
@@ -41,7 +43,8 @@ class UserSeeder extends Seeder
                 'password' => '$2y$10$8YJTM6c3pJ2yZmuRKps0f.sONdOoRXd9y7H372pkhYjecvlaK6vn6', // 123123
                 'role' => 'student',
                 'apcard_number' => '049318',
-                'apcard_balance' => 1000
+                'apcard_balance' => 1000,
+                'profile_pic_path' => '/images/avatar.png'
             ],
             [
                 'fullname' => 'Loo Ying Chi',
@@ -50,7 +53,8 @@ class UserSeeder extends Seeder
                 'password' => '$2y$10$8YJTM6c3pJ2yZmuRKps0f.sONdOoRXd9y7H372pkhYjecvlaK6vn6', // 123123
                 'role' => 'student',
                 'apcard_number' => '049162',
-                'apcard_balance' => 2000
+                'apcard_balance' => 2000,
+                'profile_pic_path' => '/images/avatar.png'
             ],
         );
 
