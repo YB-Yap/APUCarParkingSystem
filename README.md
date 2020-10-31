@@ -27,6 +27,9 @@ APU Car Parking System is able,
 - To automatically terminate expired subscriptions using time-based job scheduler.
 
 ## Change log
+######  31/10/2020
+- Added profile pic for user
+- Changed dashboard manual grid system to Vue-masonry
 ######  30/10/2020
 - Refactored SeasonParking to Subscription
 - Updated Subscription table
