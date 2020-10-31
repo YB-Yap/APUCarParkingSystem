@@ -21,3 +21,4 @@ use Illuminate\Http\Request;
 // Route::group(['middleware' => ['auth:api']], function () {
 //     Route::post('/logout', 'UserController@logout')->name('logout');
 // });
+Route::get('/availability/carpark', 'ParkingController@getAvailability');
