@@ -3,14 +3,6 @@
         <div class="content">
             <!-- content -->
             <div v-if="isDashboard()" class="dashboard-wrapper">
-                <!-- col-md-6 col-lg-4  -->
-                <!-- <div v-for="col in 3" :key="col" class="dashboard-column">
-                    <div v-for="row in 4" :key="row" class="dashboard-block">
-                        <div class="block-content">
-                            <h1>Welcome back, {{ user.fullname + col + row }}</h1>
-                        </div>
-                    </div>
-                </div> -->
                  <div v-masonry transition-duration="0.3s" item-selector=".dashboard-block">
                     <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
                         <div class="block-content">
@@ -36,6 +28,15 @@
                             <span>{{ "RM" + (user.apcard_balance / 100).toFixed(2) }}</span>
                         </div>
                     </div>
+                    <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
+                        <div class="block-content">
+                            <h5 class="block-title">
+                                <span class="mdi mdi-parking"></span>
+                                Car Park Status
+                            </h5>
+                            <span>{{ parking_availability }}</span>
+                        </div>
+                    </div>
                     <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block" v-for="item in 11" :key="item">
                         <div class="block-content">
                             <img style="width: 100%" src="http://via.placeholder.com/350x150">
@@ -51,33 +52,30 @@
                     </div>
                 </div>
             </div>
-            <router-view v-else></router-view>
+            <router-view class="content-pages" v-else></router-view>
         </div>
         <div class="btm-navbar">
             <div class="row flex flex-nowrap justify-content-center">
                 <router-link to="/dashboard" class="nav-link">
-                    <!-- <a class="nav-link"> -->
-                        <span class="nav-icon mdi mdi-home"></span>
-                        <span>Dashboard</span>
-                    <!-- </a> -->
+                    <span class="nav-icon mdi mdi-home"></span>
+                    <span>Dashboard</span>
                 </router-link>
                 <router-link to="parking-status" class="nav-link">
-                    <!-- <a class="nav-link"> -->
-                        <span class="nav-icon mdi mdi-eye"></span>
-                        <span>Parking Status</span>
-                    <!-- </a> -->
+                    <span class="nav-icon mdi mdi-eye"></span>
+                    <span>Parking Status</span>
                 </router-link>
                 <router-link to="car-park-status" class="nav-link">
-                    <!-- <a class="nav-link"> -->
-                        <span class="nav-icon mdi mdi-parking"></span>
-                        <span>Car Park Status</span>
-                    <!-- </a> -->
+                    <span class="nav-icon mdi mdi-parking"></span>
+                    <span>Car Park Status</span>
                 </router-link>
-                <!-- <a class="nav-link" href="/logout"> -->
-                <a class="nav-link" @click="logout()">
-                    <span class="nav-icon mdi mdi-logout"></span>
-                    <span>Logout</span>
-                </a>
+                <router-link to="parking-gate" class="nav-link">
+                    <span class="nav-icon mdi mdi-alert-circle"></span>
+                    <span>Simulator</span>
+                </router-link>
+                <router-link to="more" class="nav-link">
+                    <span class="nav-icon mdi mdi-dots-vertical"></span>
+                    <span>More</span>
+                </router-link>
             </div>
         </div>
     </div>
@@ -88,11 +86,17 @@
         props: {
             user: Object
         },
-        // data: function () {
-        //     return {
-
-        //     }
-        // },
+        data() {
+            return {
+                parking_availability: 0,
+            }
+        },
+        created() {
+            axios.get('/api/availability/carpark')
+            .then((result) => {
+                this.parking_availability = result.data;
+            })
+        },
         methods: {
             isDashboard: function() {
                 return this.$route.path === '/dashboard'
@@ -132,6 +136,10 @@
         background-color: $main-bg;
         overflow-x: hidden;
         overflow-y: auto;
+
+        .content-pages {
+            padding: 20px;
+        }
     }
     .btm-navbar {
         position: absolute;

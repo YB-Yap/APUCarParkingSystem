@@ -1,6 +1,8 @@
 import Dashboard from "./pages/Dashboard";
 import ParkingStatus from "./pages/ParkingStatus";
 import CarParkStatus from "./pages/CarParkStatus";
+import More from "./pages/More";
+import ParkingGate from "./pages/ParkingGate";
 
 export const routes = [
     {
@@ -22,6 +24,16 @@ export const routes = [
         path: "/car-park-status",
         name: "car_park_status",
         component: CarParkStatus
+    },
+    {
+        path: "/more",
+        name: "more",
+        component: More
+    },
+    {
+        path: "/parking-gate",
+        name: "parking_gate",
+        component: ParkingGate
     },
 ];
 

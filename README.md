@@ -5,7 +5,7 @@ FYP iS fUn
 ## Deliverables
 APU Car Parking System allows **students**,
 - **DONE** To login and logout from the system.
-- To check the availability of car parking areas.
+- *WIP* To check the availability of car parking areas.
 - To check the time of entry and exit of the day.
 - To check the estimated parking fee of the day.
 - To check old records.
@@ -17,7 +17,7 @@ APU Car Parking System allows **students**,
   
 APU Car Parking System allows **admin**,
 - **DONE** To login and logout from the system.
-- To check the availability of car parking areas.
+- *WIP* To check the availability of car parking areas.
 - To check all records.
 - To check all subscription.
 - To modify overall subscription capacity.
@@ -30,6 +30,8 @@ APU Car Parking System is able,
 ######  31/10/2020
 - Added profile pic for user
 - Changed dashboard manual grid system to Vue-masonry
+- Added 'More', 'Simulator' pages
+- Added parking availability API for dashboard
 ######  30/10/2020
 - Refactored SeasonParking to Subscription
 - Updated Subscription table

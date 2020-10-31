@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <span class="text-white">car park status</span>
+    <div class="parking-gate">
+
     </div>
 </template>
 

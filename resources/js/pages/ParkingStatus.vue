@@ -10,6 +10,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+    @import './resources/sass/_variables.scss';
 
 </style>
