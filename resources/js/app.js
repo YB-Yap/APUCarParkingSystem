@@ -14,12 +14,15 @@ import "@mdi/font/css/materialdesignicons.min.css";
 import { routes } from "./routes";
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+import "masonry-layout/dist/masonry.pkgd.min.js";
+import {VueMasonryPlugin} from "vue-masonry";
 
 // vue components
 import Dashboard from "./pages/Dashboard";
 
 Vue.use(VueRouter);
 Vue.use(VueSweetalert2);
+Vue.use(VueMasonryPlugin);
 
 const router = new VueRouter({
     mode: "history",

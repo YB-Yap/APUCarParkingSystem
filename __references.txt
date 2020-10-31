@@ -9,4 +9,7 @@ https://stackoverflow.com/questions/45138724/how-to-extract-month-day-from-creat
 // creating gloabl helper function
 http://bmatovu.com/creating-custom-global-helper-functions-in-laravel/
 
+// masonry
+https://github.com/shershen08/vue-masonry?ref=madewithvuejs.com
+
 

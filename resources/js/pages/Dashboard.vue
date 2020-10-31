@@ -4,10 +4,49 @@
             <!-- content -->
             <div v-if="isDashboard()" class="dashboard-wrapper">
                 <!-- col-md-6 col-lg-4  -->
-                <div v-for="col in 3" :key="col" class="dashboard-column">
+                <!-- <div v-for="col in 3" :key="col" class="dashboard-column">
                     <div v-for="row in 4" :key="row" class="dashboard-block">
                         <div class="block-content">
                             <h1>Welcome back, {{ user.fullname + col + row }}</h1>
+                        </div>
+                    </div>
+                </div> -->
+                 <div v-masonry transition-duration="0.3s" item-selector=".dashboard-block">
+                    <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
+                        <div class="block-content">
+                            <div class="profile">
+                                <img :src="user.profile_pic_path" :alt="user.fullname" class="profile-pic">
+                                <div class="text">
+                                    <h5 class="block-title">Welcome back, {{ user.fullname }}</h5>
+                                    <p class="block-subtitle">Nice to see you again.</p>
+                                </div>
+                            </div>
+                            <div class="profile-links">
+                                <a class="link" @click="logout()">
+                                    <span class="block-icon mdi mdi-logout"></span>
+                                    <span>Logout</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
+                        <div class="block-content text-center">
+                            <span class="block-icon mdi mdi-credit-card"></span><br>
+                            <span>APCard Balance</span><br>
+                            <span>{{ "RM" + (user.apcard_balance / 100).toFixed(2) }}</span>
+                        </div>
+                    </div>
+                    <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block" v-for="item in 11" :key="item">
+                        <div class="block-content">
+                            <img style="width: 100%" src="http://via.placeholder.com/350x150">
+                            <br>
+                            <h5><strong>{{ item }}</strong></h5>
+                            <p>{{ item + " testing masonry" }}</p>
+                            <p v-if="item == 1">{{ item + " testing masonry" }}</p>
+                            <p v-if="item == 1">{{ item + " testing masonry" }}</p>
+                            <p v-if="item == 1">{{ item + " testing masonry" }}</p>
+                            <p v-if="item == 1">{{ item + " testing masonry" }}</p>
+                            <p v-if="item == 1">{{ item + " testing masonry" }}</p>
                         </div>
                     </div>
                 </div>
@@ -51,7 +90,7 @@
         },
         // data: function () {
         //     return {
-        //         userFullname: "",
+
         //     }
         // },
         methods: {
@@ -115,15 +154,13 @@
 
         .nav-link {
             color: $secondary-txt;
-            // display: block;
-            // align-self: center;
-            // max-width: 100%;
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
             text-decoration: none;
             flex-basis: 168px;
             text-align: center;
+            cursor: pointer;
 
             &:hover {
                 color: $blue;
@@ -135,46 +172,68 @@
         }
     }
 
-    .dashboard-wrapper {
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: row;
-        // width: 100%;
+    .dashboard-block {
+        padding: 20px;
+        width: 100%;
 
-        .dashboard-column {
-            // width: 100%;
-            // height: auto;
-            flex-basis: 100%;
-            // display: flex;
-            // flex-direction: column;
-            flex-grow: 1;
+        .block-content {
+            padding: 15px;
+            background-color: $secondary-bg;
+            color: $main-txt;
+            width: 100%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 6px;
 
-            @media (min-width: 768px) {
-                // width: 50%;
-                flex-basis: 50%;
+            .block-title {
+                color: $blue;
+                font-weight: 700;
             }
-
-            @media (min-width: 992px) {
-                // width: 33.333%;
-                flex-basis: 33.333%;
+            .block-subtitle {
+                color: $secondary-txt;
+                font-weight: 400;
             }
-
-            .dashboard-block {
-                padding: 20px;
-                width: 100%;
-
-                .block-content {
-                    display: flex;
-                    padding: 15px;
-                    background-color: $secondary-bg;
-                    color: $main-txt;
-                    width: 100%;
-                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-                    border-radius: 6px;
-                }
-            }
-
-
         }
+    }
+
+    .profile {
+        display: block;
+        width: 100%;
+
+        .profile-pic {
+            width: 64px;
+            height: 64px;
+            object-fit: cover;
+            float: left;
+            border-radius: 32px;
+        }
+        .text {
+            display: inline-block;
+            padding-left: 16px;
+        }
+    }
+    .profile-links {
+        display: block;
+        width: 100%;
+        height: 64px;
+        position: relative;
+
+        .link {
+            color: $secondary-txt;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            text-decoration: none;
+            cursor: pointer;
+            position: absolute;
+            right: 0px;
+            bottom: 0px;
+
+            &:hover {
+                color: $blue;
+            }
+        }
+    }
+    .block-icon {
+        font-size: 24px;
     }
 </style>
