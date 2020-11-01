@@ -2115,23 +2115,78 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     user: Object
   },
   data: function data() {
     return {
-      parking_availability: 0
+      parking_availability: 0,
+      is_in_parking: false,
+      car_state: {},
+      estimated_fee: 0,
+      has_parked_today: false
     };
   },
   mounted: function mounted() {
-    var _this = this;
-
-    axios.get('/api/availability/carpark').then(function (result) {
-      _this.parking_availability = result.data;
-    });
+    this.getCarParkAvailability();
+    this.getCarState();
   },
   methods: {
+    getCarParkAvailability: function getCarParkAvailability() {
+      var _this = this;
+
+      axios.get('/api/availability/carpark').then(function (result) {
+        _this.parking_availability = result.data;
+      });
+    },
+    getLastestRecord: function getLastestRecord() {
+      this.has_parked_today = true;
+      this.$forceUpdate();
+    },
+    getCarState: function getCarState() {
+      var _this2 = this;
+
+      axios.get('/get-car-state').then(function (result) {
+        console.log(result.data);
+
+        if (result.data.isInParking) {
+          _this2.is_in_parking = true;
+          _this2.car_state = result.data.data;
+        } else if (!result.data.isInParking && result.data.data != null) {
+          _this2.getLastestRecord();
+        }
+      });
+    },
     isDashboard: function isDashboard() {
       return this.$route.path === '/dashboard';
     }
@@ -2227,7 +2282,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      is_in_parking: false,
+      car_state: {},
+      estimated_fee: 0
+    };
+  },
+  mounted: function mounted() {
+    this.getCarState();
+  },
+  methods: {
+    getCarState: function getCarState() {
+      var _this = this;
+
+      axios.get('/get-car-state').then(function (result) {
+        console.log(result.data);
+
+        if (result.data.isInParking) {
+          _this.is_in_parking = true;
+          _this.car_state = result.data.data;
+        }
+      });
+    }
+  }
+});
 
 /***/ }),
 
@@ -2258,11 +2345,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['user_id'],
   data: function data() {
     return {
-      apcard_balance: 0
+      apcard_balance: 0,
+      is_in_parking: false,
+      car_state: {},
+      selected_parking_zone: ''
     };
   },
   mounted: function mounted() {
@@ -2271,6 +2377,70 @@ __webpack_require__.r(__webpack_exports__);
     axios.get('/apcard-balance').then(function (result) {
       _this.apcard_balance = (result.data / 100).toFixed(2);
     });
+    this.getCarState();
+  },
+  methods: {
+    getCarState: function getCarState() {
+      var _this2 = this;
+
+      axios.get('/get-car-state').then(function (result) {
+        console.log(result.data);
+
+        if (result.data.isInParking) {
+          _this2.is_in_parking = true;
+          _this2.car_state = result.data.data;
+          _this2.selected_parking_zone = _this2.car_state.parking_zone;
+        }
+      });
+    },
+    enterCarPark: function enterCarPark() {
+      var _this3 = this;
+
+      console.log("entering ".concat(this.selected_parking_zone));
+      this.$swal.fire({
+        title: 'Entering Car Park',
+        text: "You are about to enter Parking Zone ".concat(this.selected_parking_zone, "?"),
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Enter',
+        cancelButtonText: 'Cancel'
+      }).then(function (result) {
+        if (result.value) {
+          axios.post('/carpark/enter', {
+            parking_zone: _this3.selected_parking_zone
+          }).then(function (res) {
+            if (res.status == 200) {
+              _this3.getCarState();
+
+              _this3.$forceUpdate();
+            }
+          });
+        }
+      });
+    },
+    exitCarPark: function exitCarPark() {
+      var _this4 = this;
+
+      console.log("exiting ".concat(this.selected_parking_zone));
+      this.$swal.fire({
+        title: 'Exiting Car Park',
+        text: "You are about to exit Parking Zone ".concat(this.selected_parking_zone, "?"),
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Exit',
+        cancelButtonText: 'Cancel'
+      }).then(function (result) {
+        if (result.value) {
+          axios.post('/carpark/exit').then(function (res) {
+            if (res.status == 200) {
+              _this4.is_in_parking = false;
+
+              _this4.$forceUpdate();
+            }
+          });
+        }
+      });
+    }
   }
 });
 
@@ -48527,7 +48697,125 @@ var render = function() {
                     ]
                   ),
                   _vm._v(" "),
-                  _vm._l(11, function(item) {
+                  _c(
+                    "div",
+                    {
+                      directives: [
+                        { name: "masonry-tile", rawName: "v-masonry-tile" }
+                      ],
+                      staticClass: "col-md-6 col-lg-4 dashboard-block"
+                    },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass: "block-content",
+                          staticStyle: { height: "200px" }
+                        },
+                        [
+                          _vm._m(1),
+                          _vm._v(" "),
+                          _vm.is_in_parking
+                            ? _c("div", [
+                                _c("span", [
+                                  _vm._v(
+                                    "Your car is currently parked in Zone " +
+                                      _vm._s(_vm.car_state.parking_zone) +
+                                      "."
+                                  )
+                                ]),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c("span", [
+                                  _vm._v(
+                                    "Enter time: " +
+                                      _vm._s(_vm.car_state.time_in)
+                                  )
+                                ]),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c("span", [
+                                  _vm._v(
+                                    "Estimated parking fee: RM" +
+                                      _vm._s(_vm.estimated_fee)
+                                  )
+                                ])
+                              ])
+                            : _c("div", [
+                                _c("span", [
+                                  _vm._v("Your car is not parked in any Zone.")
+                                ])
+                              ])
+                        ]
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  !_vm.is_in_parking && _vm.has_parked_today
+                    ? _c(
+                        "div",
+                        {
+                          directives: [
+                            { name: "masonry-tile", rawName: "v-masonry-tile" }
+                          ],
+                          staticClass: "col-md-6 col-lg-4 dashboard-block"
+                        },
+                        [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "block-content",
+                              staticStyle: { height: "200px" }
+                            },
+                            [
+                              _vm._m(2),
+                              _vm._v(" "),
+                              _c("span", [
+                                _vm._v(
+                                  "Parking Zone: " +
+                                    _vm._s(_vm.latest_record.parking_zone) +
+                                    "."
+                                )
+                              ]),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c("span", [
+                                _vm._v(
+                                  "Enter time: " +
+                                    _vm._s(_vm.latest_record.time_in)
+                                )
+                              ]),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c("span", [
+                                _vm._v(
+                                  "Exit time: " +
+                                    _vm._s(_vm.latest_record.time_out)
+                                )
+                              ]),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c("span", [
+                                _vm._v(
+                                  "Duration: " +
+                                    _vm._s(_vm.latest_record.duration)
+                                )
+                              ]),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c("span", [
+                                _vm._v(
+                                  "Parking fee: RM" +
+                                    _vm._s(_vm.latest_record.fee)
+                                )
+                              ])
+                            ]
+                          )
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm._l(5, function(item) {
                     return _c(
                       "div",
                       {
@@ -48666,6 +48954,28 @@ var staticRenderFns = [
       _c("span", { staticClass: "mdi mdi-parking" }),
       _vm._v(
         "\n                            Car Park Status\n                        "
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h5", { staticClass: "block-title" }, [
+      _c("span", { staticClass: "mdi mdi-eye" }),
+      _vm._v(
+        "\n                            Parking Status\n                        "
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h5", { staticClass: "block-title" }, [
+      _c("span", { staticClass: "mdi mdi-eye" }),
+      _vm._v(
+        "\n                            Today, you have parked at ...\n                        "
       )
     ])
   }
@@ -48817,19 +49127,43 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "page" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "page-content" }, [
+      _vm.is_in_parking
+        ? _c("div", [
+            _c("span", [
+              _vm._v(
+                "Your car is currently parked in Zone " +
+                  _vm._s(_vm.car_state.parking_zone) +
+                  "."
+              )
+            ]),
+            _c("br"),
+            _vm._v(" "),
+            _c("span", [
+              _vm._v("Enter time: " + _vm._s(_vm.car_state.time_in))
+            ]),
+            _c("br"),
+            _vm._v(" "),
+            _c("span", [
+              _vm._v("Estimated parking fee: RM" + _vm._s(_vm.estimated_fee))
+            ])
+          ])
+        : _c("div", [
+            _c("span", [_vm._v("Your car is not parked in any Zone.")])
+          ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "page" }, [
-      _c("div", { staticClass: "page-header" }, [
-        _c("h1", { staticClass: "page-title" }, [_vm._v("Parking Status")])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "page-content" })
+    return _c("div", { staticClass: "page-header" }, [
+      _c("h1", { staticClass: "page-title" }, [_vm._v("Parking Status")])
     ])
   }
 ]
@@ -48859,6 +49193,86 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "page-content" }, [
       _c("h1", [_vm._v("Parking gate")]),
+      _vm._v(" "),
+      _vm.is_in_parking
+        ? _c("span", [
+            _vm._v(
+              "Your car is currently parked in Zone " +
+                _vm._s(_vm.car_state.parking_zone) +
+                "."
+            )
+          ])
+        : _c("span", [_vm._v("Your car is not parked in any Zone.")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "parkingZone-select" } }, [
+          _vm._v("Please select one parking zone to enter.")
+        ]),
+        _vm._v(" "),
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.selected_parking_zone,
+                expression: "selected_parking_zone"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { id: "parkingZone-select", disabled: _vm.is_in_parking },
+            on: {
+              change: function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.selected_parking_zone = $event.target.multiple
+                  ? $$selectedVal
+                  : $$selectedVal[0]
+              }
+            }
+          },
+          [
+            _c("option", { attrs: { value: "A" } }, [_vm._v("A")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "B" } }, [_vm._v("B")])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-success",
+          attrs: { disabled: _vm.is_in_parking },
+          on: {
+            click: function($event) {
+              return _vm.enterCarPark()
+            }
+          }
+        },
+        [_vm._v("Enter Car Park")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-danger",
+          attrs: { disabled: !_vm.is_in_parking },
+          on: {
+            click: function($event) {
+              return _vm.exitCarPark()
+            }
+          }
+        },
+        [_vm._v("Exit Car Park")]
+      ),
       _vm._v(" "),
       _c("h1", [_vm._v("APCard")]),
       _vm._v(" "),

@@ -4,15 +4,44 @@
             <h1 class="page-title">Parking Status</h1>
         </div>
         <div class="page-content">
-
+            <div v-if="is_in_parking">
+                <span>Your car is currently parked in Zone {{ car_state.parking_zone }}.</span><br>
+                <span>Enter time: {{ car_state.time_in }}</span><br>
+                <span>Estimated parking fee: RM{{ estimated_fee }}</span>
+            </div>
+            <div v-else>
+                <span>Your car is not parked in any Zone.</span>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-export default {
-
-}
+    export default {
+        data() {
+            return {
+                is_in_parking: false,
+                car_state: {},
+                estimated_fee: 0,
+            }
+        },
+        mounted() {
+            this.getCarState();
+        },
+        methods: {
+            getCarState() {
+                axios
+                    .get('/get-car-state')
+                    .then((result) => {
+                        console.log(result.data)
+                        if (result.data.isInParking) {
+                            this.is_in_parking = true;
+                            this.car_state = result.data.data;
+                        }
+                    });
+            },
+        }
+    }
 </script>
 
 <style lang="scss">

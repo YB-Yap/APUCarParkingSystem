@@ -29,7 +29,10 @@ APU Car Parking System is able,
 ## Change log
 ######  1/11/2020
 - Minor changes to pages UI
-- Added getApcardBalance
+- Added getApcardBalance()
+- Changed parking zone to A / B
+- Added current car status (in / not in car park)
+- Added enter and exit simulator
 ######  31/10/2020
 - Added profile pic for user
 - Changed dashboard manual grid system to Vue-masonry

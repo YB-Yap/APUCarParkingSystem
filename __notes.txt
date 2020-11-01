@@ -1,0 +1,27 @@
+parking controller
+    - add price
+    - subscription calculation
+    - if enter more than one time in a day, recalculate max price
+    - deduct apcard balance
+
+simulator page
+    - improve ui
+
+dashboard
+    - improve car status (show how many are currently in parking area)
+    - estimated fee (maybe also check if the apcard has enough balance)
+    - latest record logic
+
+parking status page
+    - improve ui
+    - estimated fee
+
+car park status page
+    - update UI
+    - add how many are currently in parking area
+
+
+To be added
+    - subscription
+    - parking history
+    - admin side

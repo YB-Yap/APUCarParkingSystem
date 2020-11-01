@@ -37,7 +37,36 @@
                             <span>{{ parking_availability }}</span>
                         </div>
                     </div>
-                    <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block" v-for="item in 11" :key="item">
+                    <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
+                        <div class="block-content" style="height: 200px;">
+                            <h5 class="block-title">
+                                <span class="mdi mdi-eye"></span>
+                                Parking Status
+                            </h5>
+                            <div v-if="is_in_parking">
+                                <span>Your car is currently parked in Zone {{ car_state.parking_zone }}.</span><br>
+                                <span>Enter time: {{ car_state.time_in }}</span><br>
+                                <span>Estimated parking fee: RM{{ estimated_fee }}</span>
+                            </div>
+                            <div v-else>
+                                <span>Your car is not parked in any Zone.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="!is_in_parking && has_parked_today" v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
+                        <div class="block-content" style="height: 200px;">
+                            <h5 class="block-title">
+                                <span class="mdi mdi-eye"></span>
+                                Today, you have parked at ...
+                            </h5>
+                            <span>Parking Zone: {{ latest_record.parking_zone }}.</span><br>
+                            <span>Enter time: {{ latest_record.time_in }}</span><br>
+                            <span>Exit time: {{ latest_record.time_out }}</span><br>
+                            <span>Duration: {{ latest_record.duration }}</span><br>
+                            <span>Parking fee: RM{{ latest_record.fee }}</span>
+                        </div>
+                    </div>
+                    <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block" v-for="item in 5" :key="item">
                         <div class="block-content">
                             <img style="width: 100%" src="http://via.placeholder.com/350x150">
                             <br>
@@ -89,16 +118,42 @@
         data() {
             return {
                 parking_availability: 0,
+                is_in_parking: false,
+                car_state: {},
+                estimated_fee: 0,
+                has_parked_today: false,
             }
         },
         mounted() {
-            axios.get('/api/availability/carpark')
-            .then((result) => {
-                this.parking_availability = result.data;
-            })
+            this.getCarParkAvailability();
+            this.getCarState();
         },
         methods: {
-            isDashboard: function() {
+            getCarParkAvailability() {
+                axios
+                    .get('/api/availability/carpark')
+                    .then((result) => {
+                        this.parking_availability = result.data;
+                    });
+            },
+            getLastestRecord() {
+                this.has_parked_today = true;
+                this.$forceUpdate();
+            },
+            getCarState() {
+                axios
+                    .get('/get-car-state')
+                    .then((result) => {
+                        console.log(result.data)
+                        if (result.data.isInParking) {
+                            this.is_in_parking = true;
+                            this.car_state = result.data.data;
+                        } else if (!result.data.isInParking && result.data.data != null) {
+                            this.getLastestRecord();
+                        }
+                    });
+            },
+            isDashboard() {
                 return this.$route.path === '/dashboard'
             }
         }

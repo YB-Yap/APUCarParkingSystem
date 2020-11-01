@@ -22,7 +22,7 @@
                 </li>
                 <li class="list-group-item">
                     <router-link to="simulator" class="more-link">
-                        <span class="more-icon mdi mdi-alert-circle"> Parking Gate **Simulator**</span>
+                        <span class="more-icon mdi mdi-alert-circle"> **Simulator**</span>
                     </router-link>
                 </li>
                 <li class="list-group-item">
@@ -38,7 +38,7 @@
 <script>
     export default {
         methods: {
-            logout: function() {
+            logout() {
                 this.$swal.fire({
                     text: 'Are you sure you want to log out?',
                     icon: 'warning',
