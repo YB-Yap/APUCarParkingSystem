@@ -23,7 +23,14 @@ Route::post('/login', 'UserController@login')->name('login');
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/logout', 'UserController@logout')->name('user.logout');
 
+
+    Route::get('/apcard-balance', 'UserController@getApcardBalance');
+
+
+
+
     Route::get('/{vue_capture?}', function () {
         return view('index');
     })->where('vue_capture', '[\/\w\.-]*');
+
 });

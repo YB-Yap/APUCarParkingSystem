@@ -53,4 +53,11 @@ class UserController extends Controller
 
         return redirect('/login');
     }
+
+    // get apcard balance
+    public function getApcardBalance(Request $request)
+    {
+        $balance = Auth::user()->apcard_balance;
+        return response()->json($balance, 200);
+    }
 }
