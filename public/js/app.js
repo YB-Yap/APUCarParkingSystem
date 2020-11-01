@@ -1999,7 +1999,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      parking_availability: 0
+    };
+  },
+  created: function created() {
+    var _this = this;
+
+    axios.get('/api/availability/carpark').then(function (result) {
+      _this.parking_availability = result.data;
+    });
+  }
+});
 
 /***/ }),
 
@@ -2104,7 +2124,7 @@ __webpack_require__.r(__webpack_exports__);
       parking_availability: 0
     };
   },
-  created: function created() {
+  mounted: function mounted() {
     var _this = this;
 
     axios.get('/api/availability/carpark').then(function (result) {
@@ -2114,22 +2134,6 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     isDashboard: function isDashboard() {
       return this.$route.path === '/dashboard';
-    },
-    logout: function logout() {
-      console.log($('.btm-navbar'));
-      console.log("logout");
-      this.$swal.fire({
-        text: 'Are you sure you want to log out?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Logout',
-        cancelButtonText: 'Cancel'
-      }).then(function (result) {
-        // clicked 'Logout'
-        if (result.value) {
-          window.location.href = '/logout';
-        }
-      });
     }
   }
 });
@@ -2177,26 +2181,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ParkingGate.vue?vue&type=script&lang=js&":
-/*!*****************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/ParkingGate.vue?vue&type=script&lang=js& ***!
-  \*****************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
 //
 //
 //
 //
 //
-//
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  methods: {
+    logout: function logout() {
+      this.$swal.fire({
+        text: 'Are you sure you want to log out?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Logout',
+        cancelButtonText: 'Cancel'
+      }).then(function (result) {
+        // clicked 'Logout'
+        if (result.value) {
+          window.location.href = '/logout';
+        }
+      });
+    }
+  }
+});
 
 /***/ }),
 
@@ -2215,7 +2222,57 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Simulator.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Simulator.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['user_id'],
+  data: function data() {
+    return {
+      apcard_balance: 0
+    };
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    axios.get('/apcard-balance').then(function (result) {
+      _this.apcard_balance = (result.data / 100).toFixed(2);
+    });
+  }
+});
 
 /***/ }),
 
@@ -6678,7 +6735,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".content-container {\n  width: 100%;\n  height: 100%;\n}\n.content {\n  width: 100%;\n  height: calc(100% - 58px);\n  background-color: #212121;\n  overflow-x: hidden;\n  overflow-y: auto;\n}\n.content .content-pages {\n  padding: 20px;\n}\n.btm-navbar {\n  position: absolute;\n  z-index: 100;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  height: 58px;\n  background-color: #212121;\n  color: #e8e6e6;\n  border-top: 1px solid #00000033;\n}\n.btm-navbar .nav-icon {\n  display: block;\n  text-align: center;\n  font-size: 23px;\n  margin: -10px;\n  height: 38px;\n}\n.btm-navbar .nav-link {\n  color: #9e9e9e;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  overflow: hidden;\n  text-decoration: none;\n  flex-basis: 168px;\n  text-align: center;\n  cursor: pointer;\n}\n.btm-navbar .nav-link:hover {\n  color: #3490dc;\n}\n.btm-navbar .btm-nav-active {\n  color: #3490dc;\n}\n.dashboard-block {\n  padding: 20px;\n  width: 100%;\n}\n.dashboard-block .block-content {\n  padding: 15px;\n  background-color: #303030;\n  color: #e8e6e6;\n  width: 100%;\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n  border-radius: 6px;\n}\n.dashboard-block .block-content .block-title {\n  color: #3490dc;\n  font-weight: 700;\n}\n.dashboard-block .block-content .block-subtitle {\n  color: #9e9e9e;\n  font-weight: 400;\n}\n.profile {\n  display: block;\n  width: 100%;\n}\n.profile .profile-pic {\n  width: 64px;\n  height: 64px;\n  -o-object-fit: cover;\n     object-fit: cover;\n  float: left;\n  border-radius: 32px;\n}\n.profile .text {\n  display: inline-block;\n  padding-left: 16px;\n}\n.profile-links {\n  display: block;\n  width: 100%;\n  height: 64px;\n  position: relative;\n}\n.profile-links .link {\n  color: #9e9e9e;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  overflow: hidden;\n  text-decoration: none;\n  cursor: pointer;\n  position: absolute;\n  right: 0px;\n  bottom: 0px;\n}\n.profile-links .link:hover {\n  color: #3490dc;\n}\n.block-icon {\n  font-size: 24px;\n}", ""]);
+exports.push([module.i, ".content-container {\n  width: 100%;\n  height: 100%;\n}\n.content {\n  width: 100%;\n  height: calc(100% - 58px);\n  background-color: #212121;\n  overflow-x: hidden;\n  overflow-y: auto;\n}\n.btm-navbar {\n  position: absolute;\n  z-index: 100;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  height: 58px;\n  background-color: #212121;\n  color: #e8e6e6;\n  border-top: 1px solid #00000033;\n}\n.btm-navbar .nav-icon {\n  display: block;\n  text-align: center;\n  font-size: 23px;\n  margin: -10px;\n  height: 38px;\n}\n.btm-navbar .nav-link {\n  color: #9e9e9e;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  overflow: hidden;\n  text-decoration: none;\n  flex-basis: 168px;\n  text-align: center;\n  cursor: pointer;\n}\n.btm-navbar .nav-link:hover {\n  color: #3490dc;\n}\n.btm-navbar .btm-nav-active {\n  color: #3490dc;\n}\n.dashboard-block {\n  padding: 20px;\n  width: 100%;\n}\n.dashboard-block .block-content {\n  padding: 15px;\n  background-color: #303030;\n  color: #e8e6e6;\n  width: 100%;\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n  border-radius: 6px;\n}\n.dashboard-block .block-content .block-title {\n  color: #3490dc;\n  font-weight: 700;\n}\n.dashboard-block .block-content .block-subtitle {\n  color: #9e9e9e;\n  font-weight: 400;\n}\n.profile {\n  display: block;\n  width: 100%;\n}\n.profile .profile-pic {\n  width: 64px;\n  height: 64px;\n  -o-object-fit: cover;\n     object-fit: cover;\n  float: left;\n  border-radius: 32px;\n}\n.profile .text {\n  display: inline-block;\n  padding-left: 16px;\n}\n.profile-links {\n  display: block;\n  width: 100%;\n  height: 64px;\n  position: relative;\n}\n.profile-links .link {\n  color: #9e9e9e;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  overflow: hidden;\n  text-decoration: none;\n  cursor: pointer;\n  position: absolute;\n  right: 0px;\n  bottom: 0px;\n}\n.profile-links .link:hover {\n  color: #3490dc;\n}\n.block-icon {\n  font-size: 24px;\n}", ""]);
 
 // exports
 
@@ -6704,10 +6761,10 @@ exports.push([module.i, ".list-group-item {\n  background-color: #424242;\n  pad
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ParkingGate.vue?vue&type=style&index=0&lang=scss&":
-/*!****************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/ParkingGate.vue?vue&type=style&index=0&lang=scss& ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ParkingStatus.vue?vue&type=style&index=0&lang=scss&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/ParkingStatus.vue?vue&type=style&index=0&lang=scss& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6723,10 +6780,10 @@ exports.push([module.i, "", ""]);
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ParkingStatus.vue?vue&type=style&index=0&lang=scss&":
-/*!******************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/ParkingStatus.vue?vue&type=style&index=0&lang=scss& ***!
-  \******************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Simulator.vue?vue&type=style&index=0&lang=scss&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Simulator.vue?vue&type=style&index=0&lang=scss& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -40823,15 +40880,15 @@ if(false) {}
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ParkingGate.vue?vue&type=style&index=0&lang=scss&":
-/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/ParkingGate.vue?vue&type=style&index=0&lang=scss& ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ParkingStatus.vue?vue&type=style&index=0&lang=scss&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/ParkingStatus.vue?vue&type=style&index=0&lang=scss& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./ParkingGate.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ParkingGate.vue?vue&type=style&index=0&lang=scss&");
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./ParkingStatus.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ParkingStatus.vue?vue&type=style&index=0&lang=scss&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -40853,15 +40910,15 @@ if(false) {}
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ParkingStatus.vue?vue&type=style&index=0&lang=scss&":
-/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/ParkingStatus.vue?vue&type=style&index=0&lang=scss& ***!
-  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Simulator.vue?vue&type=style&index=0&lang=scss&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Simulator.vue?vue&type=style&index=0&lang=scss& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./ParkingStatus.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ParkingStatus.vue?vue&type=style&index=0&lang=scss&");
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./Simulator.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Simulator.vue?vue&type=style&index=0&lang=scss&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -48309,15 +48366,24 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "page" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "page-content" }, [
+      _vm._v("\n        " + _vm._s(_vm.parking_availability) + "\n    ")
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("span", { staticClass: "text-white" }, [_vm._v("car park status")])
+    return _c("div", { staticClass: "page-header" }, [
+      _c("h1", { staticClass: "page-title" }, [
+        _c("span", { staticClass: "mdi mdi-parking" }),
+        _vm._v("Car Park Status\n            ")
+      ])
     ])
   }
 ]
@@ -48521,7 +48587,7 @@ var render = function() {
                 2
               )
             ])
-          : _c("router-view", { staticClass: "content-pages" })
+          : _c("router-view")
       ],
       1
     ),
@@ -48533,7 +48599,7 @@ var render = function() {
         [
           _c(
             "router-link",
-            { staticClass: "nav-link", attrs: { to: "/dashboard" } },
+            { staticClass: "nav-link", attrs: { to: "dashboard" } },
             [
               _c("span", { staticClass: "nav-icon mdi mdi-home" }),
               _vm._v(" "),
@@ -48563,7 +48629,12 @@ var render = function() {
           _vm._v(" "),
           _c(
             "router-link",
-            { staticClass: "nav-link", attrs: { to: "parking-gate" } },
+            {
+              staticClass: "nav-link",
+              attrs: {
+                to: { name: "simulator", params: { user_id: _vm.user.id } }
+              }
+            },
             [
               _c("span", { staticClass: "nav-icon mdi mdi-alert-circle" }),
               _vm._v(" "),
@@ -48620,122 +48691,111 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "links-wrapper" }, [
-    _c("ul", { staticClass: "list-group" }, [
-      _c(
-        "li",
-        { staticClass: "list-group-item" },
-        [
-          _c(
-            "router-link",
-            { staticClass: "more-link", attrs: { to: "/dashboard" } },
-            [
-              _c("span", { staticClass: "more-icon mdi mdi-home" }, [
-                _vm._v(" Dashboard")
-              ])
-            ]
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "li",
-        { staticClass: "list-group-item" },
-        [
-          _c(
-            "router-link",
-            { staticClass: "more-link", attrs: { to: "parking-status" } },
-            [
-              _c("span", { staticClass: "more-icon mdi mdi-eye" }, [
-                _vm._v(" Parking Status")
-              ])
-            ]
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "li",
-        { staticClass: "list-group-item" },
-        [
-          _c(
-            "router-link",
-            { staticClass: "more-link", attrs: { to: "car-park-status" } },
-            [
-              _c("span", { staticClass: "more-icon mdi mdi-parking" }, [
-                _vm._v(" Car Park Status")
-              ])
-            ]
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "li",
-        { staticClass: "list-group-item" },
-        [
-          _c(
-            "router-link",
-            { staticClass: "more-link", attrs: { to: "parking-gate" } },
-            [
-              _c("span", { staticClass: "more-icon mdi mdi-alert-circle" }, [
-                _vm._v(" Parking Gate **Simulator**")
-              ])
-            ]
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("li", { staticClass: "list-group-item" }, [
+  return _c("div", { staticClass: "page" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "page-content" }, [
+      _c("ul", { staticClass: "list-group" }, [
         _c(
-          "a",
-          {
-            staticClass: "more-link",
-            on: {
-              click: function($event) {
-                return _vm.logout()
-              }
-            }
-          },
+          "li",
+          { staticClass: "list-group-item" },
           [
-            _c("span", { staticClass: "more-icon mdi mdi-logout" }, [
-              _vm._v(" Logout")
-            ])
-          ]
-        )
+            _c(
+              "router-link",
+              { staticClass: "more-link", attrs: { to: "dashboard" } },
+              [
+                _c("span", { staticClass: "more-icon mdi mdi-home" }, [
+                  _vm._v(" Dashboard")
+                ])
+              ]
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "li",
+          { staticClass: "list-group-item" },
+          [
+            _c(
+              "router-link",
+              { staticClass: "more-link", attrs: { to: "parking-status" } },
+              [
+                _c("span", { staticClass: "more-icon mdi mdi-eye" }, [
+                  _vm._v(" Parking Status")
+                ])
+              ]
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "li",
+          { staticClass: "list-group-item" },
+          [
+            _c(
+              "router-link",
+              { staticClass: "more-link", attrs: { to: "car-park-status" } },
+              [
+                _c("span", { staticClass: "more-icon mdi mdi-parking" }, [
+                  _vm._v(" Car Park Status")
+                ])
+              ]
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "li",
+          { staticClass: "list-group-item" },
+          [
+            _c(
+              "router-link",
+              { staticClass: "more-link", attrs: { to: "simulator" } },
+              [
+                _c("span", { staticClass: "more-icon mdi mdi-alert-circle" }, [
+                  _vm._v(" Parking Gate **Simulator**")
+                ])
+              ]
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("li", { staticClass: "list-group-item" }, [
+          _c(
+            "a",
+            {
+              staticClass: "more-link",
+              on: {
+                click: function($event) {
+                  return _vm.logout()
+                }
+              }
+            },
+            [
+              _c("span", { staticClass: "more-icon mdi mdi-logout" }, [
+                _vm._v(" Logout")
+              ])
+            ]
+          )
+        ])
       ])
     ])
   ])
 }
-var staticRenderFns = []
-render._withStripped = true
-
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ParkingGate.vue?vue&type=template&id=f0fb4fac&":
-/*!*********************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/ParkingGate.vue?vue&type=template&id=f0fb4fac& ***!
-  \*********************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "parking-gate" })
-}
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "page-header" }, [
+      _c("h1", { staticClass: "page-title" }, [_vm._v("More")])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -48764,8 +48824,61 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("span", { staticClass: "text-white" }, [_vm._v("Parking Status")])
+    return _c("div", { staticClass: "page" }, [
+      _c("div", { staticClass: "page-header" }, [
+        _c("h1", { staticClass: "page-title" }, [_vm._v("Parking Status")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "page-content" })
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Simulator.vue?vue&type=template&id=350c0a6a&":
+/*!*******************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Simulator.vue?vue&type=template&id=350c0a6a& ***!
+  \*******************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "page" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "page-content" }, [
+      _c("h1", [_vm._v("Parking gate")]),
+      _vm._v(" "),
+      _c("h1", [_vm._v("APCard")]),
+      _vm._v(" "),
+      _c("span", [
+        _vm._v(
+          "Your APCard currently has RM" + _vm._s(_vm.apcard_balance) + "."
+        )
+      ]),
+      _vm._v(" "),
+      _c("h3", [_vm._v("Topup")])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "page-header" }, [
+      _c("h1", { staticClass: "page-title" }, [_vm._v("Simulator")])
     ])
   }
 ]
@@ -64592,93 +64705,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/pages/ParkingGate.vue":
-/*!********************************************!*\
-  !*** ./resources/js/pages/ParkingGate.vue ***!
-  \********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ParkingGate_vue_vue_type_template_id_f0fb4fac___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ParkingGate.vue?vue&type=template&id=f0fb4fac& */ "./resources/js/pages/ParkingGate.vue?vue&type=template&id=f0fb4fac&");
-/* harmony import */ var _ParkingGate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ParkingGate.vue?vue&type=script&lang=js& */ "./resources/js/pages/ParkingGate.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _ParkingGate_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ParkingGate.vue?vue&type=style&index=0&lang=scss& */ "./resources/js/pages/ParkingGate.vue?vue&type=style&index=0&lang=scss&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
-  _ParkingGate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ParkingGate_vue_vue_type_template_id_f0fb4fac___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _ParkingGate_vue_vue_type_template_id_f0fb4fac___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/pages/ParkingGate.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/pages/ParkingGate.vue?vue&type=script&lang=js&":
-/*!*********************************************************************!*\
-  !*** ./resources/js/pages/ParkingGate.vue?vue&type=script&lang=js& ***!
-  \*********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ParkingGate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ParkingGate.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ParkingGate.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ParkingGate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/pages/ParkingGate.vue?vue&type=style&index=0&lang=scss&":
-/*!******************************************************************************!*\
-  !*** ./resources/js/pages/ParkingGate.vue?vue&type=style&index=0&lang=scss& ***!
-  \******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ParkingGate_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./ParkingGate.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ParkingGate.vue?vue&type=style&index=0&lang=scss&");
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ParkingGate_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ParkingGate_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ParkingGate_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ParkingGate_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ParkingGate_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
-/***/ "./resources/js/pages/ParkingGate.vue?vue&type=template&id=f0fb4fac&":
-/*!***************************************************************************!*\
-  !*** ./resources/js/pages/ParkingGate.vue?vue&type=template&id=f0fb4fac& ***!
-  \***************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ParkingGate_vue_vue_type_template_id_f0fb4fac___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ParkingGate.vue?vue&type=template&id=f0fb4fac& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ParkingGate.vue?vue&type=template&id=f0fb4fac&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ParkingGate_vue_vue_type_template_id_f0fb4fac___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ParkingGate_vue_vue_type_template_id_f0fb4fac___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
-
-/***/ }),
-
 /***/ "./resources/js/pages/ParkingStatus.vue":
 /*!**********************************************!*\
   !*** ./resources/js/pages/ParkingStatus.vue ***!
@@ -64766,6 +64792,93 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/pages/Simulator.vue":
+/*!******************************************!*\
+  !*** ./resources/js/pages/Simulator.vue ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Simulator_vue_vue_type_template_id_350c0a6a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Simulator.vue?vue&type=template&id=350c0a6a& */ "./resources/js/pages/Simulator.vue?vue&type=template&id=350c0a6a&");
+/* harmony import */ var _Simulator_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Simulator.vue?vue&type=script&lang=js& */ "./resources/js/pages/Simulator.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _Simulator_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Simulator.vue?vue&type=style&index=0&lang=scss& */ "./resources/js/pages/Simulator.vue?vue&type=style&index=0&lang=scss&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _Simulator_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Simulator_vue_vue_type_template_id_350c0a6a___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Simulator_vue_vue_type_template_id_350c0a6a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/pages/Simulator.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/pages/Simulator.vue?vue&type=script&lang=js&":
+/*!*******************************************************************!*\
+  !*** ./resources/js/pages/Simulator.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Simulator_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Simulator.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Simulator.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Simulator_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/pages/Simulator.vue?vue&type=style&index=0&lang=scss&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/pages/Simulator.vue?vue&type=style&index=0&lang=scss& ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Simulator_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./Simulator.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Simulator.vue?vue&type=style&index=0&lang=scss&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Simulator_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Simulator_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Simulator_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Simulator_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Simulator_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/pages/Simulator.vue?vue&type=template&id=350c0a6a&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/pages/Simulator.vue?vue&type=template&id=350c0a6a& ***!
+  \*************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Simulator_vue_vue_type_template_id_350c0a6a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Simulator.vue?vue&type=template&id=350c0a6a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Simulator.vue?vue&type=template&id=350c0a6a&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Simulator_vue_vue_type_template_id_350c0a6a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Simulator_vue_vue_type_template_id_350c0a6a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/routes.js":
 /*!********************************!*\
   !*** ./resources/js/routes.js ***!
@@ -64780,7 +64893,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_ParkingStatus__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./pages/ParkingStatus */ "./resources/js/pages/ParkingStatus.vue");
 /* harmony import */ var _pages_CarParkStatus__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pages/CarParkStatus */ "./resources/js/pages/CarParkStatus.vue");
 /* harmony import */ var _pages_More__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pages/More */ "./resources/js/pages/More.vue");
-/* harmony import */ var _pages_ParkingGate__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pages/ParkingGate */ "./resources/js/pages/ParkingGate.vue");
+/* harmony import */ var _pages_Simulator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pages/Simulator */ "./resources/js/pages/Simulator.vue");
 
 
 
@@ -64807,9 +64920,10 @@ var routes = [{
   name: "more",
   component: _pages_More__WEBPACK_IMPORTED_MODULE_3__["default"]
 }, {
-  path: "/parking-gate",
-  name: "parking_gate",
-  component: _pages_ParkingGate__WEBPACK_IMPORTED_MODULE_4__["default"]
+  path: "/simulator",
+  name: "simulator",
+  props: true,
+  component: _pages_Simulator__WEBPACK_IMPORTED_MODULE_4__["default"]
 }];
 
 /***/ }),

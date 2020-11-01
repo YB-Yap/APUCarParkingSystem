@@ -18,7 +18,8 @@ use Illuminate\Http\Request;
 //     Route::post('login', 'Auth\LoginController@action');
 // });
 
-// Route::group(['middleware' => ['auth:api']], function () {
-//     Route::post('/logout', 'UserController@logout')->name('logout');
-// });
 Route::get('/availability/carpark', 'ParkingController@getAvailability');
+
+// Route::group(['middleware' => ['auth']], function () {
+
+// });

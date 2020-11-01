@@ -1,6 +1,11 @@
 <template>
-    <div>
-        <span class="text-white">Parking Status</span>
+    <div class="page">
+        <div class="page-header">
+            <h1 class="page-title">Parking Status</h1>
+        </div>
+        <div class="page-content">
+
+        </div>
     </div>
 </template>
 

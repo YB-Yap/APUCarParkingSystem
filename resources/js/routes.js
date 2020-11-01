@@ -2,7 +2,7 @@ import Dashboard from "./pages/Dashboard";
 import ParkingStatus from "./pages/ParkingStatus";
 import CarParkStatus from "./pages/CarParkStatus";
 import More from "./pages/More";
-import ParkingGate from "./pages/ParkingGate";
+import Simulator from "./pages/Simulator";
 
 export const routes = [
     {
@@ -31,9 +31,10 @@ export const routes = [
         component: More
     },
     {
-        path: "/parking-gate",
-        name: "parking_gate",
-        component: ParkingGate
+        path: "/simulator",
+        name: "simulator",
+        props: true,
+        component: Simulator
     },
 ];
 

@@ -10916,3 +10916,27 @@ a.text-dark:focus {
   color: #6574cd;
 }
 
+.page-header {
+  padding: 0px 20px;
+  background-color: #303030;
+  color: #3490dc;
+  font-weight: bold;
+  height: 56px;
+  width: 100%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+}
+
+.page-header .page-title {
+  color: #3490dc;
+  font-weight: 700;
+  font-size: 20px;
+  margin: 0px;
+}
+
+.page-content {
+  padding: 20px;
+  color: #e8e6e6;
+}
+

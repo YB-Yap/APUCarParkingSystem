@@ -10,6 +10,7 @@
 .full-height {
     height: 100vh;
 }
+
 .full-screen {
     height: 100%;
     width: 100%;
@@ -17,4 +18,28 @@
 
 .test {
     color: $indigo;
+}
+
+.page-header {
+    padding: 0px 20px;
+    background-color: $secondary-bg;
+    color: $blue;
+    font-weight: bold;
+    height: 56px;
+    width: 100%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+
+    .page-title {
+        color: $blue;
+        font-weight: 700;
+        font-size: 20px;
+        margin: 0px;
+    }
+}
+
+.page-content {
+    padding: 20px;
+    color: $main-txt;
 }

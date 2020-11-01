@@ -52,11 +52,11 @@
                     </div>
                 </div>
             </div>
-            <router-view class="content-pages" v-else></router-view>
+            <router-view v-else></router-view>
         </div>
         <div class="btm-navbar">
             <div class="row flex flex-nowrap justify-content-center">
-                <router-link to="/dashboard" class="nav-link">
+                <router-link to="dashboard" class="nav-link">
                     <span class="nav-icon mdi mdi-home"></span>
                     <span>Dashboard</span>
                 </router-link>
@@ -68,7 +68,7 @@
                     <span class="nav-icon mdi mdi-parking"></span>
                     <span>Car Park Status</span>
                 </router-link>
-                <router-link to="parking-gate" class="nav-link">
+                <router-link :to="{name: 'simulator', params: {user_id: user.id}}" class="nav-link">
                     <span class="nav-icon mdi mdi-alert-circle"></span>
                     <span>Simulator</span>
                 </router-link>
@@ -91,7 +91,7 @@
                 parking_availability: 0,
             }
         },
-        created() {
+        mounted() {
             axios.get('/api/availability/carpark')
             .then((result) => {
                 this.parking_availability = result.data;
@@ -100,23 +100,6 @@
         methods: {
             isDashboard: function() {
                 return this.$route.path === '/dashboard'
-            },
-            logout: function() {
-                console.log($('.btm-navbar'))
-                console.log(`logout`)
-
-                this.$swal.fire({
-                    text: 'Are you sure you want to log out?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Logout',
-                    cancelButtonText: 'Cancel'
-                }).then((result) => {
-                    // clicked 'Logout'
-                    if (result.value) {
-                        window.location.href = '/logout'
-                    }
-                })
             }
         }
     }
@@ -136,10 +119,6 @@
         background-color: $main-bg;
         overflow-x: hidden;
         overflow-y: auto;
-
-        .content-pages {
-            padding: 20px;
-        }
     }
     .btm-navbar {
         position: absolute;
