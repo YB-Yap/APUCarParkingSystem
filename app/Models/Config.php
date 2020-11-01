@@ -23,7 +23,7 @@ class Config extends Model
         return $query->where('key', 'subscription_quantity')->first();
     }
 
-    public function scopeCarparkSize($query)
+    public function scopeCarParkSize($query)
     {
         return $query->where('key', 'carpark_size')->first();
     }

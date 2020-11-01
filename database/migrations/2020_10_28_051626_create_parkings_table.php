@@ -16,7 +16,7 @@ class CreateParkingsTable extends Migration
         Schema::create('parkings', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->index();
-            $table->enum('parking_zone', ['a1', 'a2', 'b'])->default('a2');
+            $table->enum('parking_zone', ['A', 'B'])->default('B');
             $table->timestamp('time_in');
             $table->timestamp('time_out')->nullable();
             $table->double('duration', 5, 3)->nullable();

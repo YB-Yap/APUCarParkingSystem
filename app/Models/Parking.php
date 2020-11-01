@@ -10,7 +10,7 @@ class Parking extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['user_id', 'parking_zone', 'time_in', 'time_out', 'duration'];
+    protected $fillable = ['user_id', 'parking_zone', 'time_in', 'time_out', 'duration', 'fee'];
 
     public function user()
     {
@@ -21,6 +21,18 @@ class Parking extends Model
     {
         $today = Carbon::now()->toDateString();
 
-        return $query->whereDate('time_in', $today)->count();
+        return $query->whereDate('time_in', $today)->where('time_out', NULL)->count();
+    }
+
+    public function scopeParkedVehicles($query)
+    {
+        $today = Carbon::now()->toDateString();
+
+        return $query->whereDate('time_in', $today)->get();
+    }
+
+    public function estimateFee()
+    {
+        // estimate fee
     }
 }
