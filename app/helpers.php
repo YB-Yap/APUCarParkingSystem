@@ -1,5 +1,8 @@
 <?php
 
+use App\models\Config;
+use App\Models\Parking;
+
 if (!function_exists('getSubsAvailability')) {
     function getSubsAvailability()
     {
@@ -13,9 +16,18 @@ if (!function_exists('getSubsAvailability')) {
 if (!function_exists('getParkingAvailability')) {
     function getParkingAvailability()
     {
-        // get available parking spaces
-        // return array
+        $availability = 0;
 
+        // get car park size
+        $carpark_size = Config::carParkSize()->value;
+        $parked_amount = Parking::parkedAmount();
+
+        // car park is not full
+        if ($parked_amount < $carpark_size) {
+            $availability = $carpark_size - $parked_amount;
+        }
+
+        return $availability;
     }
 }
 

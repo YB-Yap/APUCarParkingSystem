@@ -2433,8 +2433,7 @@ __webpack_require__.r(__webpack_exports__);
         if (result.value) {
           axios.post('/carpark/exit').then(function (res) {
             if (res.status == 200) {
-              _this4.is_in_parking = false;
-
+              // this.is_in_parking = false;
               _this4.$forceUpdate();
             }
           });
@@ -49066,7 +49065,7 @@ var render = function() {
               { staticClass: "more-link", attrs: { to: "simulator" } },
               [
                 _c("span", { staticClass: "more-icon mdi mdi-alert-circle" }, [
-                  _vm._v(" Parking Gate **Simulator**")
+                  _vm._v(" **Simulator**")
                 ])
               ]
             )

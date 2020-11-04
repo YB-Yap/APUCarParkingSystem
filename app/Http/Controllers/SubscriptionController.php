@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 
 class SubscriptionController extends Controller
 {
+    // price in cents
+    private $SUBS_FEE = 6000;
+
     /**
      * Display a listing of the resource.
      *

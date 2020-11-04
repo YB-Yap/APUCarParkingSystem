@@ -27,37 +27,40 @@ APU Car Parking System is able,
 - To automatically terminate expired subscriptions using time-based job scheduler.
 
 ## Change log
+######  4/11/2020
+- Changed `ParkingController->getAvailability()` to `helpers->getParkingAvailability()`
+- Updated `exitCarPark()` logic
 ######  1/11/2020
 - Minor changes to pages UI
-- Added getApcardBalance()
-- Changed parking zone to A / B
+- Added `getApcardBalance()`
+- Changed parking zone to `A`/`B`
 - Added current car status (in / not in car park)
-- Added enter and exit simulator
+- Added enter and exit `simulator`
 ######  31/10/2020
-- Added profile pic for user
-- Changed dashboard manual grid system to Vue-masonry
-- Added 'More', 'Simulator' pages
+- Added `profile_pic_path` for user
+- Changed dashboard manual grid system to `Vue-masonry`
+- Added `More`, `Simulator` pages
 - Added parking availability API for dashboard
 ######  30/10/2020
-- Refactored SeasonParking to Subscription
-- Updated Subscription table
-- Added helpers
-- Added Config model, table and seeder
+- Refactored `SeasonParking` to `Subscription`
+- Updated `Subscription` table
+- Added `helpers`
+- Added `Config` model, table and seeder
 ######  29/10/2020
-- Changed /dashboard to be the first page ['/' will be redirected to '/dashboard']
-- Added Vue-Sweetalert2
-- Added UserController to handle authentication [login, logout]
+- Changed `/dashboard` to be the first page ['/' will be redirected to '/dashboard']
+- Added `Vue-Sweetalert2`
+- Added `UserController` to handle authentication [login, logout]
 - Added authentication error message
-- Updated dashboard UI [navbar, content]
-- Updated login page UI
+- Updated `dashboard` UI [navbar, content]
+- Updated `login` page UI
 ######  28/10/2020
-- Changed app timezone to Asia/Kuala_Lumpur
-- Added tables for migration [users, parkings, season_parkings, transactions]
-- Added models for [users, parkings, season_parkings, transactions]
-- Added users_table seeder [1 admin, 3 students]
-- Added user authentication
+- Changed app timezone to `Asia/Kuala_Lumpur`
+- Added tables for migration [`users`, `parkings`, `season_parkings`, `transactions`]
+- Added models for [`users`, `parkings`, `season_parkings`, `transactions`]
+- Added users_table seeder [1 `admin`, 3 `students`]
+- Added `user authentication`
 ######  27/10/2020
-- Added Vue-Router, MDI
+- Added `Vue-Router`, `MDI`
 - Added dashboard page with dummy blocks and some testing components
 - Resolved default page issue
 ######  26/10/2020

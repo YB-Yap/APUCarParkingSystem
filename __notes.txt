@@ -1,11 +1,17 @@
 parking controller
-    - add price
+    - WIP - price calculation for zone b
+    - WIP - if enter more than one time in a day, recalculate max price
     - subscription calculation
-    - if enter more than one time in a day, recalculate max price
     - deduct apcard balance
+
+server jobs
+    - at 12:00 am
+    - check subscription, if expired, auto terminate
+    - check parking if there is any car in parking zones, auto add time_out and insert new row, deduct apcard balance
 
 simulator page
     - improve ui
+    - flexible exit (exit at different time)
 
 dashboard
     - improve car status (show how many are currently in parking area)

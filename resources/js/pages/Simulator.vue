@@ -103,7 +103,7 @@
                             .post('/carpark/exit')
                             .then((res) => {
                                 if (res.status == 200) {
-                                    this.is_in_parking = false;
+                                    // this.is_in_parking = false;
                                     this.$forceUpdate();
                                 }
                             })
