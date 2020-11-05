@@ -5,7 +5,7 @@ FYP iS fUn
 ## Deliverables
 APU Car Parking System allows **students**,
 - **DONE** To login and logout from the system.
-- *WIP* To check the availability of car parking areas.
+- *TBT* To check the availability of car parking areas.
 - To check the time of entry and exit of the day.
 - To check the estimated parking fee of the day.
 - To check old records.
@@ -13,11 +13,11 @@ APU Car Parking System allows **students**,
 - To subscribe for a monthly season parking.
 - To check the subscription date and expiry date of subscribed season parking.
 - To terminate season parking subscription.
-- To search for empty parking space before charging when the parking area is full for 15 minutes.
+- *TBT* To search for empty parking space before charging when the parking area is full for 15 minutes.
   
 APU Car Parking System allows **admin**,
 - **DONE** To login and logout from the system.
-- *WIP* To check the availability of car parking areas.
+- *TBT* To check the availability of car parking areas.
 - To check all records.
 - To check all subscription.
 - To modify overall subscription capacity.
@@ -27,6 +27,8 @@ APU Car Parking System is able,
 - To automatically terminate expired subscriptions using time-based job scheduler.
 
 ## Change log
+######  5/11/2020
+- Completed `exitCarPark()` base logic [To be tested]
 ######  4/11/2020
 - Changed `ParkingController->getAvailability()` to `helpers->getParkingAvailability()`
 - Updated `exitCarPark()` logic

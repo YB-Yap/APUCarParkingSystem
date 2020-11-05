@@ -1,8 +1,13 @@
 parking controller
-    - WIP - price calculation for zone b
-    - WIP - if enter more than one time in a day, recalculate max price
-    - subscription calculation
-    - deduct apcard balance
+    - TBT - price calculation for zone b
+    - TBT - if enter more than one time in a day, recalculate max price
+    - TBT - deduct apcard balance
+    - subscription if statement
+    - exit parking logic probably need to convert to function for fee estimation
+
+subscription page
+    - create page
+    - create logic
 
 server jobs
     - at 12:00 am

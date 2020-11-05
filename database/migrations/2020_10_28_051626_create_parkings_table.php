@@ -20,7 +20,8 @@ class CreateParkingsTable extends Migration
             $table->timestamp('time_in');
             $table->timestamp('time_out')->nullable();
             $table->double('duration', 5, 3)->nullable();
-            $table->integer('fee')->nullable();        // once in for 0.25 hour charge fee
+            $table->integer('fee')->nullable();
+            $table->boolean('is_car_park_full')->default(0);
             $table->timestamps();
             $table->softDeletes();
 

@@ -2372,14 +2372,17 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    var _this = this;
-
-    axios.get('/apcard-balance').then(function (result) {
-      _this.apcard_balance = (result.data / 100).toFixed(2);
-    });
+    this.getAPCardBalance();
     this.getCarState();
   },
   methods: {
+    getAPCardBalance: function getAPCardBalance() {
+      var _this = this;
+
+      axios.get('/apcard-balance').then(function (result) {
+        _this.apcard_balance = (result.data / 100).toFixed(2);
+      });
+    },
     getCarState: function getCarState() {
       var _this2 = this;
 
@@ -2432,9 +2435,19 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (result) {
         if (result.value) {
           axios.post('/carpark/exit').then(function (res) {
-            if (res.status == 200) {
-              // this.is_in_parking = false;
+            if (res.data.isSuccess) {
+              _this4.is_in_parking = false;
+
+              _this4.getAPCardBalance();
+
               _this4.$forceUpdate();
+            } else {
+              _this4.$swal.fire({
+                title: res.data.message,
+                text: "Please top up your APCard at least RM".concat((res.data.to_pay / 100).toFixed(2)),
+                icon: 'error',
+                confirmButtonText: 'Ok'
+              });
             }
           });
         }

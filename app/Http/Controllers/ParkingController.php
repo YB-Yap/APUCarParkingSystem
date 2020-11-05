@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ParkingResource;
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Config;
 use App\Models\Parking;
 use App\Models\Subscription;
@@ -13,9 +14,11 @@ use Illuminate\Support\Facades\Auth;
 class ParkingController extends Controller
 {
     // fee in cents
-    private $FEE_FIRST_HOUR = 159;          // 1 hour
-    private $FEE_SUBSEQUENT_HOUR = 106;     // 3 hours -> 318 (to max)
-    private $FEE_ZONE_B_MAX = 477;          // max fee per day
+    private $FEE_FIRST_HOUR = 159;          // 1st hour
+    private $FEE_SECOND_HOUR = 265;            // 2nd hour
+    private $FEE_THIRD_HOUR = 371;          // 3rd hour
+    private $FEE_SUBSEQUENT_HOUR = 106;     // each hour for 2nd to 4th hour
+    private $FEE_ZONE_B_MAX = 477;          // max fee per day - also the 4th hour
     private $ZONE_B_MAX_HOURS = 4;          // 4 hours to max the fee
     private $FEE_ZONE_A = 530;              // fixed fee per day
     private $FOC_HOUR = 0.25;               // 15 minutes free of charge if the parking is full
@@ -132,11 +135,13 @@ class ParkingController extends Controller
         $now = Carbon::now();
         $user_id = Auth::user()->id;
         $parking_zone = $request->parking_zone;
+        $is_car_park_full = (getParkingAvailability() == 0);
 
         $parking = new Parking();
         $parking->user_id = $user_id;
         $parking->parking_zone = $parking_zone;
         $parking->time_in = $now;
+        $parking->is_car_park_full = $is_car_park_full;
         $parking->save();
 
         return response()->json(['message' => 'Entered']);
@@ -148,17 +153,18 @@ class ParkingController extends Controller
         $user_id = Auth::user()->id;
         $previous_paid = 0;
         $previous_duration = 0;
-        $today_duration = 0;
+        $current_duration = 0;
+        $total_duration = 0;
         $to_pay = 0;
         $is_car_park_full = (getParkingAvailability() == 0);
 
         $parking = Parking::where('user_id', $user_id)->latest('updated_at')->first();
-        $today_duration = round($now->floatDiffInHours($parking->time_in), 3);
+        $current_duration = round($now->floatDiffInHours($parking->time_in), 3);
 
         // $has_subscription = Subscription .....;
 
         // car park is not full OR car park is full but duration exceeded 15 minutes
-        if (!$is_car_park_full || $today_duration > $this->FOC_HOUR) {
+        if (!$is_car_park_full || $current_duration > $this->FOC_HOUR) {
             // check if there is other parking record on that day in the same parking zone
             $today_records = Parking::where('user_id', $user_id)
                             ->whereDate('time_out', $now->toDateString())
@@ -167,26 +173,51 @@ class ParkingController extends Controller
                             ->latest('updated_at')
                             ->get();
 
-            dd($today_records, new ParkingResource($today_records), $today_records->count());
-
             if ($parking->parking_zone == 'B') {
                 // if no subscription
 
                 if ($today_records->count() > 0) {
                     // add previous fee to get remaining payable amount
                     foreach ($today_records as $index => $record) {
-                        // previous record is not FOC
-                        if ($record->fee != 0) {
+                        // add up all previous records on the day
+                        // if the car park is not full and the fee is not 0
+                        if (!$record->is_car_park_full || $record->fee > 0) {
                             $previous_duration += $record->duration;
                             $previous_paid += $record->fee;
                         }
-                        // else -> FOC - does not add up
-
-                        // ...
+                        // else -> FOC while the car park is full - does not add up
+                    }
+                    $total_duration = $previous_duration + $current_duration;
+                    // check hour range
+                    if (inRange($total_duration, 0, 1)) {
+                        // first hour
+                        $to_pay = $this->FEE_FIRST_HOUR - $previous_paid;
+                    } else if (inRange($total_duration, 1, 2)) {
+                        // second hour
+                        $to_pay = $this->FEE_SECOND_HOUR - $previous_paid;
+                    } else if (inRange($total_duration, 2, 3)) {
+                        // third hour
+                        $to_pay = $this->FEE_THIRD_HOUR - $previous_paid;
+                    } else {
+                        // fourth hour or more
+                        $to_pay = $this->FEE_ZONE_B_MAX - $previous_paid;
                     }
                 } else {
                     // parking zone b - first time
-
+                    // check hour range
+                    if (inRange($total_duration, 0, 1)) {
+                        // first hour
+                        $to_pay = $this->FEE_FIRST_HOUR;
+                    } else if (inRange($total_duration, 1, 2)) {
+                        // second hour
+                        $to_pay = $this->FEE_SECOND_HOUR;
+                    } else if (inRange($total_duration, 2, 3)) {
+                        // third hour
+                        $to_pay = $this->FEE_THIRD_HOUR;
+                    } else {
+                        // fourth hour or more
+                        $to_pay = $this->FEE_ZONE_B_MAX;
+                    }
                 }
 
                 // else -> has subscription, FOC
@@ -200,15 +231,21 @@ class ParkingController extends Controller
         }
         // else -> FOC - car park is full AND exit within 15 minutes
 
-        dd(123123123);
+        $user = User::find($user_id);
+        // check if enough balance
+        if ($user->apcard_balance < $to_pay) {
+            return response()->json(['message' => 'Insufficient fund.', 'to_pay' => $to_pay, 'isSuccess' => false]);
+        }
+        // deduct apcard balance
+        $user->apcard_balance = $user->apcard_balance - $to_pay;
+        $user->update();
 
+        // update parking record
         $parking->time_out = $now;
-        $parking->duration = $today_duration;
+        $parking->duration = $current_duration;
         $parking->fee = $to_pay;
         $parking->update();
 
-        // deduct apcard balance
-
-        return response()->json(['message' => 'Exit']);
+        return response()->json(['message' => 'Exit', 'isSuccess' => true]);
     }
 }

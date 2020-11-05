@@ -31,6 +31,13 @@ if (!function_exists('getParkingAvailability')) {
     }
 }
 
+if (!function_exists('inRange')) {
+    function inRange($value, $min, $max)
+    {
+        return ($min < $value && $value <= $max);
+    }
+}
+
 
 if (!function_exists('estimateSubsRestockDate')) {
     function estimateSubsRestockDate()
