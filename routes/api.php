@@ -18,7 +18,11 @@ use Illuminate\Http\Request;
 //     Route::post('login', 'Auth\LoginController@action');
 // });
 
-Route::get('/availability/carpark', 'ParkingController@getAvailability');
+Route::get('/carpark/availability', 'ParkingController@getAvailability');
+Route::get('/carpark/size', 'ParkingController@getSize');
+
+Route::get('/subscription/availability', 'SubscriptionController@getAvailability');
+Route::get('/subscription/size', 'SubscriptionController@getSize');
 
 // Route::group(['middleware' => ['auth']], function () {
 

@@ -27,6 +27,13 @@ APU Car Parking System is able,
 - To automatically terminate expired subscriptions using time-based job scheduler.
 
 ## Change log
+######  8/11/2020
+- Added `helpers->getCarParkSize()`
+- Combined `Parking status` and `Car park status` vue
+- Added `Subscription` page
+- Added `is_expired` column to `subscriptions` table
+- Added subscriptions helpers
+- Added subscriptions listing, availability count
 ######  5/11/2020
 - Completed `exitCarPark()` base logic [To be tested]
 ######  4/11/2020

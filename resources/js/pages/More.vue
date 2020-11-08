@@ -12,16 +12,16 @@
                 </li>
                 <li class="list-group-item">
                     <router-link to="parking-status" class="more-link">
-                        <span class="more-icon mdi mdi-eye"> Parking Status</span>
+                        <span class="more-icon mdi mdi-parking"> Parking Status</span>
                     </router-link>
                 </li>
                 <li class="list-group-item">
-                    <router-link to="car-park-status" class="more-link">
-                        <span class="more-icon mdi mdi-parking"> Car Park Status</span>
+                    <router-link :to="{name: 'subscription', params: {user_id: user_id}}" class="more-link">
+                        <span class="more-icon mdi mdi-calendar-clock"> Subscription</span>
                     </router-link>
                 </li>
                 <li class="list-group-item">
-                    <router-link to="simulator" class="more-link">
+                    <router-link :to="{name: 'simulator', params: {user_id: user_id}}" class="more-link">
                         <span class="more-icon mdi mdi-alert-circle"> **Simulator**</span>
                     </router-link>
                 </li>
@@ -37,6 +37,7 @@
 
 <script>
     export default {
+        props: ['user_id'],
         methods: {
             logout() {
                 this.$swal.fire({

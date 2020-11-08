@@ -26,6 +26,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/apcard-balance', 'UserController@getApcardBalance');
     Route::get('/get-car-state', 'ParkingController@getCarState');
+    Route::get('/get-subs-state', 'SubscriptionController@getSubsState');
 
     Route::post('carpark/enter', 'ParkingController@enterCarPark');
     Route::post('carpark/exit', 'ParkingController@exitCarPark');

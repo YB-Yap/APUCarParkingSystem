@@ -2,16 +2,7 @@
 
 use App\models\Config;
 use App\Models\Parking;
-
-if (!function_exists('getSubsAvailability')) {
-    function getSubsAvailability()
-    {
-        // get available subscription
-        // return count
-
-    }
-}
-
+use App\Models\Subscription;
 
 if (!function_exists('getParkingAvailability')) {
     function getParkingAvailability()
@@ -28,6 +19,45 @@ if (!function_exists('getParkingAvailability')) {
         }
 
         return $availability;
+    }
+}
+
+if (!function_exists('getCarParkSize')) {
+    function getCarParkSize()
+    {
+        return Config::carParkSize()->value;
+    }
+}
+
+if (!function_exists('getSubsAvailability')) {
+    function getSubsAvailability()
+    {
+        $availability = 0;
+
+        // get subscription size
+        $subscription_size = Config::subscriptionQuantity()->value;
+        $subbed_amount = Subscription::subbedAmount();
+
+        // subscription is not full
+        if ($subbed_amount < $subscription_size) {
+            $availability = $subscription_size - $subbed_amount;
+        }
+
+        return $availability;
+    }
+}
+
+if (!function_exists('getSubsSize')) {
+    function getSubsSize()
+    {
+        return Config::subscriptionQuantity()->value;
+    }
+}
+
+if (!function_exists('getSubsPrice')) {
+    function getSubsPrice()
+    {
+        return Config::subscriptionPrice()->value;
     }
 }
 

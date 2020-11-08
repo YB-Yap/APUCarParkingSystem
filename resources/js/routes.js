@@ -1,8 +1,8 @@
 import Dashboard from "./pages/Dashboard";
 import ParkingStatus from "./pages/ParkingStatus";
-import CarParkStatus from "./pages/CarParkStatus";
 import More from "./pages/More";
 import Simulator from "./pages/Simulator";
+import Subscription from "./pages/Subscription";
 
 export const routes = [
     {
@@ -21,13 +21,9 @@ export const routes = [
         component: ParkingStatus
     },
     {
-        path: "/car-park-status",
-        name: "car_park_status",
-        component: CarParkStatus
-    },
-    {
         path: "/more",
         name: "more",
+        props: true,
         component: More
     },
     {
@@ -35,6 +31,12 @@ export const routes = [
         name: "simulator",
         props: true,
         component: Simulator
+    },
+    {
+        path: "/subscription",
+        name: "subscription",
+        props: true,
+        component: Subscription
     },
 ];
 

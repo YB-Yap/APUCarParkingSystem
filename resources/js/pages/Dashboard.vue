@@ -90,18 +90,18 @@
                     <span>Dashboard</span>
                 </router-link>
                 <router-link to="parking-status" class="nav-link">
-                    <span class="nav-icon mdi mdi-eye"></span>
+                    <span class="nav-icon mdi mdi-parking"></span>
                     <span>Parking Status</span>
                 </router-link>
-                <router-link to="car-park-status" class="nav-link">
-                    <span class="nav-icon mdi mdi-parking"></span>
-                    <span>Car Park Status</span>
+                <router-link :to="{name: 'subscription', params: {user_id: user.id}}" class="nav-link">
+                    <span class="nav-icon mdi mdi-calendar-clock"></span>
+                    <span>Subscription</span>
                 </router-link>
                 <router-link :to="{name: 'simulator', params: {user_id: user.id}}" class="nav-link">
                     <span class="nav-icon mdi mdi-alert-circle"></span>
                     <span>Simulator</span>
                 </router-link>
-                <router-link to="more" class="nav-link">
+                <router-link :to="{name: 'more', params: {user_id: user.id}}" class="nav-link">
                     <span class="nav-icon mdi mdi-dots-vertical"></span>
                     <span>More</span>
                 </router-link>
@@ -131,7 +131,7 @@
         methods: {
             getCarParkAvailability() {
                 axios
-                    .get('/api/availability/carpark')
+                    .get('/api/carpark/availability')
                     .then((result) => {
                         this.parking_availability = result.data;
                     });
@@ -144,7 +144,7 @@
                 axios
                     .get('/get-car-state')
                     .then((result) => {
-                        console.log(result.data)
+                        // console.log(result.data)
                         if (result.data.isInParking) {
                             this.is_in_parking = true;
                             this.car_state = result.data.data;

@@ -104,6 +104,11 @@ class ParkingController extends Controller
         return response()->json(getParkingAvailability(), 200);
     }
 
+    public function getSize()
+    {
+        return response()->json(getCarParkSize(), 200);
+    }
+
     public function getCarState()
     {
         $user = Auth::user();

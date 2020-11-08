@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SubscriptionResource;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SubscriptionController extends Controller
 {
-    // price in cents
-    private $SUBS_FEE = 6000;
-
     /**
      * Display a listing of the resource.
      *
@@ -84,5 +83,38 @@ class SubscriptionController extends Controller
     public function destroy(Subscription $subscription)
     {
         //
+    }
+
+    public function getAvailability()
+    {
+        return response()->json(getSubsAvailability(), 200);
+    }
+
+    public function getSize()
+    {
+        return response()->json(getSubsSize(), 200);
+    }
+
+    public function getSubsState()
+    {
+        $user = Auth::user();
+
+        $subscriptions = Subscription::where('user_id', $user->id)
+                            ->where('is_expired', false)
+                            ->get();
+
+        if (!isset($subscriptions)) {
+            // no subscription
+            return response()->json([
+                'hasSubscription' => false,
+                'data' => null
+            ], 200);
+        } else {
+            // has at least one subscription
+            return response()->json([
+                'hasSubscription' => true,
+                'data' => SubscriptionResource::collection($subscriptions)
+            ], 200);
+        }
     }
 }
