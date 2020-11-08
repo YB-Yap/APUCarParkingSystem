@@ -16,7 +16,7 @@ class ConfigSeeder extends Seeder
         $configs = array(
             [
                 'key' => 'subscription_price',
-                'value' => '600'            // in cents
+                'value' => '6000'            // in cents
             ],
             [
                 'key' => 'subscription_quantity',
