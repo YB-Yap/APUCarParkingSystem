@@ -2344,11 +2344,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['user_id'],
   data: function data() {
     return {
       apcard_balance: 0,
+      topup_amount: 0,
+      invalid_topup: false,
       is_in_parking: false,
       car_state: {},
       selected_parking_zone: ''
@@ -2435,7 +2449,14 @@ __webpack_require__.r(__webpack_exports__);
           });
         }
       });
-    }
+    } // checkTopup() {
+    //     if (!(this.topup_amount >= 0.01 && this.topup_amount <= 9999.99)) {
+    //         this.invalid_topup = true;
+    //     } else {
+    //         this.invalid_topup = false;
+    //     }
+    // },
+
   }
 });
 
@@ -49348,7 +49369,17 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("h3", [_vm._v("Topup")])
+      _c("h3", [_vm._v("Topup")]),
+      _vm._v(" "),
+      _c("span", [_vm._v("Choose how much you want to topup")]),
+      _vm._v(" "),
+      _c("button", { staticClass: "btn btn-primary" }, [_vm._v("RM5.00")]),
+      _vm._v(" "),
+      _c("button", { staticClass: "btn btn-primary" }, [_vm._v("RM10.00")]),
+      _vm._v(" "),
+      _c("button", { staticClass: "btn btn-primary" }, [_vm._v("RM50.00")]),
+      _vm._v(" "),
+      _c("button", { staticClass: "btn btn-primary" }, [_vm._v("RM100.00")])
     ])
   ])
 }

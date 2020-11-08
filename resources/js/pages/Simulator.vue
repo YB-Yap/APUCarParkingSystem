@@ -28,6 +28,18 @@
             <span>Your APCard currently has RM{{ apcard_balance }}.</span>
 
             <h3>Topup</h3>
+            <span>Choose how much you want to topup</span>
+            <button class="btn btn-primary">RM5.00</button>
+            <button class="btn btn-primary">RM10.00</button>
+            <button class="btn btn-primary">RM50.00</button>
+            <button class="btn btn-primary">RM100.00</button>
+
+            <!-- <span>Enter how much you want to topup below</span><br>
+            <input type="number" class="form-control" v-model="topup_amount" @input="checkTopup()" placeholder="0.00">
+            <div v-if="invalid_topup" class="alert alert-danger" role="alert">
+                Invalid amount
+            </div>
+            <button class="btn btn-primary" :disabled="invalid_topup">Topup</button> -->
         </div>
     </div>
 </template>
@@ -38,6 +50,8 @@
         data() {
             return {
                 apcard_balance: 0,
+                topup_amount: 0,
+                invalid_topup: false,
                 is_in_parking: false,
                 car_state: {},
                 selected_parking_zone: '',
@@ -120,7 +134,14 @@
                             })
                     }
                 })
-            }
+            },
+            // checkTopup() {
+            //     if (!(this.topup_amount >= 0.01 && this.topup_amount <= 9999.99)) {
+            //         this.invalid_topup = true;
+            //     } else {
+            //         this.invalid_topup = false;
+            //     }
+            // },
         }
 
     }
