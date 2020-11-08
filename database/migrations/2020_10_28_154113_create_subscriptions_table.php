@@ -19,6 +19,7 @@ class CreateSubscriptionsTable extends Migration
             $table->date('valid_at');
             $table->date('valid_till');
             $table->boolean('is_active');
+            $table->boolean('is_expired')->default(0);
             $table->timestamps();
             $table->softDeletes();
 
