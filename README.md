@@ -9,7 +9,7 @@ APU Car Parking System allows **students**,
 - To check the time of entry and exit of the day.
 - To check the estimated parking fee of the day.
 - To check old records.
-- To check the availability of season parking subscription.
+- *WIP* To check the availability of season parking subscription.
 - To subscribe for a monthly season parking.
 - To check the subscription date and expiry date of subscribed season parking.
 - To terminate season parking subscription.

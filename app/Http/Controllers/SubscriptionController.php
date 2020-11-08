@@ -103,7 +103,7 @@ class SubscriptionController extends Controller
                             ->where('is_expired', false)
                             ->get();
 
-        if (!isset($subscriptions)) {
+        if ($subscriptions->isEmpty()) {
             // no subscription
             return response()->json([
                 'hasSubscription' => false,

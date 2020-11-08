@@ -6,8 +6,9 @@ parking controller
     - exit parking logic probably need to convert to function for fee estimation
 
 subscription page
-    - create page
-    - create logic
+    - purchase
+    - terminate
+    - estimate next available
 
 server jobs
     - at 12:00 am
