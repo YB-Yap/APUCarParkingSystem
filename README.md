@@ -9,9 +9,9 @@ APU Car Parking System allows **students**,
 - To check the time of entry and exit of the day.
 - To check the estimated parking fee of the day.
 - To check old records.
-- *WIP* To check the availability of season parking subscription.
-- To subscribe for a monthly season parking.
-- To check the subscription date and expiry date of subscribed season parking.
+- *TBT* To check the availability of season parking subscription.
+- *TBT* To subscribe for a monthly season parking.
+- *TBT* To check the subscription date and expiry date of subscribed season parking.
 - To terminate season parking subscription.
 - *TBT* To search for empty parking space before charging when the parking area is full for 15 minutes.
   
@@ -27,6 +27,12 @@ APU Car Parking System is able,
 - To automatically terminate expired subscriptions using time-based job scheduler.
 
 ## Change log
+######  12/11/2020
+- Added topup function for `Simulator`
+- Added purchase function for `Subscription`
+- Changed prop from `user_id` to `user`
+- Refractored route name
+- Added `center-container` css in `app.css`
 ######  8/11/2020
 - Added `helpers->getCarParkSize()`
 - Combined `Parking status` and `Car park status` vue

@@ -39,7 +39,7 @@
         methods: {
             getCarState() {
                 axios
-                    .get('/get-car-state')
+                    .get('/parking/get-state')
                     .then((result) => {
                         console.log(result.data)
                         if (result.data.isInParking) {

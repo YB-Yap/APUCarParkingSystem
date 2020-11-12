@@ -4,35 +4,63 @@
             <h1 class="page-title">Subscription</h1>
         </div>
         <div class="page-content">
-            <h1>Subscription status</h1>
-            <div v-if="has_subscription">
-                <span>Your subscription is currently active.</span>
-                <div class="card mb-2" v-for="(sub, index) in subscription_state" :key="index">
-                    <div class="card-body" :class="sub.is_active ? 'text-success' : 'text-info'">
-                        Valid from: {{ sub.valid_at }}<br>
-                        Valid till: {{ sub.valid_till }}<br>
-                        Status: {{ sub.is_active ? 'Active' : 'Inactive' }}<br>
+            <div class="center-container">
+                <h1>Subscription status</h1>
+                <div v-if="has_subscription">
+                    <span>Your subscription is currently active.</span>
+                    <div class="section-wrapper" v-for="(sub, index) in subscription_state" :key="index">
+                        <div :class="sub.is_active ? 'text-success' : 'text-info'">
+                            Valid from: {{ sub.valid_at }}<br>
+                            Valid till: {{ sub.valid_till }}<br>
+                            Status: {{ sub.is_active ? 'Active' : 'Inactive' }}<br>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div v-else>
-                <span>You don't have any subscription.</span>
-            </div>
+                <div v-else>
+                    <span>You don't have any subscription.</span>
+                </div>
 
-            <h1>Subscription availability</h1>
-            Availability: {{ subscription_availability }} of {{ subscription_size }}
+                <h1>Season Parking Subscription</h1>
+                <div class="section-wrapper">
+                    Availability: {{ subscription_availability }} of {{ subscription_size }}
+                </div>
+                <div class="section-wrapper" v-if="subscription_availability == 0 && has_subscription == false">
+                    <span>Sorry, there are no subscription available at the moment.</span><br>
+                    <span>Estimated restock date: {{ estimated_date }}</span>
+                </div>
+                <div class="section-wrapper" v-else>
+                    <h5 class="section-title">
+                        {{ has_subscription ? 'Extend your subscription' : 'Purchase a subscription' }}
+                    </h5>
+                    <span class="mdi mdi-credit-card-outline"> RM 60.00</span><br>
+                    <span class="mdi mdi-timer-outline"> {{ valid_from }} ~ {{ valid_till }}</span><br>
+                    <span class="mdi mdi-boom-gate-up-outline"> 1 Month</span>
+                    <div class="disclaimer border" :class="!disclaimer_check ? 'border-danger' : 'border-success'">
+                        <input type="checkbox" class="mr-2" v-model="disclaimer_check">
+                        <label>By checking this, you understand that this subscription is not refundable.</label>
+                    </div>
+                    <button class="btn btn-primary d-block w-100 mt-3" :disabled="!disclaimer_check" @click="purchaseSubs()">
+                        {{ has_subscription ? 'Extend subscription' : 'Purchase subscription' }}
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
     export default {
+        props: ['user'],
         data() {
             return {
                 has_subscription: false,
                 subscription_availability: 0,
                 subscription_size: 0,
                 subscription_state: [],
+                estimated_date: '',
+                valid_from: '',
+                valid_till: '',
+                disclaimer_check: false,
             }
         },
         mounted() {
@@ -43,12 +71,26 @@
         methods: {
             getSubscriptionState() {
                 axios
-                    .get('/get-subs-state')
+                    .get('/subscription/get-state')
                     .then((result) => {
                         console.log(result.data)
                         if (result.data.hasSubscription) {
                             this.has_subscription = true;
                             this.subscription_state = result.data.data;
+                        }
+
+                        if (this.has_subscription) {
+                            let last_index = this.subscription_state.length - 1;
+                            let _date = new Date(this.subscription_state[last_index].valid_till);
+                            _date.setDate(_date.getDate() + 1);
+                            this.valid_from = _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
+                            _date.setDate(_date.getDate() + 30);
+                            this.valid_till = _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
+                        } else {
+                            let _date = new Date();
+                            this.valid_from = _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
+                            _date.setDate(_date.getDate() + 30);
+                            this.valid_till = _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
                         }
                     });
             },
@@ -66,6 +108,19 @@
                         this.subscription_size = result.data;
                     });
             },
+            purchaseSubs() {
+                let data = {
+                    valid_at: this.valid_from,
+                    valid_till: this.valid_till,
+                    mode: this.has_subscription ? 'extend' : 'purchase'
+                }
+
+                axios
+                    .post('/subscription/purchase', data)
+                    .then((result) => {
+                        console.log('buy')
+                    });
+            },
         }
     }
 </script>
@@ -73,5 +128,30 @@
 <style lang="scss">
     @import './resources/sass/_variables.scss';
 
+    .section-wrapper {
+        padding: 20px;
+        background-color: $secondary-bg;
+        color: $main-txt;
+        width: 100%;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        border-radius: 6px;
+        margin-bottom: 20px;
+
+        .section-title {
+            color: $blue;
+            font-weight: 700;
+        }
+
+        .disclaimer {
+            background-color: $tertiary-bg;
+            margin: 25px 0px;
+            padding: 10px 20px;
+            border-radius: 5px;
+
+            label {
+                margin: 0px;
+            }
+        }
+    }
 </style>
 

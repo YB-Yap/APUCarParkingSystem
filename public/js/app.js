@@ -2137,7 +2137,7 @@ __webpack_require__.r(__webpack_exports__);
     getCarState: function getCarState() {
       var _this2 = this;
 
-      axios.get('/get-car-state').then(function (result) {
+      axios.get('/parking/get-state').then(function (result) {
         // console.log(result.data)
         if (result.data.isInParking) {
           _this2.is_in_parking = true;
@@ -2202,7 +2202,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['user_id'],
+  props: ['user'],
   methods: {
     logout: function logout() {
       this.$swal.fire({
@@ -2273,7 +2273,7 @@ __webpack_require__.r(__webpack_exports__);
     getCarState: function getCarState() {
       var _this = this;
 
-      axios.get('/get-car-state').then(function (result) {
+      axios.get('/parking/get-state').then(function (result) {
         console.log(result.data);
 
         if (result.data.isInParking) {
@@ -2357,7 +2357,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['user_id'],
+  props: ['user'],
   data: function data() {
     return {
       apcard_balance: 0,
@@ -2383,7 +2383,7 @@ __webpack_require__.r(__webpack_exports__);
     getCarState: function getCarState() {
       var _this2 = this;
 
-      axios.get('/get-car-state').then(function (result) {
+      axios.get('/parking/get-state').then(function (result) {
         console.log(result.data);
 
         if (result.data.isInParking) {
@@ -2412,7 +2412,16 @@ __webpack_require__.r(__webpack_exports__);
             if (res.status == 200) {
               _this3.getCarState();
 
-              _this3.$forceUpdate();
+              _this3.$forceUpdate(); // SweetAlert as parking gate display
+              // this.$swal.fire({
+              //     title: 'Entering Car Park',
+              //     text: `You are entering Parking Zone ${this.selected_parking_zone}?`,
+              //     icon: 'info',
+              //     showCancelButton: true,
+              //     confirmButtonText: 'Enter',
+              //     cancelButtonText: 'Cancel'
+              // })
+
             }
           });
         }
@@ -2440,6 +2449,38 @@ __webpack_require__.r(__webpack_exports__);
               _this4.$forceUpdate();
             } else {
               _this4.$swal.fire({
+                title: res.data.message,
+                text: "Please top up your APCard at least RM".concat((res.data.to_pay / 100).toFixed(2)),
+                icon: 'error',
+                confirmButtonText: 'Ok'
+              });
+            }
+          });
+        }
+      });
+    },
+    topup: function topup(_amount) {
+      var _this5 = this;
+
+      console.log("exiting ".concat(this.selected_parking_zone));
+      this.$swal.fire({
+        title: 'Exiting Car Park',
+        text: "You are about to exit Parking Zone ".concat(this.selected_parking_zone, "?"),
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Exit',
+        cancelButtonText: 'Cancel'
+      }).then(function (result) {
+        if (result.value) {
+          axios.post('/carpark/exit').then(function (res) {
+            if (res.data.isSuccess) {
+              _this5.is_in_parking = false;
+
+              _this5.getAPCardBalance();
+
+              _this5.$forceUpdate();
+            } else {
+              _this5.$swal.fire({
                 title: res.data.message,
                 text: "Please top up your APCard at least RM".concat((res.data.to_pay / 100).toFixed(2)),
                 icon: 'error',
@@ -2498,13 +2539,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['user'],
   data: function data() {
     return {
       has_subscription: false,
       subscription_availability: 0,
       subscription_size: 0,
-      subscription_state: []
+      subscription_state: [],
+      estimated_date: '',
+      valid_from: '',
+      valid_till: '',
+      disclaimer_check: false
     };
   },
   mounted: function mounted() {
@@ -2516,12 +2585,34 @@ __webpack_require__.r(__webpack_exports__);
     getSubscriptionState: function getSubscriptionState() {
       var _this = this;
 
-      axios.get('/get-subs-state').then(function (result) {
+      axios.get('/subscription/get-state').then(function (result) {
         console.log(result.data);
 
         if (result.data.hasSubscription) {
           _this.has_subscription = true;
           _this.subscription_state = result.data.data;
+        }
+
+        if (_this.has_subscription) {
+          var last_index = _this.subscription_state.length - 1;
+
+          var _date = new Date(_this.subscription_state[last_index].valid_till);
+
+          _date.setDate(_date.getDate() + 1);
+
+          _this.valid_from = _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
+
+          _date.setDate(_date.getDate() + 30);
+
+          _this.valid_till = _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
+        } else {
+          var _date2 = new Date();
+
+          _this.valid_from = _date2.getFullYear() + '-' + ("0" + (_date2.getMonth() + 1)).slice(-2) + '-' + ("0" + _date2.getDate()).slice(-2);
+
+          _date2.setDate(_date2.getDate() + 30);
+
+          _this.valid_till = _date2.getFullYear() + '-' + ("0" + (_date2.getMonth() + 1)).slice(-2) + '-' + ("0" + _date2.getDate()).slice(-2);
         }
       });
     },
@@ -2537,6 +2628,16 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/api/subscription/size').then(function (result) {
         _this3.subscription_size = result.data;
+      });
+    },
+    purchaseSubs: function purchaseSubs() {
+      var data = {
+        valid_at: this.valid_from,
+        valid_till: this.valid_till,
+        mode: this.has_subscription ? 'extend' : 'purchase'
+      };
+      axios.post('/subscription/purchase', data).then(function (result) {
+        console.log('buy');
       });
     }
   }
@@ -7060,7 +7161,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".section-wrapper {\n  padding: 20px;\n  background-color: #303030;\n  color: #e8e6e6;\n  width: 100%;\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n  border-radius: 6px;\n  margin-bottom: 20px;\n}\n.section-wrapper .section-title {\n  color: #3490dc;\n  font-weight: 700;\n}\n.section-wrapper .disclaimer {\n  background-color: #424242;\n  margin: 25px 0px;\n  padding: 10px 20px;\n  border-radius: 5px;\n}\n.section-wrapper .disclaimer label {\n  margin: 0px;\n}", ""]);
 
 // exports
 
@@ -48966,7 +49067,7 @@ var render = function() {
             {
               staticClass: "nav-link",
               attrs: {
-                to: { name: "subscription", params: { user_id: _vm.user.id } }
+                to: { name: "subscription", params: { user: _vm.user } }
               }
             },
             [
@@ -48980,9 +49081,7 @@ var render = function() {
             "router-link",
             {
               staticClass: "nav-link",
-              attrs: {
-                to: { name: "simulator", params: { user_id: _vm.user.id } }
-              }
+              attrs: { to: { name: "simulator", params: { user: _vm.user } } }
             },
             [
               _c("span", { staticClass: "nav-icon mdi mdi-alert-circle" }),
@@ -48995,7 +49094,7 @@ var render = function() {
             "router-link",
             {
               staticClass: "nav-link",
-              attrs: { to: { name: "more", params: { user_id: _vm.user.id } } }
+              attrs: { to: { name: "more", params: { user: _vm.user } } }
             },
             [
               _c("span", { staticClass: "nav-icon mdi mdi-dots-vertical" }),
@@ -49113,7 +49212,7 @@ var render = function() {
               {
                 staticClass: "more-link",
                 attrs: {
-                  to: { name: "subscription", params: { user_id: _vm.user_id } }
+                  to: { name: "subscription", params: { user: _vm.user } }
                 }
               },
               [
@@ -49136,9 +49235,7 @@ var render = function() {
               "router-link",
               {
                 staticClass: "more-link",
-                attrs: {
-                  to: { name: "simulator", params: { user_id: _vm.user_id } }
-                }
+                attrs: { to: { name: "simulator", params: { user: _vm.user } } }
               },
               [
                 _c("span", { staticClass: "more-icon mdi mdi-alert-circle" }, [
@@ -49418,55 +49515,187 @@ var render = function() {
     _vm._m(0),
     _vm._v(" "),
     _c("div", { staticClass: "page-content" }, [
-      _c("h1", [_vm._v("Subscription status")]),
-      _vm._v(" "),
-      _vm.has_subscription
-        ? _c(
-            "div",
-            [
-              _c("span", [_vm._v("Your subscription is currently active.")]),
-              _vm._v(" "),
-              _vm._l(_vm.subscription_state, function(sub, index) {
-                return _c("div", { key: index, staticClass: "card mb-2" }, [
-                  _c(
+      _c("div", { staticClass: "center-container" }, [
+        _c("h1", [_vm._v("Subscription status")]),
+        _vm._v(" "),
+        _vm.has_subscription
+          ? _c(
+              "div",
+              [
+                _c("span", [_vm._v("Your subscription is currently active.")]),
+                _vm._v(" "),
+                _vm._l(_vm.subscription_state, function(sub, index) {
+                  return _c(
                     "div",
-                    {
-                      staticClass: "card-body",
-                      class: sub.is_active ? "text-success" : "text-info"
-                    },
+                    { key: index, staticClass: "section-wrapper" },
                     [
-                      _vm._v(
-                        "\n                    Valid from: " +
-                          _vm._s(sub.valid_at)
-                      ),
-                      _c("br"),
-                      _vm._v(
-                        "\n                    Valid till: " +
-                          _vm._s(sub.valid_till)
-                      ),
-                      _c("br"),
-                      _vm._v(
-                        "\n                    Status: " +
-                          _vm._s(sub.is_active ? "Active" : "Inactive")
-                      ),
-                      _c("br")
+                      _c(
+                        "div",
+                        { class: sub.is_active ? "text-success" : "text-info" },
+                        [
+                          _vm._v(
+                            "\n                        Valid from: " +
+                              _vm._s(sub.valid_at)
+                          ),
+                          _c("br"),
+                          _vm._v(
+                            "\n                        Valid till: " +
+                              _vm._s(sub.valid_till)
+                          ),
+                          _c("br"),
+                          _vm._v(
+                            "\n                        Status: " +
+                              _vm._s(sub.is_active ? "Active" : "Inactive")
+                          ),
+                          _c("br")
+                        ]
+                      )
                     ]
                   )
-                ])
-              })
-            ],
-            2
+                })
+              ],
+              2
+            )
+          : _c("div", [
+              _c("span", [_vm._v("You don't have any subscription.")])
+            ]),
+        _vm._v(" "),
+        _c("h1", [_vm._v("Season Parking Subscription")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "section-wrapper" }, [
+          _vm._v(
+            "\n                Availability: " +
+              _vm._s(_vm.subscription_availability) +
+              " of " +
+              _vm._s(_vm.subscription_size) +
+              "\n            "
           )
-        : _c("div", [_c("span", [_vm._v("You don't have any subscription.")])]),
-      _vm._v(" "),
-      _c("h1", [_vm._v("Subscription availability")]),
-      _vm._v(
-        "\n        Availability: " +
-          _vm._s(_vm.subscription_availability) +
-          " of " +
-          _vm._s(_vm.subscription_size) +
-          "\n    "
-      )
+        ]),
+        _vm._v(" "),
+        _vm.subscription_availability == 0 && _vm.has_subscription == false
+          ? _c("div", { staticClass: "section-wrapper" }, [
+              _c("span", [
+                _vm._v(
+                  "Sorry, there are no subscription available at the moment."
+                )
+              ]),
+              _c("br"),
+              _vm._v(" "),
+              _c("span", [
+                _vm._v("Estimated restock date: " + _vm._s(_vm.estimated_date))
+              ])
+            ])
+          : _c("div", { staticClass: "section-wrapper" }, [
+              _c("h5", { staticClass: "section-title" }, [
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(
+                      _vm.has_subscription
+                        ? "Extend your subscription"
+                        : "Purchase a subscription"
+                    ) +
+                    "\n                "
+                )
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "mdi mdi-credit-card-outline" }, [
+                _vm._v(" RM 60.00")
+              ]),
+              _c("br"),
+              _vm._v(" "),
+              _c("span", { staticClass: "mdi mdi-timer-outline" }, [
+                _vm._v(
+                  " " + _vm._s(_vm.valid_from) + " ~ " + _vm._s(_vm.valid_till)
+                )
+              ]),
+              _c("br"),
+              _vm._v(" "),
+              _c("span", { staticClass: "mdi mdi-boom-gate-up-outline" }, [
+                _vm._v(" 1 Month")
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "disclaimer border",
+                  class: !_vm.disclaimer_check
+                    ? "border-danger"
+                    : "border-success"
+                },
+                [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.disclaimer_check,
+                        expression: "disclaimer_check"
+                      }
+                    ],
+                    staticClass: "mr-2",
+                    attrs: { type: "checkbox" },
+                    domProps: {
+                      checked: Array.isArray(_vm.disclaimer_check)
+                        ? _vm._i(_vm.disclaimer_check, null) > -1
+                        : _vm.disclaimer_check
+                    },
+                    on: {
+                      change: function($event) {
+                        var $$a = _vm.disclaimer_check,
+                          $$el = $event.target,
+                          $$c = $$el.checked ? true : false
+                        if (Array.isArray($$a)) {
+                          var $$v = null,
+                            $$i = _vm._i($$a, $$v)
+                          if ($$el.checked) {
+                            $$i < 0 &&
+                              (_vm.disclaimer_check = $$a.concat([$$v]))
+                          } else {
+                            $$i > -1 &&
+                              (_vm.disclaimer_check = $$a
+                                .slice(0, $$i)
+                                .concat($$a.slice($$i + 1)))
+                          }
+                        } else {
+                          _vm.disclaimer_check = $$c
+                        }
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("label", [
+                    _vm._v(
+                      "By checking this, you understand that this subscription is not refundable."
+                    )
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary d-block w-100 mt-3",
+                  attrs: { disabled: !_vm.disclaimer_check },
+                  on: {
+                    click: function($event) {
+                      return _vm.purchaseSubs()
+                    }
+                  }
+                },
+                [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(
+                        _vm.has_subscription
+                          ? "Extend subscription"
+                          : "Purchase subscription"
+                      ) +
+                      "\n                "
+                  )
+                ]
+              )
+            ])
+      ])
     ])
   ])
 }

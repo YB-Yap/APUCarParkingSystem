@@ -6,7 +6,7 @@ parking controller
     - exit parking logic probably need to convert to function for fee estimation
 
 subscription page
-    - purchase
+    - TBT - purchase
     - terminate
     - estimate next available
 

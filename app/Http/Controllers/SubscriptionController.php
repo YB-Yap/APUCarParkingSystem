@@ -117,4 +117,21 @@ class SubscriptionController extends Controller
             ], 200);
         }
     }
+
+    public function purchaseSubs(Request $request)
+    {
+        $user = Auth::user();
+
+        $subscription = new Subscription();
+
+        $subscription->user_id = $user->id;
+        $subscription->valid_at = $request->valid_at;
+        $subscription->valid_till = $request->valid_till;
+        $subscription->is_active = $request->mode == 'purchase' ? true : false;
+        $subscription->save();
+
+        return response()->json([
+            'message' => 'Purchase successful',
+        ], 200);
+    }
 }
