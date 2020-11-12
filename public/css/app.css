@@ -10940,3 +10940,17 @@ a.text-dark:focus {
   color: #e8e6e6;
 }
 
+.page-content .center-container {
+  width: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media only screen and (min-width: 640px) {
+  .page-content .center-container {
+    max-width: 640px;
+  }
+}
+
