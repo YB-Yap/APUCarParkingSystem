@@ -93,15 +93,15 @@
                     <span class="nav-icon mdi mdi-parking"></span>
                     <span>Parking Status</span>
                 </router-link>
-                <router-link :to="{name: 'subscription', params: {user_id: user.id}}" class="nav-link">
+                <router-link :to="{name: 'subscription', params: {user: user}}" class="nav-link">
                     <span class="nav-icon mdi mdi-calendar-clock"></span>
                     <span>Subscription</span>
                 </router-link>
-                <router-link :to="{name: 'simulator', params: {user_id: user.id}}" class="nav-link">
+                <router-link :to="{name: 'simulator', params: {user: user}}" class="nav-link">
                     <span class="nav-icon mdi mdi-alert-circle"></span>
                     <span>Simulator</span>
                 </router-link>
-                <router-link :to="{name: 'more', params: {user_id: user.id}}" class="nav-link">
+                <router-link :to="{name: 'more', params: {user: user}}" class="nav-link">
                     <span class="nav-icon mdi mdi-dots-vertical"></span>
                     <span>More</span>
                 </router-link>
@@ -142,7 +142,7 @@
             },
             getCarState() {
                 axios
-                    .get('/get-car-state')
+                    .get('/parking/get-state')
                     .then((result) => {
                         // console.log(result.data)
                         if (result.data.isInParking) {

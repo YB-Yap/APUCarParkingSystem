@@ -46,7 +46,7 @@
 
 <script>
     export default {
-        props: ['user_id'],
+        props: ['user'],
         data() {
             return {
                 apcard_balance: 0,
@@ -71,7 +71,7 @@
             },
             getCarState() {
                 axios
-                    .get('/get-car-state')
+                    .get('/parking/get-state')
                     .then((result) => {
                         console.log(result.data)
                         if (result.data.isInParking) {
@@ -100,12 +100,51 @@
                                 if (res.status == 200) {
                                     this.getCarState();
                                     this.$forceUpdate();
+                                    // SweetAlert as parking gate display
+                                    // this.$swal.fire({
+                                    //     title: 'Entering Car Park',
+                                    //     text: `You are entering Parking Zone ${this.selected_parking_zone}?`,
+                                    //     icon: 'info',
+                                    //     showCancelButton: true,
+                                    //     confirmButtonText: 'Enter',
+                                    //     cancelButtonText: 'Cancel'
+                                    // })
                                 }
                             })
                     }
                 })
             },
             exitCarPark() {
+                console.log(`exiting ${this.selected_parking_zone}`);
+                this.$swal.fire({
+                    title: 'Exiting Car Park',
+                    text: `You are about to exit Parking Zone ${this.selected_parking_zone}?`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Exit',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.value) {
+                        axios
+                            .post('/carpark/exit')
+                            .then((res) => {
+                                if (res.data.isSuccess) {
+                                    this.is_in_parking = false;
+                                    this.getAPCardBalance();
+                                    this.$forceUpdate();
+                                } else {
+                                    this.$swal.fire({
+                                        title: res.data.message,
+                                        text: `Please top up your APCard at least RM${(res.data.to_pay / 100).toFixed(2)}`,
+                                        icon: 'error',
+                                        confirmButtonText: 'Ok'
+                                    })
+                                }
+                            })
+                    }
+                })
+            },
+            topup(_amount) {
                 console.log(`exiting ${this.selected_parking_zone}`);
                 this.$swal.fire({
                     title: 'Exiting Car Park',
