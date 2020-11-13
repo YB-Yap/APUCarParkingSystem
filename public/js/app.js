@@ -2466,6 +2466,11 @@ __webpack_require__.r(__webpack_exports__);
               _this4.getAPCardBalance();
 
               _this4.$forceUpdate();
+
+              _this4.$swal.fire({
+                title: 'See you next time',
+                icon: 'success'
+              });
             } else {
               _this4.$swal.fire({
                 title: res.data.message,

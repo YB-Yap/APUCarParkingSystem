@@ -142,6 +142,10 @@
                                     this.is_in_parking = false;
                                     this.getAPCardBalance();
                                     this.$forceUpdate();
+                                    this.$swal.fire({
+                                        title: 'See you next time',
+                                        icon: 'success',
+                                    })
                                 } else {
                                     this.$swal.fire({
                                         title: res.data.message,

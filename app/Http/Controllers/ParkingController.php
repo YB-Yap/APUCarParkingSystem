@@ -155,7 +155,7 @@ class ParkingController extends Controller
     public function exitCarPark(Request $request)
     {
         $now = Carbon::now();
-        $user_id = Auth::user()->id;
+        $user = Auth::user();
         $previous_paid = 0;
         $previous_duration = 0;
         $current_duration = 0;
@@ -163,15 +163,15 @@ class ParkingController extends Controller
         $to_pay = 0;
         $is_car_park_full = (getParkingAvailability() == 0);
 
-        $parking = Parking::where('user_id', $user_id)->latest('updated_at')->first();
+        $parking = Parking::where('user_id', $user->id)->latest('updated_at')->first();
         $current_duration = round($now->floatDiffInHours($parking->time_in), 3);
 
-        // $has_subscription = Subscription .....;
+        $has_subscription = ($user->subscription()->activeSubsCount() == 1);
 
         // car park is not full OR car park is full but duration exceeded 15 minutes
         if (!$is_car_park_full || $current_duration > $this->FOC_HOUR) {
             // check if there is other parking record on that day in the same parking zone
-            $today_records = Parking::where('user_id', $user_id)
+            $today_records = Parking::where('user_id', $user->id)
                             ->whereDate('time_out', $now->toDateString())
                             ->whereNotNull('time_out')
                             ->where('parking_zone', $parking->parking_zone)
@@ -180,51 +180,51 @@ class ParkingController extends Controller
 
             if ($parking->parking_zone == 'B') {
                 // if no subscription
-
-                if ($today_records->count() > 0) {
-                    // add previous fee to get remaining payable amount
-                    foreach ($today_records as $index => $record) {
-                        // add up all previous records on the day
-                        // if the car park is not full and the fee is not 0
-                        if (!$record->is_car_park_full || $record->fee > 0) {
-                            $previous_duration += $record->duration;
-                            $previous_paid += $record->fee;
+                if (!$has_subscription) {
+                    if ($today_records->count() > 0) {
+                        // add previous fee to get remaining payable amount
+                        foreach ($today_records as $index => $record) {
+                            // add up all previous records on the day
+                            // if the car park is not full and the fee is not 0
+                            if (!$record->is_car_park_full || $record->fee > 0) {
+                                $previous_duration += $record->duration;
+                                $previous_paid += $record->fee;
+                            }
+                            // else -> FOC while the car park is full - does not add up
                         }
-                        // else -> FOC while the car park is full - does not add up
-                    }
-                    $total_duration = $previous_duration + $current_duration;
-                    // check hour range
-                    if (inRange($total_duration, 0, 1)) {
-                        // first hour
-                        $to_pay = $this->FEE_FIRST_HOUR - $previous_paid;
-                    } else if (inRange($total_duration, 1, 2)) {
-                        // second hour
-                        $to_pay = $this->FEE_SECOND_HOUR - $previous_paid;
-                    } else if (inRange($total_duration, 2, 3)) {
-                        // third hour
-                        $to_pay = $this->FEE_THIRD_HOUR - $previous_paid;
+                        $total_duration = $previous_duration + $current_duration;
+                        // check hour range
+                        if (inRange($total_duration, 0, 1)) {
+                            // first hour
+                            $to_pay = $this->FEE_FIRST_HOUR - $previous_paid;
+                        } else if (inRange($total_duration, 1, 2)) {
+                            // second hour
+                            $to_pay = $this->FEE_SECOND_HOUR - $previous_paid;
+                        } else if (inRange($total_duration, 2, 3)) {
+                            // third hour
+                            $to_pay = $this->FEE_THIRD_HOUR - $previous_paid;
+                        } else {
+                            // fourth hour or more
+                            $to_pay = $this->FEE_ZONE_B_MAX - $previous_paid;
+                        }
                     } else {
-                        // fourth hour or more
-                        $to_pay = $this->FEE_ZONE_B_MAX - $previous_paid;
-                    }
-                } else {
-                    // parking zone b - first time
-                    // check hour range
-                    if (inRange($total_duration, 0, 1)) {
-                        // first hour
-                        $to_pay = $this->FEE_FIRST_HOUR;
-                    } else if (inRange($total_duration, 1, 2)) {
-                        // second hour
-                        $to_pay = $this->FEE_SECOND_HOUR;
-                    } else if (inRange($total_duration, 2, 3)) {
-                        // third hour
-                        $to_pay = $this->FEE_THIRD_HOUR;
-                    } else {
-                        // fourth hour or more
-                        $to_pay = $this->FEE_ZONE_B_MAX;
+                        // parking zone b - first time
+                        // check hour range
+                        if (inRange($total_duration, 0, 1)) {
+                            // first hour
+                            $to_pay = $this->FEE_FIRST_HOUR;
+                        } else if (inRange($total_duration, 1, 2)) {
+                            // second hour
+                            $to_pay = $this->FEE_SECOND_HOUR;
+                        } else if (inRange($total_duration, 2, 3)) {
+                            // third hour
+                            $to_pay = $this->FEE_THIRD_HOUR;
+                        } else {
+                            // fourth hour or more
+                            $to_pay = $this->FEE_ZONE_B_MAX;
+                        }
                     }
                 }
-
                 // else -> has subscription, FOC
             } else {
                 // parking zone a - first time
@@ -236,7 +236,6 @@ class ParkingController extends Controller
         }
         // else -> FOC - car park is full AND exit within 15 minutes
 
-        $user = User::find($user_id);
         // check if enough balance
         if ($user->apcard_balance < $to_pay) {
             return response()->json(['message' => 'Insufficient fund.', 'to_pay' => $to_pay, 'isSuccess' => false]);
