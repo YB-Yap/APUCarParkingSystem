@@ -60,4 +60,16 @@ class UserController extends Controller
         $balance = Auth::user()->apcard_balance;
         return response()->json($balance, 200);
     }
+
+    // topup
+    public function topupApcard(Request $request)
+    {
+        $user = Auth::user();
+        $topup_amount = $request->amount;
+
+        $user->apcard_balance = $user->apcard_balance + $topup_amount;
+        $user->update();
+
+        return response()->json("topup successful", 200);
+    }
 }
