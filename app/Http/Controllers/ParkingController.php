@@ -114,10 +114,7 @@ class ParkingController extends Controller
         $user = Auth::user();
         $today = Carbon::now()->toDateString();
 
-        $user_car = Parking::whereDate('time_in', $today)
-                    ->where('user_id', $user->id)
-                    ->latest('updated_at')
-                    ->first();
+        $user_car = $user->parking()->whereDate('time_in', $today)->latest('updated_at')->first();
 
         // isset() is a built in function to check if the variable is defined and is not null
         if (!isset($user_car) || isset($user_car->time_out)) {
@@ -138,12 +135,12 @@ class ParkingController extends Controller
     public function enterCarPark(Request $request)
     {
         $now = Carbon::now();
-        $user_id = Auth::user()->id;
+        $user = Auth::user();
         $parking_zone = $request->parking_zone;
         $is_car_park_full = (getParkingAvailability() == 0);
 
         $parking = new Parking();
-        $parking->user_id = $user_id;
+        $parking->user_id = $user->id;
         $parking->parking_zone = $parking_zone;
         $parking->time_in = $now;
         $parking->is_car_park_full = $is_car_park_full;
@@ -163,7 +160,7 @@ class ParkingController extends Controller
         $to_pay = 0;
         $is_car_park_full = (getParkingAvailability() == 0);
 
-        $parking = Parking::where('user_id', $user->id)->latest('updated_at')->first();
+        $parking = $user->parking()->latest('updated_at')->first();
         $current_duration = round($now->floatDiffInHours($parking->time_in), 3);
 
         $has_subscription = ($user->subscription()->activeSubsCount() == 1);
@@ -171,7 +168,7 @@ class ParkingController extends Controller
         // car park is not full OR car park is full but duration exceeded 15 minutes
         if (!$is_car_park_full || $current_duration > $this->FOC_HOUR) {
             // check if there is other parking record on that day in the same parking zone
-            $today_records = Parking::where('user_id', $user->id)
+            $today_records = $user->parking()
                             ->whereDate('time_out', $now->toDateString())
                             ->whereNotNull('time_out')
                             ->where('parking_zone', $parking->parking_zone)

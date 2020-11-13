@@ -103,7 +103,7 @@
                 }).then((result) => {
                     if (result.value) {
                         axios
-                            .post('/carpark/enter', {
+                            .post('/parking/enter', {
                                 parking_zone: this.selected_parking_zone
                             })
                             .then((res) => {
@@ -136,7 +136,7 @@
                 }).then((result) => {
                     if (result.value) {
                         axios
-                            .post('/carpark/exit')
+                            .post('/parking/exit')
                             .then((res) => {
                                 if (res.data.isSuccess) {
                                     this.is_in_parking = false;

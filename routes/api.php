@@ -18,8 +18,8 @@ use Illuminate\Http\Request;
 //     Route::post('login', 'Auth\LoginController@action');
 // });
 
-Route::get('/carpark/availability', 'ParkingController@getAvailability');
-Route::get('/carpark/size', 'ParkingController@getSize');
+Route::get('/parking/availability', 'ParkingController@getAvailability');
+Route::get('/parking/size', 'ParkingController@getSize');
 
 Route::get('/subscription/availability', 'SubscriptionController@getAvailability');
 Route::get('/subscription/size', 'SubscriptionController@getSize');

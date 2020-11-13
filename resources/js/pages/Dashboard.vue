@@ -140,7 +140,7 @@
             },
             getCarParkAvailability() {
                 axios
-                    .get('/api/carpark/availability')
+                    .get('/api/parking/availability')
                     .then((result) => {
                         this.parking_availability = result.data;
                     });

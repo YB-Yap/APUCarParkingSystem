@@ -50,14 +50,14 @@
             },
             getCarParkAvailability() {
                 axios
-                    .get('/api/carpark/availability')
+                    .get('/api/parking/availability')
                     .then((result) => {
                         this.parking_availability = result.data;
                     });
             },
             getCarParkSize() {
                 axios
-                    .get('/api/carpark/size')
+                    .get('/api/parking/size')
                     .then((result) => {
                         this.parking_size = result.data;
                     });
