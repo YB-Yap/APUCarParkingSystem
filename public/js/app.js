@@ -2647,13 +2647,38 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     purchaseSubs: function purchaseSubs() {
+      var _this4 = this;
+
       var data = {
         valid_at: this.valid_from,
         valid_till: this.valid_till,
         mode: this.has_subscription ? 'extend' : 'purchase'
       };
+      this.$swal({
+        title: 'Purchasing subscription',
+        text: 'Please wait.',
+        icon: 'info',
+        allowOutsideClick: false
+      });
+      this.$swal.showLoading();
       axios.post('/subscription/purchase', data).then(function (result) {
-        console.log('buy');
+        if (result.status == 200) {
+          _this4.$swal.fire({
+            title: 'Purchasing Subscription',
+            text: 'Purchase successful',
+            icon: 'success'
+          });
+
+          _this4.getSubscriptionState();
+
+          _this4.getSubscriptionAvailability();
+
+          _this4.getSubscriptionSize();
+
+          _this4.disclaimer_check = false;
+
+          _this4.$forceUpdate();
+        }
       });
     }
   }

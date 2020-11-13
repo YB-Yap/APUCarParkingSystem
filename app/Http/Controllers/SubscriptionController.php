@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\SubscriptionResource;
+use App\Models\Config;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -121,6 +122,7 @@ class SubscriptionController extends Controller
     public function purchaseSubs(Request $request)
     {
         $user = Auth::user();
+        $subs_price = Config::subscriptionPrice()->value;
 
         $subscription = new Subscription();
 
@@ -129,6 +131,9 @@ class SubscriptionController extends Controller
         $subscription->valid_till = $request->valid_till;
         $subscription->is_active = $request->mode == 'purchase' ? true : false;
         $subscription->save();
+
+        $user->apcard_balance = $user->apcard_balance - $subs_price;
+        $user->update();
 
         return response()->json([
             'message' => 'Purchase successful',

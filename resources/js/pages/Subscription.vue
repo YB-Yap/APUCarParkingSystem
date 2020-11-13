@@ -116,11 +116,29 @@
                     valid_till: this.valid_till,
                     mode: this.has_subscription ? 'extend' : 'purchase'
                 }
+                this.$swal({
+                    title: 'Purchasing subscription',
+                    text: 'Please wait.',
+                    icon: 'info',
+                    allowOutsideClick: false,
+                })
+                this.$swal.showLoading();
 
                 axios
                     .post('/subscription/purchase', data)
                     .then((result) => {
-                        console.log('buy')
+                        if (result.status == 200) {
+                            this.$swal.fire({
+                                title: 'Purchasing Subscription',
+                                text: 'Purchase successful',
+                                icon: 'success',
+                            })
+                            this.getSubscriptionState();
+                            this.getSubscriptionAvailability();
+                            this.getSubscriptionSize();
+                            this.disclaimer_check = false;
+                            this.$forceUpdate();
+                        }
                     });
             },
         }
