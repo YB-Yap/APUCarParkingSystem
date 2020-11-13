@@ -52,7 +52,7 @@
 
 <script>
     export default {
-        props: ['user'],
+        props: ['user_id'],
         data() {
             return {
                 has_subscription: false,

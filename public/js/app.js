@@ -2111,6 +2111,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      apcard_balance: 0,
       parking_availability: 0,
       is_in_parking: false,
       car_state: {},
@@ -2119,15 +2120,23 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
+    this.getAPCardBalance();
     this.getCarParkAvailability();
     this.getCarState();
   },
   methods: {
-    getCarParkAvailability: function getCarParkAvailability() {
+    getAPCardBalance: function getAPCardBalance() {
       var _this = this;
 
+      axios.get('/apcard/balance').then(function (result) {
+        _this.apcard_balance = (result.data / 100).toFixed(2);
+      });
+    },
+    getCarParkAvailability: function getCarParkAvailability() {
+      var _this2 = this;
+
       axios.get('/api/carpark/availability').then(function (result) {
-        _this.parking_availability = result.data;
+        _this2.parking_availability = result.data;
       });
     },
     getLastestRecord: function getLastestRecord() {
@@ -2135,15 +2144,15 @@ __webpack_require__.r(__webpack_exports__);
       this.$forceUpdate();
     },
     getCarState: function getCarState() {
-      var _this2 = this;
+      var _this3 = this;
 
       axios.get('/parking/get-state').then(function (result) {
         // console.log(result.data)
         if (result.data.isInParking) {
-          _this2.is_in_parking = true;
-          _this2.car_state = result.data.data;
+          _this3.is_in_parking = true;
+          _this3.car_state = result.data.data;
         } else if (!result.data.isInParking && result.data.data != null) {
-          _this2.getLastestRecord();
+          _this3.getLastestRecord();
         }
       });
     },
@@ -2202,7 +2211,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['user'],
+  props: ['user_id'],
   methods: {
     logout: function logout() {
       this.$swal.fire({
@@ -2367,7 +2376,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['user'],
+  props: ['user_id'],
   data: function data() {
     return {
       apcard_balance: 0,
@@ -2570,7 +2579,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['user'],
+  props: ['user_id'],
   data: function data() {
     return {
       has_subscription: false,
@@ -48833,13 +48842,7 @@ var render = function() {
                         _c("span", [_vm._v("APCard Balance")]),
                         _c("br"),
                         _vm._v(" "),
-                        _c("span", [
-                          _vm._v(
-                            _vm._s(
-                              "RM" + (_vm.user.apcard_balance / 100).toFixed(2)
-                            )
-                          )
-                        ])
+                        _c("span", [_vm._v(_vm._s("RM" + this.apcard_balance))])
                       ])
                     ]
                   ),
@@ -49074,7 +49077,7 @@ var render = function() {
             {
               staticClass: "nav-link",
               attrs: {
-                to: { name: "subscription", params: { user: _vm.user } }
+                to: { name: "subscription", params: { user_id: _vm.user.id } }
               }
             },
             [
@@ -49088,7 +49091,9 @@ var render = function() {
             "router-link",
             {
               staticClass: "nav-link",
-              attrs: { to: { name: "simulator", params: { user: _vm.user } } }
+              attrs: {
+                to: { name: "simulator", params: { user_id: _vm.user.id } }
+              }
             },
             [
               _c("span", { staticClass: "nav-icon mdi mdi-alert-circle" }),
@@ -49101,7 +49106,7 @@ var render = function() {
             "router-link",
             {
               staticClass: "nav-link",
-              attrs: { to: { name: "more", params: { user: _vm.user } } }
+              attrs: { to: { name: "more", params: { user_id: _vm.user.id } } }
             },
             [
               _c("span", { staticClass: "nav-icon mdi mdi-dots-vertical" }),
@@ -49219,7 +49224,7 @@ var render = function() {
               {
                 staticClass: "more-link",
                 attrs: {
-                  to: { name: "subscription", params: { user: _vm.user } }
+                  to: { name: "subscription", params: { user_id: _vm.user_id } }
                 }
               },
               [
@@ -49242,7 +49247,9 @@ var render = function() {
               "router-link",
               {
                 staticClass: "more-link",
-                attrs: { to: { name: "simulator", params: { user: _vm.user } } }
+                attrs: {
+                  to: { name: "simulator", params: { user_id: _vm.user_id } }
+                }
               },
               [
                 _c("span", { staticClass: "more-icon mdi mdi-alert-circle" }, [

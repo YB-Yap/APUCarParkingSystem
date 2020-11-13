@@ -25,7 +25,7 @@
                         <div class="block-content text-center">
                             <span class="block-icon mdi mdi-credit-card"></span><br>
                             <span>APCard Balance</span><br>
-                            <span>{{ "RM" + (user.apcard_balance / 100).toFixed(2) }}</span>
+                            <span>{{ "RM" + this.apcard_balance }}</span>
                         </div>
                     </div>
                     <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
@@ -93,15 +93,15 @@
                     <span class="nav-icon mdi mdi-parking"></span>
                     <span>Parking Status</span>
                 </router-link>
-                <router-link :to="{name: 'subscription', params: {user: user}}" class="nav-link">
+                <router-link :to="{name: 'subscription', params: {user_id: user.id}}" class="nav-link">
                     <span class="nav-icon mdi mdi-calendar-clock"></span>
                     <span>Subscription</span>
                 </router-link>
-                <router-link :to="{name: 'simulator', params: {user: user}}" class="nav-link">
+                <router-link :to="{name: 'simulator', params: {user_id: user.id}}" class="nav-link">
                     <span class="nav-icon mdi mdi-alert-circle"></span>
                     <span>Simulator</span>
                 </router-link>
-                <router-link :to="{name: 'more', params: {user: user}}" class="nav-link">
+                <router-link :to="{name: 'more', params: {user_id: user.id}}" class="nav-link">
                     <span class="nav-icon mdi mdi-dots-vertical"></span>
                     <span>More</span>
                 </router-link>
@@ -117,6 +117,7 @@
         },
         data() {
             return {
+                apcard_balance: 0,
                 parking_availability: 0,
                 is_in_parking: false,
                 car_state: {},
@@ -125,10 +126,18 @@
             }
         },
         mounted() {
+            this.getAPCardBalance();
             this.getCarParkAvailability();
             this.getCarState();
         },
         methods: {
+            getAPCardBalance() {
+                axios
+                    .get('/apcard/balance')
+                    .then((result) => {
+                        this.apcard_balance = (result.data / 100).toFixed(2);
+                    });
+            },
             getCarParkAvailability() {
                 axios
                     .get('/api/carpark/availability')
