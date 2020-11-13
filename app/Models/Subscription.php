@@ -17,32 +17,12 @@ class Subscription extends Model
         return $this->belongsTo(User::class);
     }
 
-    // functions
-    public function purchase()
-    {
-        // is_active does not reach the limit
-        // create record
-
-    }
-
-    public function extend()
-    {
-        // valid_till + 1 month
-
-    }
-
-    public function terminate()
-    {
-        // is_active = false
-
-    }
-
-    public function scopeSubbedAmount($query)
+    public function scopeActiveSubsCount($query)
     {
         return $query->where('is_active', true)->count();
     }
 
-    public function scopeSubbedUsers($query)
+    public function scopeActiveSubs($query)
     {
         return $query->where('is_active', true)->get();
     }
