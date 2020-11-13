@@ -27,6 +27,10 @@ APU Car Parking System is able,
 - To automatically terminate expired subscriptions using time-based job scheduler.
 
 ## Change log
+######  13/11/2020
+- Completed `topup` logic
+- Updated `Simulator`, `Subscription` UI
+- 
 ######  12/11/2020
 - Added topup function for `Simulator`
 - Added purchase function for `Subscription`

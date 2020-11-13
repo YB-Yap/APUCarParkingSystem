@@ -24,7 +24,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/logout', 'UserController@logout')->name('user.logout');
 
 
-    Route::get('/apcard-balance', 'UserController@getApcardBalance');
+    Route::get('/apcard/balance', 'UserController@getApcardBalance');
+    Route::post('/apcard/topup', 'UserController@topupApcard');
+
     Route::get('/parking/get-state', 'ParkingController@getCarState');
     Route::get('/subscription/get-state', 'SubscriptionController@getSubsState');
     Route::post('/subscription/purchase', 'SubscriptionController@purchaseSubs');

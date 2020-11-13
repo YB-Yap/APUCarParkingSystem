@@ -18,6 +18,7 @@ server jobs
 simulator page
     - improve ui
     - flexible exit (exit at different time)
+    - use sweetalert as gate display
 
 dashboard
     - improve car status (show how many are currently in parking area)

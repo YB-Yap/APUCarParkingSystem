@@ -2356,6 +2356,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['user'],
   data: function data() {
@@ -2376,7 +2386,7 @@ __webpack_require__.r(__webpack_exports__);
     getAPCardBalance: function getAPCardBalance() {
       var _this = this;
 
-      axios.get('/apcard-balance').then(function (result) {
+      axios.get('/apcard/balance').then(function (result) {
         _this.apcard_balance = (result.data / 100).toFixed(2);
       });
     },
@@ -2462,32 +2472,27 @@ __webpack_require__.r(__webpack_exports__);
     topup: function topup(_amount) {
       var _this5 = this;
 
-      console.log("exiting ".concat(this.selected_parking_zone));
-      this.$swal.fire({
-        title: 'Exiting Car Park',
-        text: "You are about to exit Parking Zone ".concat(this.selected_parking_zone, "?"),
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Exit',
-        cancelButtonText: 'Cancel'
-      }).then(function (result) {
-        if (result.value) {
-          axios.post('/carpark/exit').then(function (res) {
-            if (res.data.isSuccess) {
-              _this5.is_in_parking = false;
-
-              _this5.getAPCardBalance();
-
-              _this5.$forceUpdate();
-            } else {
-              _this5.$swal.fire({
-                title: res.data.message,
-                text: "Please top up your APCard at least RM".concat((res.data.to_pay / 100).toFixed(2)),
-                icon: 'error',
-                confirmButtonText: 'Ok'
-              });
-            }
+      console.log("topup ".concat(_amount));
+      this.$swal({
+        title: 'Topup',
+        text: "Please wait while the system is adding RM".concat((_amount / 100).toFixed(2), " to your APCard"),
+        icon: 'info',
+        allowOutsideClick: false
+      });
+      this.$swal.showLoading();
+      axios.post('/apcard/topup', {
+        amount: _amount
+      }).then(function (res) {
+        if (res.status == 200) {
+          _this5.$swal.fire({
+            title: 'Topup',
+            text: 'Topup successful',
+            icon: 'success'
           });
+
+          _this5.getAPCardBalance();
+
+          _this5.$forceUpdate();
         }
       });
     } // checkTopup() {
@@ -2512,6 +2517,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -7142,7 +7149,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".topup-btn {\n  flex-grow: 1;\n  flex-shrink: 1;\n  margin: 8px;\n  padding: 10px 12px;\n}", ""]);
 
 // exports
 
@@ -7161,7 +7168,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".section-wrapper {\n  padding: 20px;\n  background-color: #303030;\n  color: #e8e6e6;\n  width: 100%;\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n  border-radius: 6px;\n  margin-bottom: 20px;\n}\n.section-wrapper .section-title {\n  color: #3490dc;\n  font-weight: 700;\n}\n.section-wrapper .disclaimer {\n  background-color: #424242;\n  margin: 25px 0px;\n  padding: 10px 20px;\n  border-radius: 5px;\n}\n.section-wrapper .disclaimer label {\n  margin: 0px;\n}", ""]);
+exports.push([module.i, "", ""]);
 
 // exports
 
@@ -49376,107 +49383,166 @@ var render = function() {
     _vm._m(0),
     _vm._v(" "),
     _c("div", { staticClass: "page-content" }, [
-      _c("h1", [_vm._v("Parking gate")]),
-      _vm._v(" "),
-      _vm.is_in_parking
-        ? _c("span", [
-            _vm._v(
-              "Your car is currently parked in Zone " +
-                _vm._s(_vm.car_state.parking_zone) +
-                "."
+      _c("div", { staticClass: "center-container" }, [
+        _c("h1", [_vm._v("Parking gate")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "section-wrapper" }, [
+          _vm.is_in_parking
+            ? _c("span", [
+                _vm._v(
+                  "Your car is currently parked in Zone " +
+                    _vm._s(_vm.car_state.parking_zone) +
+                    "."
+                )
+              ])
+            : _c("span", [_vm._v("Your car is not parked in any Zone.")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "parkingZone-select" } }, [
+              _vm._v("Please select one parking zone to enter.")
+            ]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.selected_parking_zone,
+                    expression: "selected_parking_zone"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  id: "parkingZone-select",
+                  disabled: _vm.is_in_parking
+                },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.selected_parking_zone = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              [
+                _c("option", { attrs: { value: "A" } }, [_vm._v("A")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "B" } }, [_vm._v("B")])
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "d-flex justify-content-between" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-success",
+                attrs: { disabled: _vm.is_in_parking },
+                on: {
+                  click: function($event) {
+                    return _vm.enterCarPark()
+                  }
+                }
+              },
+              [_vm._v("Enter Car Park")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-danger",
+                attrs: { disabled: !_vm.is_in_parking },
+                on: {
+                  click: function($event) {
+                    return _vm.exitCarPark()
+                  }
+                }
+              },
+              [_vm._v("Exit Car Park")]
             )
           ])
-        : _c("span", [_vm._v("Your car is not parked in any Zone.")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "parkingZone-select" } }, [
-          _vm._v("Please select one parking zone to enter.")
         ]),
         _vm._v(" "),
-        _c(
-          "select",
-          {
-            directives: [
+        _c("h1", [_vm._v("APCard")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "section-wrapper" }, [
+          _c("span", [
+            _vm._v(
+              "Your APCard currently has RM" + _vm._s(_vm.apcard_balance) + "."
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("h3", [_vm._v("Topup")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "section-wrapper" }, [
+          _c("span", [_vm._v("Choose how much you want to topup")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "d-flex flex-wrap flex-row mt-2" }, [
+            _c(
+              "button",
               {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.selected_parking_zone,
-                expression: "selected_parking_zone"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { id: "parkingZone-select", disabled: _vm.is_in_parking },
-            on: {
-              change: function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.selected_parking_zone = $event.target.multiple
-                  ? $$selectedVal
-                  : $$selectedVal[0]
-              }
-            }
-          },
-          [
-            _c("option", { attrs: { value: "A" } }, [_vm._v("A")]),
+                staticClass: "btn btn-primary topup-btn",
+                on: {
+                  click: function($event) {
+                    return _vm.topup(500)
+                  }
+                }
+              },
+              [_vm._v("RM5.00")]
+            ),
             _vm._v(" "),
-            _c("option", { attrs: { value: "B" } }, [_vm._v("B")])
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-success",
-          attrs: { disabled: _vm.is_in_parking },
-          on: {
-            click: function($event) {
-              return _vm.enterCarPark()
-            }
-          }
-        },
-        [_vm._v("Enter Car Park")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-danger",
-          attrs: { disabled: !_vm.is_in_parking },
-          on: {
-            click: function($event) {
-              return _vm.exitCarPark()
-            }
-          }
-        },
-        [_vm._v("Exit Car Park")]
-      ),
-      _vm._v(" "),
-      _c("h1", [_vm._v("APCard")]),
-      _vm._v(" "),
-      _c("span", [
-        _vm._v(
-          "Your APCard currently has RM" + _vm._s(_vm.apcard_balance) + "."
-        )
-      ]),
-      _vm._v(" "),
-      _c("h3", [_vm._v("Topup")]),
-      _vm._v(" "),
-      _c("span", [_vm._v("Choose how much you want to topup")]),
-      _vm._v(" "),
-      _c("button", { staticClass: "btn btn-primary" }, [_vm._v("RM5.00")]),
-      _vm._v(" "),
-      _c("button", { staticClass: "btn btn-primary" }, [_vm._v("RM10.00")]),
-      _vm._v(" "),
-      _c("button", { staticClass: "btn btn-primary" }, [_vm._v("RM50.00")]),
-      _vm._v(" "),
-      _c("button", { staticClass: "btn btn-primary" }, [_vm._v("RM100.00")])
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary topup-btn",
+                on: {
+                  click: function($event) {
+                    return _vm.topup(1000)
+                  }
+                }
+              },
+              [_vm._v("RM10.00")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary topup-btn",
+                on: {
+                  click: function($event) {
+                    return _vm.topup(5000)
+                  }
+                }
+              },
+              [_vm._v("RM50.00")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary topup-btn",
+                on: {
+                  click: function($event) {
+                    return _vm.topup(10000)
+                  }
+                }
+              },
+              [_vm._v("RM100.00")]
+            )
+          ])
+        ])
+      ])
     ])
   ])
 }
@@ -49522,7 +49588,11 @@ var render = function() {
           ? _c(
               "div",
               [
-                _c("span", [_vm._v("Your subscription is currently active.")]),
+                _c("div", { staticClass: "section-wrapper" }, [
+                  _vm._v(
+                    "\n                    Your subscription is currently active.\n                "
+                  )
+                ]),
                 _vm._v(" "),
                 _vm._l(_vm.subscription_state, function(sub, index) {
                   return _c(
@@ -49562,15 +49632,17 @@ var render = function() {
         _vm._v(" "),
         _c("h1", [_vm._v("Season Parking Subscription")]),
         _vm._v(" "),
-        _c("div", { staticClass: "section-wrapper" }, [
-          _vm._v(
-            "\n                Availability: " +
-              _vm._s(_vm.subscription_availability) +
-              " of " +
-              _vm._s(_vm.subscription_size) +
-              "\n            "
-          )
-        ]),
+        !_vm.has_subscription
+          ? _c("div", { staticClass: "section-wrapper" }, [
+              _vm._v(
+                "\n                Availability: " +
+                  _vm._s(_vm.subscription_availability) +
+                  " of " +
+                  _vm._s(_vm.subscription_size) +
+                  "\n            "
+              )
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _vm.subscription_availability == 0 && _vm.has_subscription == false
           ? _c("div", { staticClass: "section-wrapper" }, [

@@ -7,7 +7,9 @@
             <div class="center-container">
                 <h1>Subscription status</h1>
                 <div v-if="has_subscription">
-                    <span>Your subscription is currently active.</span>
+                    <div class="section-wrapper">
+                        Your subscription is currently active.
+                    </div>
                     <div class="section-wrapper" v-for="(sub, index) in subscription_state" :key="index">
                         <div :class="sub.is_active ? 'text-success' : 'text-info'">
                             Valid from: {{ sub.valid_at }}<br>
@@ -21,7 +23,7 @@
                 </div>
 
                 <h1>Season Parking Subscription</h1>
-                <div class="section-wrapper">
+                <div class="section-wrapper" v-if="!has_subscription">
                     Availability: {{ subscription_availability }} of {{ subscription_size }}
                 </div>
                 <div class="section-wrapper" v-if="subscription_availability == 0 && has_subscription == false">
@@ -128,30 +130,6 @@
 <style lang="scss">
     @import './resources/sass/_variables.scss';
 
-    .section-wrapper {
-        padding: 20px;
-        background-color: $secondary-bg;
-        color: $main-txt;
-        width: 100%;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        border-radius: 6px;
-        margin-bottom: 20px;
 
-        .section-title {
-            color: $blue;
-            font-weight: 700;
-        }
-
-        .disclaimer {
-            background-color: $tertiary-bg;
-            margin: 25px 0px;
-            padding: 10px 20px;
-            border-radius: 5px;
-
-            label {
-                margin: 0px;
-            }
-        }
-    }
 </style>
 

@@ -54,4 +54,30 @@
             max-width: 640px;
         }
     }
+
+    .section-wrapper {
+        padding: 20px;
+        background-color: $secondary-bg;
+        color: $main-txt;
+        width: 100%;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        border-radius: 6px;
+        margin-bottom: 20px;
+
+        .section-title {
+            color: $blue;
+            font-weight: 700;
+        }
+
+        .disclaimer {
+            background-color: $tertiary-bg;
+            margin: 25px 0px;
+            padding: 10px 20px;
+            border-radius: 5px;
+
+            label {
+                margin: 0px;
+            }
+        }
+    }
 }
