@@ -36,7 +36,7 @@ if (!function_exists('getSubsAvailability')) {
 
         // get subscription size
         $subscription_size = Config::subscriptionQuantity()->value;
-        $subbed_amount = Subscription::subbedAmount();
+        $subbed_amount = Subscription::activeSubsCount();
 
         // subscription is not full
         if ($subbed_amount < $subscription_size) {
