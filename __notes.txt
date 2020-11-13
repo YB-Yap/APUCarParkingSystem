@@ -2,12 +2,12 @@ parking controller
     - TBT - price calculation for zone b
     - TBT - if enter more than one time in a day, recalculate max price
     - TBT - deduct apcard balance
-    - subscription if statement
+    - TBT - subscription if statement
     - exit parking logic probably need to convert to function for fee estimation
 
 subscription page
     - TBT - purchase
-    - terminate
+    - terminate (assumption: terminate all subscriptions if the user has more than one month)
     - estimate next available
 
 server jobs

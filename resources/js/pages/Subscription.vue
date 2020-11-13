@@ -19,7 +19,9 @@
                     </div>
                 </div>
                 <div v-else>
-                    <span>You don't have any subscription.</span>
+                    <div class="section-wrapper">
+                        You don't have any subscription.
+                    </div>
                 </div>
 
                 <h1>Season Parking Subscription</h1>
@@ -32,7 +34,7 @@
                 </div>
                 <div class="section-wrapper" v-else>
                     <h5 class="section-title">
-                        {{ has_subscription ? 'Extend your subscription' : 'Purchase a subscription' }}
+                        {{ has_subscription ? 'Extend my subscription' : 'Purchase a subscription' }}
                     </h5>
                     <span class="mdi mdi-credit-card-outline"> RM 60.00</span><br>
                     <span class="mdi mdi-timer-outline"> {{ valid_from }} ~ {{ valid_till }}</span><br>
@@ -43,6 +45,22 @@
                     </div>
                     <button class="btn btn-primary d-block w-100 mt-3" :disabled="!disclaimer_check" @click="purchaseSubs()">
                         {{ has_subscription ? 'Extend subscription' : 'Purchase subscription' }}
+                    </button>
+                </div>
+                <hr>
+                <h5 class="text-danger text-center mt-4" v-if="has_subscription">** Danger **</h5>
+                <div class="terminate-section section-wrapper border border-danger" v-if="has_subscription">
+                    <h5 class="section-title">Terminate my subscription</h5>
+                    <p>
+                        Before proceeding, we would like to inform you that this action is <strong>irreversible</strong>
+                        and all your subscriptions will be terminated.
+                    </p>
+                    <div class="disclaimer border" :class="!termination_check ? 'border-danger' : 'border-success'">
+                        <input type="checkbox" class="mr-2" v-model="termination_check">
+                        <label>Yes, terminate all my subscriptions.</label>
+                    </div>
+                    <button class="btn btn-danger d-block w-100 mt-3" :disabled="!termination_check" @click="terminateSubs()">
+                        Terminate subscription
                     </button>
                 </div>
             </div>
@@ -63,6 +81,7 @@
                 valid_from: '',
                 valid_till: '',
                 disclaimer_check: false,
+                termination_check: false,
             }
         },
         mounted() {
@@ -79,6 +98,9 @@
                         if (result.data.hasSubscription) {
                             this.has_subscription = true;
                             this.subscription_state = result.data.data;
+                        } else {
+                            this.has_subscription = false;
+                            this.subscription_state = [];
                         }
 
                         if (this.has_subscription) {
@@ -141,6 +163,32 @@
                         }
                     });
             },
+            terminateSubs() {
+                this.$swal({
+                    title: 'Terminating subscription',
+                    text: 'Please wait.',
+                    icon: 'info',
+                    allowOutsideClick: false,
+                })
+                this.$swal.showLoading();
+
+                axios
+                    .post('/subscription/terminate')
+                    .then((result) => {
+                        if (result.status == 200) {
+                            this.$swal.fire({
+                                title: 'Terminating Subscription',
+                                text: 'Teminate successful',
+                                icon: 'success',
+                            })
+                            this.getSubscriptionState();
+                            this.getSubscriptionAvailability();
+                            this.getSubscriptionSize();
+                            this.termination_check = false;
+                            this.$forceUpdate();
+                        }
+                    });
+            },
         }
     }
 </script>
@@ -148,6 +196,8 @@
 <style lang="scss">
     @import './resources/sass/_variables.scss';
 
-
+    .terminate-section {
+        background-color: $tertiary-bg !important;
+    }
 </style>
 

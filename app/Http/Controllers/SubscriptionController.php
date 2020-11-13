@@ -100,9 +100,7 @@ class SubscriptionController extends Controller
     {
         $user = Auth::user();
 
-        $subscriptions = Subscription::where('user_id', $user->id)
-                            ->where('is_expired', false)
-                            ->get();
+        $subscriptions = $user->subscription()->where('is_expired', false)->get();
 
         if ($subscriptions->isEmpty()) {
             // no subscription
@@ -137,6 +135,17 @@ class SubscriptionController extends Controller
 
         return response()->json([
             'message' => 'Purchase successful',
+        ], 200);
+    }
+
+    public function terminateSubs(Request $request)
+    {
+        $user = Auth::user();
+
+        $user->subscription()->where('is_expired', false)->update(['is_active' => false, 'is_expired' => true]);
+
+        return response()->json([
+            'message' => 'Terminate successful',
         ], 200);
     }
 }

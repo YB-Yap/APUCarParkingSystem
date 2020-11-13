@@ -28,11 +28,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/apcard/topup', 'UserController@topupApcard');
 
     Route::get('/parking/get-state', 'ParkingController@getCarState');
+    Route::post('/parking/enter', 'ParkingController@enterCarPark');
+    Route::post('/parking/exit', 'ParkingController@exitCarPark');
+
     Route::get('/subscription/get-state', 'SubscriptionController@getSubsState');
     Route::post('/subscription/purchase', 'SubscriptionController@purchaseSubs');
+    Route::post('/subscription/terminate', 'SubscriptionController@terminateSubs');
 
-    Route::post('/carpark/enter', 'ParkingController@enterCarPark');
-    Route::post('/carpark/exit', 'ParkingController@exitCarPark');
 
 
     Route::get('/{vue_capture?}', function () {

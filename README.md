@@ -12,7 +12,7 @@ APU Car Parking System allows **students**,
 - *TBT* To check the availability of season parking subscription.
 - *TBT* To subscribe for a monthly season parking.
 - *TBT* To check the subscription date and expiry date of subscribed season parking.
-- To terminate season parking subscription.
+- *TBT* To terminate season parking subscription.
 - *TBT* To search for empty parking space before charging when the parking area is full for 15 minutes.
   
 APU Car Parking System allows **admin**,
@@ -30,7 +30,9 @@ APU Car Parking System is able,
 ######  13/11/2020
 - Completed `topup` logic
 - Updated `Simulator`, `Subscription` UI
-- 
+- Completed `Subscription` purchase logic
+- Integrated `Subscription` into `exitCarPark()`
+- Added `Subscription termination`
 ######  12/11/2020
 - Added topup function for `Simulator`
 - Added purchase function for `Subscription`

@@ -2294,14 +2294,14 @@ __webpack_require__.r(__webpack_exports__);
     getCarParkAvailability: function getCarParkAvailability() {
       var _this2 = this;
 
-      axios.get('/api/carpark/availability').then(function (result) {
+      axios.get('/api/parking/availability').then(function (result) {
         _this2.parking_availability = result.data;
       });
     },
     getCarParkSize: function getCarParkSize() {
       var _this3 = this;
 
-      axios.get('/api/carpark/size').then(function (result) {
+      axios.get('/api/parking/size').then(function (result) {
         _this3.parking_size = result.data;
       });
     }
@@ -2425,7 +2425,7 @@ __webpack_require__.r(__webpack_exports__);
         cancelButtonText: 'Cancel'
       }).then(function (result) {
         if (result.value) {
-          axios.post('/carpark/enter', {
+          axios.post('/parking/enter', {
             parking_zone: _this3.selected_parking_zone
           }).then(function (res) {
             if (res.status == 200) {
@@ -2459,7 +2459,7 @@ __webpack_require__.r(__webpack_exports__);
         cancelButtonText: 'Cancel'
       }).then(function (result) {
         if (result.value) {
-          axios.post('/carpark/exit').then(function (res) {
+          axios.post('/parking/exit').then(function (res) {
             if (res.data.isSuccess) {
               _this4.is_in_parking = false;
 
@@ -2583,6 +2583,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['user_id'],
   data: function data() {
@@ -2594,7 +2612,8 @@ __webpack_require__.r(__webpack_exports__);
       estimated_date: '',
       valid_from: '',
       valid_till: '',
-      disclaimer_check: false
+      disclaimer_check: false,
+      termination_check: false
     };
   },
   mounted: function mounted() {
@@ -2612,6 +2631,9 @@ __webpack_require__.r(__webpack_exports__);
         if (result.data.hasSubscription) {
           _this.has_subscription = true;
           _this.subscription_state = result.data.data;
+        } else {
+          _this.has_subscription = false;
+          _this.subscription_state = [];
         }
 
         if (_this.has_subscription) {
@@ -2683,6 +2705,36 @@ __webpack_require__.r(__webpack_exports__);
           _this4.disclaimer_check = false;
 
           _this4.$forceUpdate();
+        }
+      });
+    },
+    terminateSubs: function terminateSubs() {
+      var _this5 = this;
+
+      this.$swal({
+        title: 'Terminating subscription',
+        text: 'Please wait.',
+        icon: 'info',
+        allowOutsideClick: false
+      });
+      this.$swal.showLoading();
+      axios.post('/subscription/terminate').then(function (result) {
+        if (result.status == 200) {
+          _this5.$swal.fire({
+            title: 'Terminating Subscription',
+            text: 'Teminate successful',
+            icon: 'success'
+          });
+
+          _this5.getSubscriptionState();
+
+          _this5.getSubscriptionAvailability();
+
+          _this5.getSubscriptionSize();
+
+          _this5.termination_check = false;
+
+          _this5.$forceUpdate();
         }
       });
     }
@@ -7207,7 +7259,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".terminate-section {\n  background-color: #424242 !important;\n}", ""]);
 
 // exports
 
@@ -49664,7 +49716,11 @@ var render = function() {
               2
             )
           : _c("div", [
-              _c("span", [_vm._v("You don't have any subscription.")])
+              _c("div", { staticClass: "section-wrapper" }, [
+                _vm._v(
+                  "\n                    You don't have any subscription.\n                "
+                )
+              ])
             ]),
         _vm._v(" "),
         _c("h1", [_vm._v("Season Parking Subscription")]),
@@ -49700,7 +49756,7 @@ var render = function() {
                   "\n                    " +
                     _vm._s(
                       _vm.has_subscription
-                        ? "Extend your subscription"
+                        ? "Extend my subscription"
                         : "Purchase a subscription"
                     ) +
                     "\n                "
@@ -49803,7 +49859,105 @@ var render = function() {
                   )
                 ]
               )
+            ]),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _vm.has_subscription
+          ? _c("h5", { staticClass: "text-danger text-center mt-4" }, [
+              _vm._v("** Danger **")
             ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.has_subscription
+          ? _c(
+              "div",
+              {
+                staticClass:
+                  "terminate-section section-wrapper border border-danger"
+              },
+              [
+                _c("h5", { staticClass: "section-title" }, [
+                  _vm._v("Terminate my subscription")
+                ]),
+                _vm._v(" "),
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "disclaimer border",
+                    class: !_vm.termination_check
+                      ? "border-danger"
+                      : "border-success"
+                  },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.termination_check,
+                          expression: "termination_check"
+                        }
+                      ],
+                      staticClass: "mr-2",
+                      attrs: { type: "checkbox" },
+                      domProps: {
+                        checked: Array.isArray(_vm.termination_check)
+                          ? _vm._i(_vm.termination_check, null) > -1
+                          : _vm.termination_check
+                      },
+                      on: {
+                        change: function($event) {
+                          var $$a = _vm.termination_check,
+                            $$el = $event.target,
+                            $$c = $$el.checked ? true : false
+                          if (Array.isArray($$a)) {
+                            var $$v = null,
+                              $$i = _vm._i($$a, $$v)
+                            if ($$el.checked) {
+                              $$i < 0 &&
+                                (_vm.termination_check = $$a.concat([$$v]))
+                            } else {
+                              $$i > -1 &&
+                                (_vm.termination_check = $$a
+                                  .slice(0, $$i)
+                                  .concat($$a.slice($$i + 1)))
+                            }
+                          } else {
+                            _vm.termination_check = $$c
+                          }
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("label", [
+                      _vm._v("Yes, terminate all my subscriptions.")
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger d-block w-100 mt-3",
+                    attrs: { disabled: !_vm.termination_check },
+                    on: {
+                      click: function($event) {
+                        return _vm.terminateSubs()
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                    Terminate subscription\n                "
+                    )
+                  ]
+                )
+              ]
+            )
+          : _vm._e()
       ])
     ])
   ])
@@ -49815,6 +49969,20 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "page-header" }, [
       _c("h1", { staticClass: "page-title" }, [_vm._v("Subscription")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v(
+        "\n                    Before proceeding, we would like to inform you that this action is "
+      ),
+      _c("strong", [_vm._v("irreversible")]),
+      _vm._v(
+        "\n                    and all your subscriptions will be terminated.\n                "
+      )
     ])
   }
 ]
