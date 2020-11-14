@@ -2106,6 +2106,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     user: Object
@@ -2113,17 +2126,34 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       apcard_balance: 0,
-      parking_availability: [],
-      is_in_parking: false,
-      car_state: {},
-      estimated_fee: 0,
-      has_parked_today: false
+      parking: {
+        availability: {},
+        is_in_parking: false,
+        car_state: {},
+        estimated_fee: 0,
+        has_parked_today: false,
+        latest_record: {
+          hours: 0,
+          minutes: 0
+        }
+      },
+      subscription: {
+        availability: 0,
+        size: 0,
+        has_subs: false,
+        state: [],
+        valid_from: '',
+        valid_till: ''
+      }
     };
   },
   mounted: function mounted() {
     this.getAPCardBalance();
     this.getCarParkAvailability();
     this.getCarState();
+    this.getSubscriptionState();
+    this.getSubscriptionAvailability();
+    this.getSubscriptionSize();
   },
   methods: {
     getAPCardBalance: function getAPCardBalance() {
@@ -2137,24 +2167,72 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       axios.get('/api/parking/availability').then(function (result) {
-        _this2.parking_availability = result.data;
+        _this2.parking.availability = result.data;
       });
-    },
-    getLastestRecord: function getLastestRecord() {
-      this.has_parked_today = true;
-      this.$forceUpdate();
     },
     getCarState: function getCarState() {
       var _this3 = this;
 
       axios.get('/parking/get-state').then(function (result) {
-        // console.log(result.data)
+        console.log(result.data);
+
         if (result.data.isInParking) {
-          _this3.is_in_parking = true;
-          _this3.car_state = result.data.data;
-        } else if (!result.data.isInParking && result.data.data != null) {
-          _this3.getLastestRecord();
+          _this3.parking.is_in_parking = true;
+          _this3.parking.car_state = result.data.data[0];
         }
+
+        if (result.data.hasParkedToday) {
+          _this3.parking.has_parked_today = true;
+          _this3.parking.latest_record = result.data.data[1];
+          _this3.parking.latest_record.hours = Math.floor(_this3.parking.latest_record.duration);
+          var minutes = (_this3.parking.latest_record.duration - _this3.parking.latest_record.hours) * 60;
+          _this3.parking.latest_record.minutes = Math.floor(minutes);
+        }
+
+        _this3.$forceUpdate();
+      });
+    },
+    toDateString: function toDateString(_date) {
+      return _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
+    },
+    getSubscriptionState: function getSubscriptionState() {
+      var _this4 = this;
+
+      axios.get('/subscription/get-state').then(function (result) {
+        console.log(result.data);
+
+        if (result.data.hasSubscription) {
+          _this4.subscription.has_subs = true;
+          _this4.subscription.state = result.data.data;
+        } else {
+          _this4.subscription.has_subs = false;
+          _this4.subscription.state = [];
+        }
+
+        if (_this4.subscription.has_subs) {
+          var last_index = _this4.subscription.state.length - 1;
+
+          var _from = new Date(_this4.subscription.state[0].valid_at);
+
+          var _till = new Date(_this4.subscription.state[last_index].valid_till);
+
+          _this4.subscription.valid_from = _this4.toDateString(_from);
+          _this4.subscription.valid_till = _this4.toDateString(_till);
+        }
+      });
+    },
+    getSubscriptionAvailability: function getSubscriptionAvailability() {
+      var _this5 = this;
+
+      axios.get('/api/subscription/availability').then(function (result) {
+        _this5.subscription.availability = result.data;
+      });
+    },
+    getSubscriptionSize: function getSubscriptionSize() {
+      var _this6 = this;
+
+      axios.get('/api/subscription/size').then(function (result) {
+        _this6.subscription.size = result.data;
       });
     },
     isDashboard: function isDashboard() {
@@ -2289,7 +2367,7 @@ __webpack_require__.r(__webpack_exports__);
 
         if (result.data.isInParking) {
           _this.is_in_parking = true;
-          _this.car_state = result.data.data;
+          _this.car_state = result.data.data[0];
         }
       });
     },
@@ -2409,7 +2487,7 @@ __webpack_require__.r(__webpack_exports__);
 
         if (result.data.isInParking) {
           _this2.is_in_parking = true;
-          _this2.car_state = result.data.data;
+          _this2.car_state = result.data.data[0];
           _this2.selected_parking_zone = _this2.car_state.parking_zone;
         }
       });
@@ -2624,6 +2702,9 @@ __webpack_require__.r(__webpack_exports__);
     this.getSubscriptionSize();
   },
   methods: {
+    toDateString: function toDateString(_date) {
+      return _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
+    },
     getSubscriptionState: function getSubscriptionState() {
       var _this = this;
 
@@ -2645,19 +2726,19 @@ __webpack_require__.r(__webpack_exports__);
 
           _date.setDate(_date.getDate() + 1);
 
-          _this.valid_from = _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
+          _this.valid_from = _this.toDateString(_date);
 
           _date.setDate(_date.getDate() + 30);
 
-          _this.valid_till = _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
+          _this.valid_till = _this.toDateString(_date);
         } else {
           var _date2 = new Date();
 
-          _this.valid_from = _date2.getFullYear() + '-' + ("0" + (_date2.getMonth() + 1)).slice(-2) + '-' + ("0" + _date2.getDate()).slice(-2);
+          _this.valid_from = _this.toDateString(_date2);
 
           _date2.setDate(_date2.getDate() + 30);
 
-          _this.valid_till = _date2.getFullYear() + '-' + ("0" + (_date2.getMonth() + 1)).slice(-2) + '-' + ("0" + _date2.getDate()).slice(-2);
+          _this.valid_till = _this.toDateString(_date2);
         }
       });
     },
@@ -48940,24 +49021,142 @@ var render = function() {
                       staticClass: "col-md-6 col-lg-4 dashboard-block"
                     },
                     [
-                      _c("div", { staticClass: "block-content" }, [
-                        _vm._m(0),
-                        _vm._v(" "),
-                        _c("span", [
-                          _vm._v(
-                            "Zone A: " + _vm._s(_vm.parking_availability.zone_a)
-                          )
-                        ]),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c("span", [
-                          _vm._v(
-                            "Zone B: " + _vm._s(_vm.parking_availability.zone_b)
-                          )
-                        ])
-                      ])
+                      _c(
+                        "div",
+                        {
+                          staticClass: "block-content",
+                          staticStyle: { height: "200px" }
+                        },
+                        [
+                          _vm._m(0),
+                          _vm._v(" "),
+                          _vm.parking.is_in_parking
+                            ? _c("div", [
+                                _c("span", [
+                                  _vm._v(
+                                    "Your car is currently parked in Zone " +
+                                      _vm._s(
+                                        _vm.parking.car_state.parking_zone
+                                      ) +
+                                      "."
+                                  )
+                                ]),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c("span", [
+                                  _vm._v(
+                                    "Enter time: " +
+                                      _vm._s(_vm.parking.car_state.time_in)
+                                  )
+                                ]),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c("span", [
+                                  _vm._v(
+                                    "Estimated parking fee: RM" +
+                                      _vm._s(_vm.parking.estimated_fee)
+                                  )
+                                ])
+                              ])
+                            : _c("div", [
+                                _c("span", [
+                                  _vm._v("Your car is not parked in any Zone.")
+                                ]),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c("span", [
+                                  _vm._v(
+                                    "Zone A: " +
+                                      _vm._s(_vm.parking.availability.zone_a)
+                                  )
+                                ]),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c("span", [
+                                  _vm._v(
+                                    "Zone B: " +
+                                      _vm._s(_vm.parking.availability.zone_b)
+                                  )
+                                ])
+                              ])
+                        ]
+                      )
                     ]
                   ),
+                  _vm._v(" "),
+                  _vm.parking.has_parked_today
+                    ? _c(
+                        "div",
+                        {
+                          directives: [
+                            { name: "masonry-tile", rawName: "v-masonry-tile" }
+                          ],
+                          staticClass: "col-md-6 col-lg-4 dashboard-block"
+                        },
+                        [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "block-content",
+                              staticStyle: { height: "200px" }
+                            },
+                            [
+                              _vm._m(1),
+                              _vm._v(" "),
+                              _c("span", [
+                                _vm._v(
+                                  "Parking Zone: " +
+                                    _vm._s(
+                                      _vm.parking.latest_record.parking_zone
+                                    )
+                                )
+                              ]),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c("span", [
+                                _vm._v(
+                                  "Enter time: " +
+                                    _vm._s(_vm.parking.latest_record.time_in)
+                                )
+                              ]),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c("span", [
+                                _vm._v(
+                                  "Exit time: " +
+                                    _vm._s(_vm.parking.latest_record.time_out)
+                                )
+                              ]),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c("span", [
+                                _vm._v(
+                                  "Duration: " +
+                                    _vm._s(
+                                      _vm.parking.latest_record.hours +
+                                        " hour(s) " +
+                                        _vm.parking.latest_record.minutes +
+                                        " minute(s)"
+                                    )
+                                )
+                              ]),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c("span", [
+                                _vm._v(
+                                  "Parking fee: RM" +
+                                    _vm._s(
+                                      (
+                                        _vm.parking.latest_record.fee / 100
+                                      ).toFixed(2)
+                                    )
+                                )
+                              ])
+                            ]
+                          )
+                        ]
+                      )
+                    : _vm._e(),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -48975,109 +49174,63 @@ var render = function() {
                           staticStyle: { height: "200px" }
                         },
                         [
-                          _vm._m(1),
+                          _vm._m(2),
                           _vm._v(" "),
-                          _vm.is_in_parking
+                          _vm.subscription.has_subs
                             ? _c("div", [
-                                _c("span", [
-                                  _vm._v(
-                                    "Your car is currently parked in Zone " +
-                                      _vm._s(_vm.car_state.parking_zone) +
-                                      "."
-                                  )
-                                ]),
+                                _vm._v(
+                                  "\n                            Your subscription is currently active."
+                                ),
                                 _c("br"),
-                                _vm._v(" "),
-                                _c("span", [
-                                  _vm._v(
-                                    "Enter time: " +
-                                      _vm._s(_vm.car_state.time_in)
-                                  )
-                                ]),
+                                _vm._v(
+                                  "\n                            Valid from: " +
+                                    _vm._s(_vm.subscription.valid_from)
+                                ),
                                 _c("br"),
-                                _vm._v(" "),
-                                _c("span", [
-                                  _vm._v(
-                                    "Estimated parking fee: RM" +
-                                      _vm._s(_vm.estimated_fee)
-                                  )
-                                ])
+                                _vm._v(
+                                  "\n                            Valid till: " +
+                                    _vm._s(_vm.subscription.valid_till) +
+                                    "\n                        "
+                                )
                               ])
                             : _c("div", [
-                                _c("span", [
-                                  _vm._v("Your car is not parked in any Zone.")
-                                ])
+                                _vm._v(
+                                  "\n                            You don't have any subscription."
+                                ),
+                                _c("br"),
+                                _vm._v(
+                                  "\n                            Availability: " +
+                                    _vm._s(_vm.subscription.availability) +
+                                    " of " +
+                                    _vm._s(_vm.subscription.size) +
+                                    "\n                            "
+                                ),
+                                _vm.subscription.availability == 0
+                                  ? _c("div", [
+                                      _c("span", [
+                                        _vm._v(
+                                          "Sorry, there are no subscription available at the moment."
+                                        )
+                                      ]),
+                                      _c("br"),
+                                      _vm._v(" "),
+                                      _c("span", [
+                                        _vm._v(
+                                          "Estimated restock date: " +
+                                            _vm._s(
+                                              _vm.subscription.estimated_date
+                                            )
+                                        )
+                                      ])
+                                    ])
+                                  : _vm._e()
                               ])
                         ]
                       )
                     ]
                   ),
                   _vm._v(" "),
-                  !_vm.is_in_parking && _vm.has_parked_today
-                    ? _c(
-                        "div",
-                        {
-                          directives: [
-                            { name: "masonry-tile", rawName: "v-masonry-tile" }
-                          ],
-                          staticClass: "col-md-6 col-lg-4 dashboard-block"
-                        },
-                        [
-                          _c(
-                            "div",
-                            {
-                              staticClass: "block-content",
-                              staticStyle: { height: "200px" }
-                            },
-                            [
-                              _vm._m(2),
-                              _vm._v(" "),
-                              _c("span", [
-                                _vm._v(
-                                  "Parking Zone: " +
-                                    _vm._s(_vm.latest_record.parking_zone) +
-                                    "."
-                                )
-                              ]),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c("span", [
-                                _vm._v(
-                                  "Enter time: " +
-                                    _vm._s(_vm.latest_record.time_in)
-                                )
-                              ]),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c("span", [
-                                _vm._v(
-                                  "Exit time: " +
-                                    _vm._s(_vm.latest_record.time_out)
-                                )
-                              ]),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c("span", [
-                                _vm._v(
-                                  "Duration: " +
-                                    _vm._s(_vm.latest_record.duration)
-                                )
-                              ]),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c("span", [
-                                _vm._v(
-                                  "Parking fee: RM" +
-                                    _vm._s(_vm.latest_record.fee)
-                                )
-                              ])
-                            ]
-                          )
-                        ]
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm._l(5, function(item) {
+                  _vm._l(4, function(item) {
                     return _c(
                       "div",
                       {
@@ -49223,17 +49376,6 @@ var staticRenderFns = [
     return _c("h5", { staticClass: "block-title" }, [
       _c("span", { staticClass: "mdi mdi-parking" }),
       _vm._v(
-        "\n                            Car Park Availability\n                        "
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h5", { staticClass: "block-title" }, [
-      _c("span", { staticClass: "mdi mdi-eye" }),
-      _vm._v(
         "\n                            Parking Status\n                        "
       )
     ])
@@ -49243,9 +49385,20 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("h5", { staticClass: "block-title" }, [
-      _c("span", { staticClass: "mdi mdi-eye" }),
+      _c("span", { staticClass: "mdi mdi-parking" }),
       _vm._v(
-        "\n                            Today, you have parked at ...\n                        "
+        "\n                            Previously, you have parked at ...\n                        "
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h5", { staticClass: "block-title" }, [
+      _c("span", { staticClass: "mdi mdi-calendar-clock" }),
+      _vm._v(
+        "\n                            Subscription Status\n                        "
       )
     ])
   }

@@ -133,18 +133,6 @@ class ParkingController extends Controller
         ], 200);
     }
 
-    public function getLatestState()
-    {
-        $user = Auth::user();
-        $today = Carbon::now()->toDateString();
-
-        $user_car = $user->parking()->whereDate('time_in', $today)->whereNotNull('time_out')->latest('updated_at')->first();
-
-        return response()->json([
-            'data' => new ParkingResource($user_car)
-        ], 200);
-    }
-
     public function enterCarPark(Request $request)
     {
         $now = Carbon::now();

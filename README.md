@@ -6,7 +6,7 @@ FYP iS fUn
 APU Car Parking System allows **students**,
 - **DONE** To login and logout from the system.
 - *TBT* To check the availability of car parking areas.
-- To check the time of entry and exit of the day.
+- *TBT* To check the time of entry and exit of the day.
 - To check the estimated parking fee of the day.
 - To check old records.
 - *TBT* To check the availability of season parking subscription.
@@ -30,6 +30,9 @@ APU Car Parking System is able,
 ######  14/11/2020
 - Changed `Config->carpark_size` to `Config->zone_a_size` and `Config->zone_b_size`
 - Updated helpers function
+- Refractored `Dashboard` prop
+- Added `Subscription status` in `Dashboard`
+- Refractored `getCarState()` and `getSubsState()`
 ######  13/11/2020
 - Completed `topup` logic
 - Updated `Simulator`, `Subscription` UI

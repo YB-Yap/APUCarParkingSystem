@@ -90,6 +90,9 @@
             this.getSubscriptionSize();
         },
         methods: {
+            toDateString(_date) {
+                return _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
+            },
             getSubscriptionState() {
                 axios
                     .get('/subscription/get-state')
@@ -107,14 +110,14 @@
                             let last_index = this.subscription_state.length - 1;
                             let _date = new Date(this.subscription_state[last_index].valid_till);
                             _date.setDate(_date.getDate() + 1);
-                            this.valid_from = _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
+                            this.valid_from = this.toDateString(_date);
                             _date.setDate(_date.getDate() + 30);
-                            this.valid_till = _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
+                            this.valid_till = this.toDateString(_date);
                         } else {
                             let _date = new Date();
-                            this.valid_from = _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
+                            this.valid_from = this.toDateString(_date);
                             _date.setDate(_date.getDate() + 30);
-                            this.valid_till = _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
+                            this.valid_till = this.toDateString(_date);
                         }
                     });
             },

@@ -29,45 +29,58 @@
                         </div>
                     </div>
                     <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
-                        <div class="block-content">
+                        <div class="block-content" style="height: 200px;">
                             <h5 class="block-title">
                                 <span class="mdi mdi-parking"></span>
-                                Car Park Availability
+                                Parking Status
                             </h5>
-                            <span>Zone A: {{ parking_availability.zone_a }}</span><br>
-                            <span>Zone B: {{ parking_availability.zone_b }}</span>
+                            <div v-if="parking.is_in_parking">
+                                <span>Your car is currently parked in Zone {{ parking.car_state.parking_zone }}.</span><br>
+                                <span>Enter time: {{ parking.car_state.time_in }}</span><br>
+                                <span>Estimated parking fee: RM{{ parking.estimated_fee }}</span>
+                            </div>
+                            <div v-else>
+                                <span>Your car is not parked in any Zone.</span><br>
+                                <span>Zone A: {{ parking.availability.zone_a }}</span><br>
+                                <span>Zone B: {{ parking.availability.zone_b }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="parking.has_parked_today" v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
+                        <div class="block-content" style="height: 200px;">
+                            <h5 class="block-title">
+                                <span class="mdi mdi-parking"></span>
+                                Previously, you have parked at ...
+                            </h5>
+                            <span>Parking Zone: {{ parking.latest_record.parking_zone }}</span><br>
+                            <span>Enter time: {{ parking.latest_record.time_in }}</span><br>
+                            <span>Exit time: {{ parking.latest_record.time_out }}</span><br>
+                            <span>Duration: {{ `${parking.latest_record.hours} hour(s) ${parking.latest_record.minutes} minute(s)` }}</span><br>
+                            <span>Parking fee: RM{{ (parking.latest_record.fee / 100).toFixed(2) }}</span>
                         </div>
                     </div>
                     <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
                         <div class="block-content" style="height: 200px;">
                             <h5 class="block-title">
-                                <span class="mdi mdi-eye"></span>
-                                Parking Status
+                                <span class="mdi mdi-calendar-clock"></span>
+                                Subscription Status
                             </h5>
-                            <div v-if="is_in_parking">
-                                <span>Your car is currently parked in Zone {{ car_state.parking_zone }}.</span><br>
-                                <span>Enter time: {{ car_state.time_in }}</span><br>
-                                <span>Estimated parking fee: RM{{ estimated_fee }}</span>
+                            <div v-if="subscription.has_subs">
+                                Your subscription is currently active.<br>
+                                Valid from: {{ subscription.valid_from }}<br>
+                                Valid till: {{ subscription.valid_till }}
                             </div>
                             <div v-else>
-                                <span>Your car is not parked in any Zone.</span>
+                                You don't have any subscription.<br>
+                                Availability: {{ subscription.availability }} of {{ subscription.size }}
+                                <div v-if="subscription.availability == 0">
+                                    <span>Sorry, there are no subscription available at the moment.</span><br>
+                                    <span>Estimated restock date: {{ subscription.estimated_date }}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div v-if="!is_in_parking && has_parked_today" v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
-                        <div class="block-content" style="height: 200px;">
-                            <h5 class="block-title">
-                                <span class="mdi mdi-eye"></span>
-                                Today, you have parked at ...
-                            </h5>
-                            <span>Parking Zone: {{ latest_record.parking_zone }}.</span><br>
-                            <span>Enter time: {{ latest_record.time_in }}</span><br>
-                            <span>Exit time: {{ latest_record.time_out }}</span><br>
-                            <span>Duration: {{ latest_record.duration }}</span><br>
-                            <span>Parking fee: RM{{ latest_record.fee }}</span>
-                        </div>
-                    </div>
-                    <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block" v-for="item in 5" :key="item">
+                    <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block" v-for="item in 4" :key="item">
                         <div class="block-content">
                             <img style="width: 100%" src="http://via.placeholder.com/350x150">
                             <br>
@@ -119,17 +132,34 @@
         data() {
             return {
                 apcard_balance: 0,
-                parking_availability: [],
-                is_in_parking: false,
-                car_state: {},
-                estimated_fee: 0,
-                has_parked_today: false,
+                parking: {
+                    availability: {},
+                    is_in_parking: false,
+                    car_state: {},
+                    estimated_fee: 0,
+                    has_parked_today: false,
+                    latest_record: {
+                        hours: 0,
+                        minutes: 0,
+                    },
+                },
+                subscription: {
+                    availability: 0,
+                    size: 0,
+                    has_subs: false,
+                    state: [],
+                    valid_from: '',
+                    valid_till: '',
+                }
             }
         },
         mounted() {
             this.getAPCardBalance();
             this.getCarParkAvailability();
             this.getCarState();
+            this.getSubscriptionState();
+            this.getSubscriptionAvailability();
+            this.getSubscriptionSize();
         },
         methods: {
             getAPCardBalance() {
@@ -143,24 +173,65 @@
                 axios
                     .get('/api/parking/availability')
                     .then((result) => {
-                        this.parking_availability = result.data;
+                        this.parking.availability = result.data;
                     });
-            },
-            getLastestRecord() {
-                this.has_parked_today = true;
-                this.$forceUpdate();
             },
             getCarState() {
                 axios
                     .get('/parking/get-state')
                     .then((result) => {
-                        // console.log(result.data)
+                        console.log(result.data)
                         if (result.data.isInParking) {
-                            this.is_in_parking = true;
-                            this.car_state = result.data.data;
-                        } else if (!result.data.isInParking && result.data.data != null) {
-                            this.getLastestRecord();
+                            this.parking.is_in_parking = true;
+                            this.parking.car_state = result.data.data[0];
                         }
+                        if (result.data.hasParkedToday) {
+                            this.parking.has_parked_today = true;
+                            this.parking.latest_record = result.data.data[1];
+                            this.parking.latest_record.hours = Math.floor(this.parking.latest_record.duration);
+                            let minutes = (this.parking.latest_record.duration - this.parking.latest_record.hours) * 60;
+                            this.parking.latest_record.minutes = Math.floor(minutes);
+                        }
+                        this.$forceUpdate();
+                    });
+            },
+            toDateString(_date) {
+                return _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
+            },
+            getSubscriptionState() {
+                axios
+                    .get('/subscription/get-state')
+                    .then((result) => {
+                        console.log(result.data)
+                        if (result.data.hasSubscription) {
+                            this.subscription.has_subs = true;
+                            this.subscription.state = result.data.data;
+                        } else {
+                            this.subscription.has_subs = false;
+                            this.subscription.state = [];
+                        }
+
+                        if (this.subscription.has_subs) {
+                            let last_index = this.subscription.state.length - 1;
+                            let _from = new Date(this.subscription.state[0].valid_at);
+                            let _till = new Date(this.subscription.state[last_index].valid_till);
+                            this.subscription.valid_from = this.toDateString(_from);
+                            this.subscription.valid_till = this.toDateString(_till);
+                        }
+                    });
+            },
+            getSubscriptionAvailability() {
+                axios
+                    .get('/api/subscription/availability')
+                    .then((result) => {
+                        this.subscription.availability = result.data;
+                    });
+            },
+            getSubscriptionSize() {
+                axios
+                    .get('/api/subscription/size')
+                    .then((result) => {
+                        this.subscription.size = result.data;
                     });
             },
             isDashboard() {

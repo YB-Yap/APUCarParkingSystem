@@ -45,7 +45,7 @@
                         console.log(result.data)
                         if (result.data.isInParking) {
                             this.is_in_parking = true;
-                            this.car_state = result.data.data;
+                            this.car_state = result.data.data[0];
                         }
                     });
             },
