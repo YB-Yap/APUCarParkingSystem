@@ -2105,6 +2105,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     user: Object
@@ -2112,7 +2113,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       apcard_balance: 0,
-      parking_availability: 0,
+      parking_availability: [],
       is_in_parking: false,
       car_state: {},
       estimated_fee: 0,
@@ -2135,7 +2136,7 @@ __webpack_require__.r(__webpack_exports__);
     getCarParkAvailability: function getCarParkAvailability() {
       var _this2 = this;
 
-      axios.get('/api/carpark/availability').then(function (result) {
+      axios.get('/api/parking/availability').then(function (result) {
         _this2.parking_availability = result.data;
       });
     },
@@ -2263,14 +2264,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       is_in_parking: false,
       car_state: {},
       estimated_fee: 0,
-      parking_availability: 0,
-      parking_size: 0
+      parking_availability: [],
+      parking_size: []
     };
   },
   mounted: function mounted() {
@@ -48941,7 +48943,18 @@ var render = function() {
                       _c("div", { staticClass: "block-content" }, [
                         _vm._m(0),
                         _vm._v(" "),
-                        _c("span", [_vm._v(_vm._s(_vm.parking_availability))])
+                        _c("span", [
+                          _vm._v(
+                            "Zone A: " + _vm._s(_vm.parking_availability.zone_a)
+                          )
+                        ]),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("span", [
+                          _vm._v(
+                            "Zone B: " + _vm._s(_vm.parking_availability.zone_b)
+                          )
+                        ])
                       ])
                     ]
                   ),
@@ -49210,7 +49223,7 @@ var staticRenderFns = [
     return _c("h5", { staticClass: "block-title" }, [
       _c("span", { staticClass: "mdi mdi-parking" }),
       _vm._v(
-        "\n                            Car Park Status\n                        "
+        "\n                            Car Park Availability\n                        "
       )
     ])
   },
@@ -49426,12 +49439,20 @@ var render = function() {
             _c("span", [_vm._v("Your car is not parked in any Zone.")])
           ]),
       _vm._v(" "),
-      _c("h1", [_vm._v("Car Park")]),
+      _c("h1", [_vm._v("Car Park Availability")]),
       _vm._v(
-        "\n        Availability: " +
-          _vm._s(_vm.parking_availability) +
+        "\n        Zone A: " +
+          _vm._s(_vm.parking_availability.zone_a) +
           " of " +
-          _vm._s(_vm.parking_size) +
+          _vm._s(_vm.parking_size.zone_a) +
+          " "
+      ),
+      _c("br"),
+      _vm._v(
+        "\n        Zone A: " +
+          _vm._s(_vm.parking_availability.zone_b) +
+          " of " +
+          _vm._s(_vm.parking_size.zone_b) +
           "\n    "
       )
     ])

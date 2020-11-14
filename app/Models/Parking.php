@@ -17,11 +17,18 @@ class Parking extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function scopeParkedAmount($query)
+    public function scopeParkedAmountZoneA($query)
     {
         $today = Carbon::now()->toDateString();
 
-        return $query->whereDate('time_in', $today)->where('time_out', NULL)->count();
+        return $query->whereDate('time_in', $today)->where('time_out', NULL)->where('parking_zone', 'A')->count();
+    }
+
+    public function scopeParkedAmountZoneB($query)
+    {
+        $today = Carbon::now()->toDateString();
+
+        return $query->whereDate('time_in', $today)->where('time_out', NULL)->where('parking_zone', 'B')->count();
     }
 
     public function scopeParkedVehicles($query)

@@ -32,9 +32,10 @@
                         <div class="block-content">
                             <h5 class="block-title">
                                 <span class="mdi mdi-parking"></span>
-                                Car Park Status
+                                Car Park Availability
                             </h5>
-                            <span>{{ parking_availability }}</span>
+                            <span>Zone A: {{ parking_availability.zone_a }}</span><br>
+                            <span>Zone B: {{ parking_availability.zone_b }}</span>
                         </div>
                     </div>
                     <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
@@ -118,7 +119,7 @@
         data() {
             return {
                 apcard_balance: 0,
-                parking_availability: 0,
+                parking_availability: [],
                 is_in_parking: false,
                 car_state: {},
                 estimated_fee: 0,

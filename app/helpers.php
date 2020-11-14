@@ -7,15 +7,23 @@ use App\Models\Subscription;
 if (!function_exists('getParkingAvailability')) {
     function getParkingAvailability()
     {
-        $availability = 0;
+        $availability = [
+            'zone_a' => 0,
+            'zone_b' => 0,
+        ];
 
         // get car park size
-        $carpark_size = Config::carParkSize()->value;
-        $parked_amount = Parking::parkedAmount();
+        $zone_a_size = Config::zoneASize()->value;
+        $zone_b_size = Config::zoneBSize()->value;
 
         // car park is not full
-        if ($parked_amount < $carpark_size) {
-            $availability = $carpark_size - $parked_amount;
+        $parked_amount = Parking::parkedAmountZoneA();
+        if ($parked_amount < $zone_a_size) {
+            $availability['zone_a'] = $zone_a_size - $parked_amount;
+        }
+        $parked_amount = Parking::parkedAmountZoneB();
+        if ($parked_amount < $zone_b_size) {
+            $availability['zone_b'] = $zone_b_size - $parked_amount;
         }
 
         return $availability;
@@ -25,7 +33,10 @@ if (!function_exists('getParkingAvailability')) {
 if (!function_exists('getCarParkSize')) {
     function getCarParkSize()
     {
-        return Config::carParkSize()->value;
+        return [
+            'zone_a' => Config::zoneASize()->value,
+            'zone_b' => Config::zoneBSize()->value,
+        ];
     }
 }
 

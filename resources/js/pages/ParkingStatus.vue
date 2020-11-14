@@ -14,8 +14,9 @@
                 <span>Your car is not parked in any Zone.</span>
             </div>
 
-            <h1>Car Park</h1>
-            Availability: {{ parking_availability }} of {{ parking_size }}
+            <h1>Car Park Availability</h1>
+            Zone A: {{ parking_availability.zone_a }} of {{ parking_size.zone_a }} <br>
+            Zone A: {{ parking_availability.zone_b }} of {{ parking_size.zone_b }}
         </div>
     </div>
 </template>
@@ -27,8 +28,8 @@
                 is_in_parking: false,
                 car_state: {},
                 estimated_fee: 0,
-                parking_availability: 0,
-                parking_size: 0,
+                parking_availability: [],
+                parking_size: [],
             }
         },
         mounted() {

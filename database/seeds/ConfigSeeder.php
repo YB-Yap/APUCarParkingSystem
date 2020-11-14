@@ -23,7 +23,11 @@ class ConfigSeeder extends Seeder
                 'value' => '5'
             ],
             [
-                'key' => 'carpark_size',    // for simulation purpose
+                'key' => 'zone_a_size',    // for simulation purpose
+                'value' => '10'
+            ],
+            [
+                'key' => 'zone_b_size',    // for simulation purpose
                 'value' => '10'
             ],
         );
