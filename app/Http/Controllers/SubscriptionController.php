@@ -99,22 +99,17 @@ class SubscriptionController extends Controller
     public function getSubsState()
     {
         $user = Auth::user();
-
+        $has_subcription = false;
         $subscriptions = $user->subscription()->where('is_expired', false)->get();
 
-        if ($subscriptions->isEmpty()) {
-            // no subscription
-            return response()->json([
-                'hasSubscription' => false,
-                'data' => null
-            ], 200);
-        } else {
-            // has at least one subscription
-            return response()->json([
-                'hasSubscription' => true,
-                'data' => SubscriptionResource::collection($subscriptions)
-            ], 200);
+        if (!$subscriptions->isEmpty()) {
+            $has_subcription = true;
         }
+
+        return response()->json([
+            'hasSubscription' => $has_subcription,
+            'data' => SubscriptionResource::collection($subscriptions)
+        ], 200);
     }
 
     public function purchaseSubs(Request $request)

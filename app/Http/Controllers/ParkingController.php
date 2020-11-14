@@ -113,23 +113,36 @@ class ParkingController extends Controller
     {
         $user = Auth::user();
         $today = Carbon::now()->toDateString();
+        $is_in_parking = false;
+        $has_parked_today = false;
+        $user_car = $user->parking()->whereDate('time_in', $today)->latest('updated_at')->get();
 
-        $user_car = $user->parking()->whereDate('time_in', $today)->latest('updated_at')->first();
-
-        // isset() is a built in function to check if the variable is defined and is not null
-        if (!isset($user_car) || isset($user_car->time_out)) {
-            // no record for today / car is not any parking zone
-            return response()->json([
-                'isInParking' => false,
-                'data' => isset($user_car) ? new ParkingResource($user_car) : null
-            ], 200);
-        } else {
-            // has at least one record
-            return response()->json([
-                'isInParking' => true,
-                'data' => new ParkingResource($user_car)
-            ], 200);
+        if (!$user_car->isEmpty()) {
+            if (!isset($user_car[0]->time_out)) {
+                $is_in_parking = true;
+            }
+            if (count($user_car) > 1) {
+                $has_parked_today = true;
+            }
         }
+
+        return response()->json([
+            'isInParking' => $is_in_parking,
+            'hasParkedToday' => $has_parked_today,
+            'data' => ParkingResource::collection($user_car)
+        ], 200);
+    }
+
+    public function getLatestState()
+    {
+        $user = Auth::user();
+        $today = Carbon::now()->toDateString();
+
+        $user_car = $user->parking()->whereDate('time_in', $today)->whereNotNull('time_out')->latest('updated_at')->first();
+
+        return response()->json([
+            'data' => new ParkingResource($user_car)
+        ], 200);
     }
 
     public function enterCarPark(Request $request)
