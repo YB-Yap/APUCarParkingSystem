@@ -3,6 +3,14 @@
 use App\models\Config;
 use App\Models\Parking;
 use App\Models\Subscription;
+use Symfony\Component\Mime\Encoder\EncoderInterface;
+
+if (!function_exists('toJson')) {
+    function toJson($data)
+    {
+        return json_decode(json_encode($data));
+    }
+}
 
 if (!function_exists('getParkingAvailability')) {
     function getParkingAvailability()
@@ -76,13 +84,5 @@ if (!function_exists('inRange')) {
     function inRange($value, $min, $max)
     {
         return ($min < $value && $value <= $max);
-    }
-}
-
-
-if (!function_exists('estimateSubsRestockDate')) {
-    function estimateSubsRestockDate()
-    {
-
     }
 }
