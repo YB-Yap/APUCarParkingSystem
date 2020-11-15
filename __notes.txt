@@ -31,5 +31,8 @@ parking status page
 
 
 To be added
-    - parking history
+    - parking history and transaction page
+    (possibly add filter function)
+        - parking records
+        - subscription records
     - admin side

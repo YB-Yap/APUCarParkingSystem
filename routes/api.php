@@ -23,6 +23,7 @@ Route::get('/parking/size', 'ParkingController@getSize');
 
 Route::get('/subscription/availability', 'SubscriptionController@getAvailability');
 Route::get('/subscription/size', 'SubscriptionController@getSize');
+Route::get('/subscription/estimate-restock-date', 'SubscriptionController@estimateRestockDate');
 
 // Route::group(['middleware' => ['auth']], function () {
 

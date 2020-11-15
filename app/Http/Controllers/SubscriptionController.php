@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\SubscriptionResource;
 use App\Models\Config;
 use App\Models\Subscription;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -141,6 +142,22 @@ class SubscriptionController extends Controller
 
         return response()->json([
             'message' => 'Terminate successful',
+        ], 200);
+    }
+
+    public function estimateRestockDate()
+    {
+        $min_valid_till = Subscription::selectRaw('user_id, MAX(valid_till) AS `valid_till`')
+                            ->where('is_expired', false)
+                            ->groupBy('user_id')
+                            ->orderBy('valid_till', 'asc')
+                            ->first();
+
+        $estimated_date = new Carbon($min_valid_till->valid_till);
+        $estimated_date->addDays(1);
+
+        return response()->json([
+            'estimated_date' => $estimated_date->toDateString(),
         ], 200);
     }
 }

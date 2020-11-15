@@ -150,6 +150,7 @@
                     state: [],
                     valid_from: '',
                     valid_till: '',
+                    estimated_date: '',
                 }
             }
         },
@@ -220,11 +221,21 @@
                         }
                     });
             },
+            estimateSubsRestockDate() {
+                axios
+                    .get('/api/subscription/estimate-restock-date')
+                    .then((result) => {
+                        this.subscription.estimated_date = result.data.estimated_date;
+                    });
+            },
             getSubscriptionAvailability() {
                 axios
                     .get('/api/subscription/availability')
                     .then((result) => {
                         this.subscription.availability = result.data;
+                        if (this.subscription.availability == 0) {
+                            this.estimateSubsRestockDate();
+                        }
                     });
             },
             getSubscriptionSize() {

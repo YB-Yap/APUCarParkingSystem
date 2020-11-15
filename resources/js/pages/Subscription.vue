@@ -121,11 +121,21 @@
                         }
                     });
             },
+            estimateSubsRestockDate() {
+                axios
+                    .get('/api/subscription/estimate-restock-date')
+                    .then((result) => {
+                        this.estimated_date = result.data.estimated_date;
+                    });
+            },
             getSubscriptionAvailability() {
                 axios
                     .get('/api/subscription/availability')
                     .then((result) => {
                         this.subscription_availability = result.data;
+                        if (this.subscription_availability == 0) {
+                            this.estimateSubsRestockDate();
+                        }
                     });
             },
             getSubscriptionSize() {

@@ -12,4 +12,8 @@ http://bmatovu.com/creating-custom-global-helper-functions-in-laravel/
 // masonry
 https://github.com/shershen08/vue-masonry?ref=madewithvuejs.com
 
+// select max valid till group by user_id
+https://stackoverflow.com/questions/44080385/laravel-groupby-min-max-filter-grouped-results
+https://github.com/laravel/blog-contest-may-mayhem/issues/15
+
 

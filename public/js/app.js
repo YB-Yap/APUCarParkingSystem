@@ -2143,7 +2143,8 @@ __webpack_require__.r(__webpack_exports__);
         has_subs: false,
         state: [],
         valid_from: '',
-        valid_till: ''
+        valid_till: '',
+        estimated_date: ''
       }
     };
   },
@@ -2221,18 +2222,29 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    getSubscriptionAvailability: function getSubscriptionAvailability() {
+    estimateSubsRestockDate: function estimateSubsRestockDate() {
       var _this5 = this;
 
+      axios.get('/api/subscription/estimate-restock-date').then(function (result) {
+        _this5.subscription.estimated_date = result.data.estimated_date;
+      });
+    },
+    getSubscriptionAvailability: function getSubscriptionAvailability() {
+      var _this6 = this;
+
       axios.get('/api/subscription/availability').then(function (result) {
-        _this5.subscription.availability = result.data;
+        _this6.subscription.availability = result.data;
+
+        if (_this6.subscription.availability == 0) {
+          _this6.estimateSubsRestockDate();
+        }
       });
     },
     getSubscriptionSize: function getSubscriptionSize() {
-      var _this6 = this;
+      var _this7 = this;
 
       axios.get('/api/subscription/size').then(function (result) {
-        _this6.subscription.size = result.data;
+        _this7.subscription.size = result.data;
       });
     },
     isDashboard: function isDashboard() {
@@ -2742,22 +2754,33 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    getSubscriptionAvailability: function getSubscriptionAvailability() {
+    estimateSubsRestockDate: function estimateSubsRestockDate() {
       var _this2 = this;
 
+      axios.get('/api/subscription/estimate-restock-date').then(function (result) {
+        _this2.estimated_date = result.data.estimated_date;
+      });
+    },
+    getSubscriptionAvailability: function getSubscriptionAvailability() {
+      var _this3 = this;
+
       axios.get('/api/subscription/availability').then(function (result) {
-        _this2.subscription_availability = result.data;
+        _this3.subscription_availability = result.data;
+
+        if (_this3.subscription_availability == 0) {
+          _this3.estimateSubsRestockDate();
+        }
       });
     },
     getSubscriptionSize: function getSubscriptionSize() {
-      var _this3 = this;
+      var _this4 = this;
 
       axios.get('/api/subscription/size').then(function (result) {
-        _this3.subscription_size = result.data;
+        _this4.subscription_size = result.data;
       });
     },
     purchaseSubs: function purchaseSubs() {
-      var _this4 = this;
+      var _this5 = this;
 
       var data = {
         valid_at: this.valid_from,
@@ -2773,26 +2796,26 @@ __webpack_require__.r(__webpack_exports__);
       this.$swal.showLoading();
       axios.post('/subscription/purchase', data).then(function (result) {
         if (result.status == 200) {
-          _this4.$swal.fire({
+          _this5.$swal.fire({
             title: 'Purchasing Subscription',
             text: 'Purchase successful',
             icon: 'success'
           });
 
-          _this4.getSubscriptionState();
+          _this5.getSubscriptionState();
 
-          _this4.getSubscriptionAvailability();
+          _this5.getSubscriptionAvailability();
 
-          _this4.getSubscriptionSize();
+          _this5.getSubscriptionSize();
 
-          _this4.disclaimer_check = false;
+          _this5.disclaimer_check = false;
 
-          _this4.$forceUpdate();
+          _this5.$forceUpdate();
         }
       });
     },
     terminateSubs: function terminateSubs() {
-      var _this5 = this;
+      var _this6 = this;
 
       this.$swal({
         title: 'Terminating subscription',
@@ -2803,21 +2826,21 @@ __webpack_require__.r(__webpack_exports__);
       this.$swal.showLoading();
       axios.post('/subscription/terminate').then(function (result) {
         if (result.status == 200) {
-          _this5.$swal.fire({
+          _this6.$swal.fire({
             title: 'Terminating Subscription',
             text: 'Teminate successful',
             icon: 'success'
           });
 
-          _this5.getSubscriptionState();
+          _this6.getSubscriptionState();
 
-          _this5.getSubscriptionAvailability();
+          _this6.getSubscriptionAvailability();
 
-          _this5.getSubscriptionSize();
+          _this6.getSubscriptionSize();
 
-          _this5.termination_check = false;
+          _this6.termination_check = false;
 
-          _this5.$forceUpdate();
+          _this6.$forceUpdate();
         }
       });
     }
