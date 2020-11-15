@@ -152,31 +152,61 @@ class ParkingController extends Controller
 
     public function exitCarPark(Request $request)
     {
-        $now = Carbon::now();
         $user = Auth::user();
+        $now = Carbon::now();
+        $parking = $user->parking()->latest('updated_at')->first();
+
+        $calc = $this->feeCalculation($user, $parking, $now);
+
+        // check if enough balance
+        if ($user->apcard_balance < $calc->to_pay) {
+            return response()->json(['message' => 'Insufficient fund.', 'to_pay' => $calc->to_pay, 'isSuccess' => false]);
+        }
+        // deduct apcard balance
+        $user->apcard_balance = $user->apcard_balance - $calc->to_pay;
+        $user->update();
+
+        // update parking record
+        $parking->time_out = $now;
+        $parking->duration = $calc->current_duration;
+        $parking->fee = $calc->to_pay;
+        $parking->update();
+
+        return response()->json(['message' => 'Exit', 'isSuccess' => true]);
+    }
+
+    public function estimateFee()
+    {
+        $user = Auth::user();
+        $now = Carbon::now();
+        $parking = $user->parking()->latest('updated_at')->first();
+
+        $calc = $this->feeCalculation($user, $parking, $now);
+
+        return response()->json($calc->to_pay, 200);
+    }
+
+    public function feeCalculation(User $_user, Parking $_parking, Carbon $_now)
+    {
         $previous_paid = 0;
         $previous_duration = 0;
-        $current_duration = 0;
+        $current_duration = round($_now->floatDiffInHours($_parking->time_in), 3);
         $total_duration = 0;
         $to_pay = 0;
         $is_car_park_full = (getParkingAvailability() == 0);
-
-        $parking = $user->parking()->latest('updated_at')->first();
-        $current_duration = round($now->floatDiffInHours($parking->time_in), 3);
-
-        $has_subscription = ($user->subscription()->activeSubsCount() == 1);
+        $has_subscription = ($_user->subscription()->activeSubsCount() == 1);
 
         // car park is not full OR car park is full but duration exceeded 15 minutes
         if (!$is_car_park_full || $current_duration > $this->FOC_HOUR) {
             // check if there is other parking record on that day in the same parking zone
-            $today_records = $user->parking()
-                            ->whereDate('time_out', $now->toDateString())
+            $today_records = $_user->parking()
+                            ->whereDate('time_out', $_now->toDateString())
                             ->whereNotNull('time_out')
-                            ->where('parking_zone', $parking->parking_zone)
+                            ->where('parking_zone', $_parking->parking_zone)
                             ->latest('updated_at')
                             ->get();
 
-            if ($parking->parking_zone == 'B') {
+            if ($_parking->parking_zone == 'B') {
                 // if no subscription
                 if (!$has_subscription) {
                     if ($today_records->count() > 0) {
@@ -208,13 +238,13 @@ class ParkingController extends Controller
                     } else {
                         // parking zone b - first time
                         // check hour range
-                        if (inRange($total_duration, 0, 1)) {
+                        if (inRange($current_duration, 0, 1)) {
                             // first hour
                             $to_pay = $this->FEE_FIRST_HOUR;
-                        } else if (inRange($total_duration, 1, 2)) {
+                        } else if (inRange($current_duration, 1, 2)) {
                             // second hour
                             $to_pay = $this->FEE_SECOND_HOUR;
-                        } else if (inRange($total_duration, 2, 3)) {
+                        } else if (inRange($current_duration, 2, 3)) {
                             // third hour
                             $to_pay = $this->FEE_THIRD_HOUR;
                         } else {
@@ -234,20 +264,9 @@ class ParkingController extends Controller
         }
         // else -> FOC - car park is full AND exit within 15 minutes
 
-        // check if enough balance
-        if ($user->apcard_balance < $to_pay) {
-            return response()->json(['message' => 'Insufficient fund.', 'to_pay' => $to_pay, 'isSuccess' => false]);
-        }
-        // deduct apcard balance
-        $user->apcard_balance = $user->apcard_balance - $to_pay;
-        $user->update();
-
-        // update parking record
-        $parking->time_out = $now;
-        $parking->duration = $current_duration;
-        $parking->fee = $to_pay;
-        $parking->update();
-
-        return response()->json(['message' => 'Exit', 'isSuccess' => true]);
+        return toJson([
+            'current_duration' => $current_duration,
+            'to_pay' => $to_pay,
+        ]);
     }
 }
