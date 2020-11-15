@@ -7,7 +7,7 @@ APU Car Parking System allows **students**,
 - **DONE** To login and logout from the system.
 - *TBT* To check the availability of car parking areas.
 - *TBT* To check the time of entry and exit of the day.
-- To check the estimated parking fee of the day.
+- *TBT* To check the estimated parking fee of the day.
 - To check old records.
 - *TBT* To check the availability of season parking subscription.
 - *TBT* To subscribe for a monthly season parking.
