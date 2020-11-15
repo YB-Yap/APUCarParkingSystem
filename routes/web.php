@@ -28,6 +28,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/apcard/topup', 'UserController@topupApcard');
 
     Route::get('/parking/get-state', 'ParkingController@getCarState');
+    Route::get('/parking/estimate-fee', 'ParkingController@estimateFee');
     Route::post('/parking/enter', 'ParkingController@enterCarPark');
     Route::post('/parking/exit', 'ParkingController@exitCarPark');
 

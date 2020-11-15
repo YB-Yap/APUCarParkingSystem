@@ -185,6 +185,7 @@
                         if (result.data.isInParking) {
                             this.parking.is_in_parking = true;
                             this.parking.car_state = result.data.data[0];
+                            this.estimateParkingFee();
                         }
                         if (result.data.hasParkedToday) {
                             this.parking.has_parked_today = true;
@@ -193,6 +194,15 @@
                             let minutes = (this.parking.latest_record.duration - this.parking.latest_record.hours) * 60;
                             this.parking.latest_record.minutes = Math.floor(minutes);
                         }
+                        this.$forceUpdate();
+                    });
+            },
+            estimateParkingFee() {
+                axios
+                    .get('/parking/estimate-fee')
+                    .then((result) => {
+                        console.log(result.data)
+                        this.parking.estimated_fee = (result.data / 100).toFixed(2);
                         this.$forceUpdate();
                     });
             },

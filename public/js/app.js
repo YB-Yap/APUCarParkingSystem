@@ -2180,6 +2180,8 @@ __webpack_require__.r(__webpack_exports__);
         if (result.data.isInParking) {
           _this3.parking.is_in_parking = true;
           _this3.parking.car_state = result.data.data[0];
+
+          _this3.estimateParkingFee();
         }
 
         if (result.data.hasParkedToday) {
@@ -2193,58 +2195,68 @@ __webpack_require__.r(__webpack_exports__);
         _this3.$forceUpdate();
       });
     },
+    estimateParkingFee: function estimateParkingFee() {
+      var _this4 = this;
+
+      axios.get('/parking/estimate-fee').then(function (result) {
+        console.log(result.data);
+        _this4.parking.estimated_fee = (result.data / 100).toFixed(2);
+
+        _this4.$forceUpdate();
+      });
+    },
     toDateString: function toDateString(_date) {
       return _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
     },
     getSubscriptionState: function getSubscriptionState() {
-      var _this4 = this;
+      var _this5 = this;
 
       axios.get('/subscription/get-state').then(function (result) {
         console.log(result.data);
 
         if (result.data.hasSubscription) {
-          _this4.subscription.has_subs = true;
-          _this4.subscription.state = result.data.data;
+          _this5.subscription.has_subs = true;
+          _this5.subscription.state = result.data.data;
         } else {
-          _this4.subscription.has_subs = false;
-          _this4.subscription.state = [];
+          _this5.subscription.has_subs = false;
+          _this5.subscription.state = [];
         }
 
-        if (_this4.subscription.has_subs) {
-          var last_index = _this4.subscription.state.length - 1;
+        if (_this5.subscription.has_subs) {
+          var last_index = _this5.subscription.state.length - 1;
 
-          var _from = new Date(_this4.subscription.state[0].valid_at);
+          var _from = new Date(_this5.subscription.state[0].valid_at);
 
-          var _till = new Date(_this4.subscription.state[last_index].valid_till);
+          var _till = new Date(_this5.subscription.state[last_index].valid_till);
 
-          _this4.subscription.valid_from = _this4.toDateString(_from);
-          _this4.subscription.valid_till = _this4.toDateString(_till);
+          _this5.subscription.valid_from = _this5.toDateString(_from);
+          _this5.subscription.valid_till = _this5.toDateString(_till);
         }
       });
     },
     estimateSubsRestockDate: function estimateSubsRestockDate() {
-      var _this5 = this;
+      var _this6 = this;
 
       axios.get('/api/subscription/estimate-restock-date').then(function (result) {
-        _this5.subscription.estimated_date = result.data.estimated_date;
+        _this6.subscription.estimated_date = result.data.estimated_date;
       });
     },
     getSubscriptionAvailability: function getSubscriptionAvailability() {
-      var _this6 = this;
+      var _this7 = this;
 
       axios.get('/api/subscription/availability').then(function (result) {
-        _this6.subscription.availability = result.data;
+        _this7.subscription.availability = result.data;
 
-        if (_this6.subscription.availability == 0) {
-          _this6.estimateSubsRestockDate();
+        if (_this7.subscription.availability == 0) {
+          _this7.estimateSubsRestockDate();
         }
       });
     },
     getSubscriptionSize: function getSubscriptionSize() {
-      var _this7 = this;
+      var _this8 = this;
 
       axios.get('/api/subscription/size').then(function (result) {
-        _this7.subscription.size = result.data;
+        _this8.subscription.size = result.data;
       });
     },
     isDashboard: function isDashboard() {
@@ -2355,6 +2367,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2362,7 +2385,12 @@ __webpack_require__.r(__webpack_exports__);
       car_state: {},
       estimated_fee: 0,
       parking_availability: [],
-      parking_size: []
+      parking_size: [],
+      has_parked_today: false,
+      latest_record: {
+        hours: 0,
+        minutes: 0
+      }
     };
   },
   mounted: function mounted() {
@@ -2380,21 +2408,41 @@ __webpack_require__.r(__webpack_exports__);
         if (result.data.isInParking) {
           _this.is_in_parking = true;
           _this.car_state = result.data.data[0];
+
+          _this.estimateParkingFee();
+        }
+
+        if (result.data.hasParkedToday) {
+          _this.has_parked_today = true;
+          _this.latest_record = result.data.data[1];
+          _this.latest_record.hours = Math.floor(_this.latest_record.duration);
+          var minutes = (_this.latest_record.duration - _this.latest_record.hours) * 60;
+          _this.latest_record.minutes = Math.floor(minutes);
         }
       });
     },
-    getCarParkAvailability: function getCarParkAvailability() {
+    estimateParkingFee: function estimateParkingFee() {
       var _this2 = this;
 
+      axios.get('/parking/estimate-fee').then(function (result) {
+        console.log(result.data);
+        _this2.parking.estimated_fee = (result.data / 100).toFixed(2);
+
+        _this2.$forceUpdate();
+      });
+    },
+    getCarParkAvailability: function getCarParkAvailability() {
+      var _this3 = this;
+
       axios.get('/api/parking/availability').then(function (result) {
-        _this2.parking_availability = result.data;
+        _this3.parking_availability = result.data;
       });
     },
     getCarParkSize: function getCarParkSize() {
-      var _this3 = this;
+      var _this4 = this;
 
       axios.get('/api/parking/size').then(function (result) {
-        _this3.parking_size = result.data;
+        _this4.parking_size = result.data;
       });
     }
   }
@@ -49589,48 +49637,97 @@ var render = function() {
     _vm._m(0),
     _vm._v(" "),
     _c("div", { staticClass: "page-content" }, [
-      _c("h1", [_vm._v("Your vehicle")]),
-      _vm._v(" "),
-      _vm.is_in_parking
-        ? _c("div", [
-            _c("span", [
-              _vm._v(
-                "Your car is currently parked in Zone " +
-                  _vm._s(_vm.car_state.parking_zone) +
-                  "."
-              )
-            ]),
-            _c("br"),
-            _vm._v(" "),
-            _c("span", [
-              _vm._v("Enter time: " + _vm._s(_vm.car_state.time_in))
-            ]),
-            _c("br"),
-            _vm._v(" "),
-            _c("span", [
-              _vm._v("Estimated parking fee: RM" + _vm._s(_vm.estimated_fee))
+      _c("div", { staticClass: "center-container" }, [
+        _c("h1", [_vm._v("Your vehicle")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "section-wrapper" }, [
+          _vm.is_in_parking
+            ? _c("div", [
+                _c("span", [
+                  _vm._v(
+                    "Your car is currently parked in Zone " +
+                      _vm._s(_vm.car_state.parking_zone) +
+                      "."
+                  )
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", [
+                  _vm._v("Enter time: " + _vm._s(_vm.car_state.time_in))
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", [
+                  _vm._v(
+                    "Estimated parking fee: RM" + _vm._s(_vm.estimated_fee)
+                  )
+                ])
+              ])
+            : _c("div", [
+                _c("span", [_vm._v("Your car is not parked in any Zone.")]),
+                _vm._v(
+                  "\n                    Zone A: " +
+                    _vm._s(_vm.parking_availability.zone_a) +
+                    " of " +
+                    _vm._s(_vm.parking_size.zone_a) +
+                    " "
+                ),
+                _c("br"),
+                _vm._v(
+                  "\n                    Zone A: " +
+                    _vm._s(_vm.parking_availability.zone_b) +
+                    " of " +
+                    _vm._s(_vm.parking_size.zone_b) +
+                    "\n                "
+                )
+              ])
+        ]),
+        _vm._v(" "),
+        _vm.has_parked_today
+          ? _c("div", { staticClass: "section-wrapper" }, [
+              _c("span", { staticClass: "mdi mdi-parking" }),
+              _vm._v(" Previously, you have parked at ..."),
+              _c("br"),
+              _vm._v(" "),
+              _c("span", [
+                _vm._v(
+                  "Parking Zone: " + _vm._s(_vm.latest_record.parking_zone)
+                )
+              ]),
+              _c("br"),
+              _vm._v(" "),
+              _c("span", [
+                _vm._v("Enter time: " + _vm._s(_vm.latest_record.time_in))
+              ]),
+              _c("br"),
+              _vm._v(" "),
+              _c("span", [
+                _vm._v("Exit time: " + _vm._s(_vm.latest_record.time_out))
+              ]),
+              _c("br"),
+              _vm._v(" "),
+              _c("span", [
+                _vm._v(
+                  "Duration: " +
+                    _vm._s(
+                      _vm.latest_record.hours +
+                        " hour(s) " +
+                        _vm.latest_record.minutes +
+                        " minute(s)"
+                    )
+                )
+              ]),
+              _c("br"),
+              _vm._v(" "),
+              _c("span", [
+                _vm._v(
+                  "Parking fee: RM" +
+                    _vm._s((_vm.latest_record.fee / 100).toFixed(2))
+                )
+              ])
             ])
-          ])
-        : _c("div", [
-            _c("span", [_vm._v("Your car is not parked in any Zone.")])
-          ]),
-      _vm._v(" "),
-      _c("h1", [_vm._v("Car Park Availability")]),
-      _vm._v(
-        "\n        Zone A: " +
-          _vm._s(_vm.parking_availability.zone_a) +
-          " of " +
-          _vm._s(_vm.parking_size.zone_a) +
-          " "
-      ),
-      _c("br"),
-      _vm._v(
-        "\n        Zone A: " +
-          _vm._s(_vm.parking_availability.zone_b) +
-          " of " +
-          _vm._s(_vm.parking_size.zone_b) +
-          "\n    "
-      )
+          : _vm._e()
+      ])
     ])
   ])
 }
