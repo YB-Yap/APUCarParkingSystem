@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\SubscriptionResource;
 use App\Models\Config;
 use App\Models\Subscription;
+use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -118,6 +119,13 @@ class SubscriptionController extends Controller
         $user = Auth::user();
         $subs_price = Config::subscriptionPrice()->value;
 
+        // check if enough balance
+        if ($user->apcard_balance < $subs_price) {
+            return response()->json(['message' => 'Insufficient fund.', 'to_pay' => $subs_price, 'isSuccess' => false]);
+        }
+        $user->apcard_balance = $user->apcard_balance - $subs_price;
+        $user->update();
+
         $subscription = new Subscription();
 
         $subscription->user_id = $user->id;
@@ -126,11 +134,17 @@ class SubscriptionController extends Controller
         $subscription->is_active = $request->mode == 'purchase' ? true : false;
         $subscription->save();
 
-        $user->apcard_balance = $user->apcard_balance - $subs_price;
-        $user->update();
+        $transaction = new Transaction();
+
+        $transaction->user_id = $user->id;
+        $transaction->type = "deduct";
+        $transaction->amount = $subs_price;
+        $transaction->description = $request->mode == 'purchase' ?"Purchase subscription" : "Extend subscription";
+        $transaction->save();
 
         return response()->json([
             'message' => 'Purchase successful',
+            'isSuccess' => true,
         ], 200);
     }
 
@@ -139,6 +153,14 @@ class SubscriptionController extends Controller
         $user = Auth::user();
 
         $user->subscription()->where('is_expired', false)->update(['is_active' => false, 'is_expired' => true]);
+
+        $transaction = new Transaction();
+
+        $transaction->user_id = $user->id;
+        $transaction->type = "deduct";
+        $transaction->amount = 0;
+        $transaction->description = "Terminate subscription";
+        $transaction->save();
 
         return response()->json([
             'message' => 'Terminate successful',

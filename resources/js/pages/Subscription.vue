@@ -162,7 +162,7 @@
                 axios
                     .post('/subscription/purchase', data)
                     .then((result) => {
-                        if (result.status == 200) {
+                        if (result.data.isSuccess) {
                             this.$swal.fire({
                                 title: 'Purchasing Subscription',
                                 text: 'Purchase successful',
@@ -173,6 +173,13 @@
                             this.getSubscriptionSize();
                             this.disclaimer_check = false;
                             this.$forceUpdate();
+                        } else {
+                            this.$swal.fire({
+                                title: result.data.message,
+                                text: `Please top up your APCard at least RM${(result.data.to_pay / 100).toFixed(2)}`,
+                                icon: 'error',
+                                confirmButtonText: 'Ok'
+                            })
                         }
                     });
             },
