@@ -3,36 +3,49 @@ parking controller
     - TBT - if enter more than one time in a day, recalculate max price
     - TBT - deduct apcard balance
     - TBT - subscription if statement
-    - exit parking logic probably need to convert to function for fee estimation
+    - TBT - exit parking logic probably need to convert to function for fee estimation
 
 subscription page
     - TBT - purchase
     - TBT - terminate (assumption: terminate all subscriptions if the user has more than one month)
-    - estimate next available
+    - TBT - estimate next available
 
 server jobs
     - at 12:00 am
-    - check subscription, if expired, auto terminate
-    - check parking if there is any car in parking zones, auto add time_out and insert new row, deduct apcard balance
+        - check subscription, if expired, auto terminate
+        - check parking if there is any car in parking zones, auto add time_out and insert new row, deduct apcard balance
 
 simulator page
     - improve ui
     - flexible exit (exit at different time)
+        - add parameter for exitCarPark(), null if not given
     - use sweetalert as gate display
 
 dashboard
     - improve car status (show how many are currently in parking area)
     - estimated fee (maybe also check if the apcard has enough balance)
     - TBT - latest record logic
+    - maybe add dummy blocks from apspace
 
 parking status page
     - improve ui
-    - estimated fee
+        - maybe add bar chart for the parking zone availability
+    - TBT - estimated fee
 
 
 To be added
     - parking history and transaction page
-    (possibly add filter function)
+    (maybe add filter function)
         - parking records
         - subscription records
+    (maybe separate parking records and subscription records)
+        - put parking records in parking status, put subscription records in subscription history
+
     - admin side
+
+
+extra features
+    - subscription terminate certain amount. (instead of terminating all)
+        - eg. 5 months terminate last 2 month
+    - make pages only load 1 time
+        - refresh to reload content

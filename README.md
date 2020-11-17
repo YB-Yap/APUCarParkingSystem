@@ -32,7 +32,7 @@ APU Car Parking System is able,
 - Added `helpers->toJson()`
 - Change parking fee calculation to `feeCalculation()`
 - Resolved parking fee always max when there is no record for that day
-- Added parking fee estimation
+- Added `Parking->estimateFee()`
 ######  14/11/2020
 - Changed `Config->carpark_size` to `Config->zone_a_size` and `Config->zone_b_size`
 - Updated helpers function

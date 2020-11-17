@@ -15,7 +15,7 @@ class ParkingController extends Controller
 {
     // fee in cents
     private $FEE_FIRST_HOUR = 159;          // 1st hour
-    private $FEE_SECOND_HOUR = 265;            // 2nd hour
+    private $FEE_SECOND_HOUR = 265;         // 2nd hour
     private $FEE_THIRD_HOUR = 371;          // 3rd hour
     private $FEE_SUBSEQUENT_HOUR = 106;     // each hour for 2nd to 4th hour
     private $FEE_ZONE_B_MAX = 477;          // max fee per day - also the 4th hour

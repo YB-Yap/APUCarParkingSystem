@@ -2426,7 +2426,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/parking/estimate-fee').then(function (result) {
         console.log(result.data);
-        _this2.parking.estimated_fee = (result.data / 100).toFixed(2);
+        _this2.estimated_fee = (result.data / 100).toFixed(2);
 
         _this2.$forceUpdate();
       });
@@ -49665,16 +49665,16 @@ var render = function() {
               ])
             : _c("div", [
                 _c("span", [_vm._v("Your car is not parked in any Zone.")]),
+                _c("br"),
                 _vm._v(
                   "\n                    Zone A: " +
                     _vm._s(_vm.parking_availability.zone_a) +
                     " of " +
-                    _vm._s(_vm.parking_size.zone_a) +
-                    " "
+                    _vm._s(_vm.parking_size.zone_a)
                 ),
                 _c("br"),
                 _vm._v(
-                  "\n                    Zone A: " +
+                  "\n                    Zone B: " +
                     _vm._s(_vm.parking_availability.zone_b) +
                     " of " +
                     _vm._s(_vm.parking_size.zone_b) +

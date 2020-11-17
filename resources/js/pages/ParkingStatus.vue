@@ -13,9 +13,9 @@
                         <span>Estimated parking fee: RM{{ estimated_fee }}</span>
                     </div>
                     <div v-else>
-                        <span>Your car is not parked in any Zone.</span>
-                        Zone A: {{ parking_availability.zone_a }} of {{ parking_size.zone_a }} <br>
-                        Zone A: {{ parking_availability.zone_b }} of {{ parking_size.zone_b }}
+                        <span>Your car is not parked in any Zone.</span><br>
+                        Zone A: {{ parking_availability.zone_a }} of {{ parking_size.zone_a }}<br>
+                        Zone B: {{ parking_availability.zone_b }} of {{ parking_size.zone_b }}
                     </div>
                 </div>
 
@@ -78,7 +78,7 @@
                     .get('/parking/estimate-fee')
                     .then((result) => {
                         console.log(result.data)
-                        this.parking.estimated_fee = (result.data / 100).toFixed(2);
+                        this.estimated_fee = (result.data / 100).toFixed(2);
                         this.$forceUpdate();
                     });
             },
