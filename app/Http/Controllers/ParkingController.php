@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Config;
 use App\Models\Parking;
 use App\Models\Subscription;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -171,6 +172,15 @@ class ParkingController extends Controller
         $parking->duration = $calc->current_duration;
         $parking->fee = $calc->to_pay;
         $parking->update();
+
+        // insert transaction
+        $transaction = new Transaction();
+
+        $transaction->user_id = $user->id;
+        $transaction->type = "deduct";
+        $transaction->amount = $calc->to_pay;
+        $transaction->description = "Parking fee";
+        $transaction->save();
 
         return response()->json(['message' => 'Exit', 'isSuccess' => true]);
     }

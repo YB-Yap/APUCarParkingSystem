@@ -2843,7 +2843,7 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.$swal.showLoading();
       axios.post('/subscription/purchase', data).then(function (result) {
-        if (result.status == 200) {
+        if (result.data.isSuccess) {
           _this5.$swal.fire({
             title: 'Purchasing Subscription',
             text: 'Purchase successful',
@@ -2859,6 +2859,13 @@ __webpack_require__.r(__webpack_exports__);
           _this5.disclaimer_check = false;
 
           _this5.$forceUpdate();
+        } else {
+          _this5.$swal.fire({
+            title: result.data.message,
+            text: "Please top up your APCard at least RM".concat((result.data.to_pay / 100).toFixed(2)),
+            icon: 'error',
+            confirmButtonText: 'Ok'
+          });
         }
       });
     },

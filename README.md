@@ -8,7 +8,7 @@ APU Car Parking System allows **students**,
 - *TBT* To check the availability of car parking areas.
 - *TBT* To check the time of entry and exit of the day.
 - *TBT* To check the estimated parking fee of the day.
-- To check old records.
+- *WIP* To check old records.
 - *TBT* To check the availability of season parking subscription.
 - *TBT* To subscribe for a monthly season parking.
 - *TBT* To check the subscription date and expiry date of subscribed season parking.
@@ -27,6 +27,10 @@ APU Car Parking System is able,
 - To automatically terminate expired subscriptions using time-based job scheduler.
 
 ## Change log
+######  17/11/2020
+- Added apcard balance checking for `Subscription`
+- Added `Transaction` relationship for `User`
+- `exitCarPark()`, `purchaseSubs()` and `terminateSubs()` will add transaction
 ######  15/11/2020
 - Added `Subscription->estimateRestockDate()`
 - Added `helpers->toJson()`
