@@ -27,6 +27,11 @@ APU Car Parking System is able,
 - To automatically terminate expired subscriptions using time-based job scheduler.
 
 ## Change log
+######  22/11/2020
+- Added `Admin` middleware
+- Added `Admin Dashboard` for vue router
+- Refactored `ParkingController->feeCalculation()`
+- Added `More`, `Dashboard` for Admin site
 ######  17/11/2020
 - Added apcard balance checking for `Subscription`
 - Added `Transaction` relationship for `User`
@@ -40,9 +45,9 @@ APU Car Parking System is able,
 ######  14/11/2020
 - Changed `Config->carpark_size` to `Config->zone_a_size` and `Config->zone_b_size`
 - Updated helpers function
-- Refractored `Dashboard` prop
+- Refactored `Dashboard` prop
 - Added `Subscription status` in `Dashboard`
-- Refractored `getCarState()` and `getSubsState()`
+- Refactored `getCarState()` and `getSubsState()`
 ######  13/11/2020
 - Completed `topup` logic
 - Updated `Simulator`, `Subscription` UI
@@ -53,7 +58,7 @@ APU Car Parking System is able,
 - Added topup function for `Simulator`
 - Added purchase function for `Subscription`
 - Changed prop from `user_id` to `user`
-- Refractored route name
+- Refactored route name
 - Added `center-container` css in `app.css`
 ######  8/11/2020
 - Added `helpers->getCarParkSize()`
