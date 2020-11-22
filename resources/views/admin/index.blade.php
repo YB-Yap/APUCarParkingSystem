@@ -10,7 +10,7 @@
         in which they're currently authenticated. --}}
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>APU Car Parking System | Admin Site</title>
+        <title>Admin Site | APU Car Parking System</title>
 
         <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
 
@@ -34,10 +34,7 @@
     </head>
     <body>
         <div id="app">
-            {{-- This is where the single page application begins --}}
-            {{-- dynamic pages using Vue Router --}}
-            {{-- <Dashboard :user="{{ Auth::user() }}"></Dashboard> --}}
-            testing admin site
+            <admin-dashboard :user="{{ Auth::user() }}"></admin-dashboard>
         </div>
 
         <!-- Scripts -->

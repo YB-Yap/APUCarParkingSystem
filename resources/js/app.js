@@ -19,6 +19,7 @@ import {VueMasonryPlugin} from "vue-masonry";
 
 // vue components
 import Dashboard from "./pages/Dashboard";
+import AdminDashboard from "./pages/Admin/Dashboard";
 
 Vue.use(VueRouter);
 Vue.use(VueSweetalert2);
@@ -36,6 +37,6 @@ const router = new VueRouter({
 
 const app = new Vue({
     el: '#app',
-    components: { Dashboard },
+    components: { Dashboard, AdminDashboard },
     router,
 });

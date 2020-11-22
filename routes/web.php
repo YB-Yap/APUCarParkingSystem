@@ -26,12 +26,9 @@ Route::group(['middleware' => ['auth']], function () {
     // admin
     Route::group(['middleware' => ['admin']], function () {
         Route::prefix('admin')->name('admin.')->group(function () {
-            Route::get('dashboard', function () {
+            Route::get('/{vue_capture?}', function () {
                 return view('admin.index');
-            })->name('dashboard');
-            // Route::get('/{vue_capture?}', function () {
-            //     return view('admin.index');
-            // })->where('vue_capture', '[\/\w\.-]*');
+            })->where('vue_capture', '[\/\w\.-]*');
         });
     });
 
