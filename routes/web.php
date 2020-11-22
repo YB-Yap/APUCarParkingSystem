@@ -23,7 +23,19 @@ Route::post('/login', 'UserController@login')->name('login');
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/logout', 'UserController@logout')->name('user.logout');
 
+    // admin
+    Route::group(['middleware' => ['admin']], function () {
+        Route::prefix('admin')->name('admin.')->group(function () {
+            Route::get('dashboard', function () {
+                return view('admin.index');
+            })->name('dashboard');
+            // Route::get('/{vue_capture?}', function () {
+            //     return view('admin.index');
+            // })->where('vue_capture', '[\/\w\.-]*');
+        });
+    });
 
+    // user
     Route::get('/apcard/balance', 'UserController@getApcardBalance');
     Route::post('/apcard/topup', 'UserController@topupApcard');
 
@@ -36,10 +48,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/subscription/purchase', 'SubscriptionController@purchaseSubs');
     Route::post('/subscription/terminate', 'SubscriptionController@terminateSubs');
 
-
-
     Route::get('/{vue_capture?}', function () {
         return view('index');
     })->where('vue_capture', '[\/\w\.-]*');
-
 });

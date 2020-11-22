@@ -32,6 +32,9 @@ class UserController extends Controller
             } else {
                 // attempt successful
                 Auth::login($user);
+                if (Auth::user()->role == "admin") {
+                    return redirect('/admin/dashboard');
+                }
                 return redirect('/dashboard');
             }
         }
