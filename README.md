@@ -17,7 +17,7 @@ APU Car Parking System allows **students**,
   
 APU Car Parking System allows **admin**,
 - **DONE** To login and logout from the system.
-- *TBT* To check the availability of car parking areas.
+- *WIP* To check the availability of car parking areas.
 - To check all records.
 - To check all subscription.
 - To modify overall subscription capacity.
@@ -32,6 +32,7 @@ APU Car Parking System is able,
 - Added `Admin Dashboard` for vue router
 - Refactored `ParkingController->feeCalculation()`
 - Added `More`, `Dashboard` for Admin site
+- Added `category` column for `transactions` table
 ######  17/11/2020
 - Added apcard balance checking for `Subscription`
 - Added `Transaction` relationship for `User`

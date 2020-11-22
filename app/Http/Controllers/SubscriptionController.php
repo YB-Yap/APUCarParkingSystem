@@ -138,6 +138,7 @@ class SubscriptionController extends Controller
 
         $transaction->user_id = $user->id;
         $transaction->type = "deduct";
+        $transaction->category = "subscription";
         $transaction->amount = $subs_price;
         $transaction->description = $request->mode == 'purchase' ?"Purchase subscription" : "Extend subscription";
         $transaction->save();
@@ -158,6 +159,7 @@ class SubscriptionController extends Controller
 
         $transaction->user_id = $user->id;
         $transaction->type = "deduct";
+        $transaction->category = "subscription";
         $transaction->amount = 0;
         $transaction->description = "Terminate subscription";
         $transaction->save();

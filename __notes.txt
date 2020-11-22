@@ -4,6 +4,7 @@ parking controller
     - TBT - deduct apcard balance
     - TBT - subscription if statement
     - TBT - exit parking logic probably need to convert to function for fee estimation
+    - TBT - refactored
 
 subscription page
     - TBT - purchase
@@ -25,23 +26,38 @@ dashboard
     - improve car status (show how many are currently in parking area)
     - estimated fee (maybe also check if the apcard has enough balance)
     - TBT - latest record logic
-    - maybe add dummy blocks from apspace
+    - add dummy blocks from apspace
 
 parking status page
     - improve ui
         - maybe add bar chart for the parking zone availability
     - TBT - estimated fee
 
+admin site
+    - records listing
+        - parking log
+        - subscription log
+        - transaction log ????
+    - subscription
+        - purchase
+        - list all active subs
+        - termninate
+    - config page
+        - subs size
+        - subs price
+        - simulator - carpking size
+
 
 To be added
-    - parking history and transaction page
+    - parking history and subscription transaction
+        - put parking records in parking status
+        - put subscription transactions in subscription history
+    ----------
+    not doing
     (maybe add filter function)
         - parking records
         - subscription records
-    (maybe separate parking records and subscription records)
-        - put parking records in parking status, put subscription records in subscription history
-
-    - admin side
+    ----------
 
 
 extra features

@@ -9,7 +9,7 @@ class Transaction extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['user_id', 'type', 'amount', 'description'];
+    protected $fillable = ['user_id', 'type', 'category', 'amount', 'description'];
 
     public function user()
     {

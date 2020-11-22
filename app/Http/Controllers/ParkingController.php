@@ -178,6 +178,7 @@ class ParkingController extends Controller
 
         $transaction->user_id = $user->id;
         $transaction->type = "deduct";
+        $transaction->category = "parking";
         $transaction->amount = $calc->to_pay;
         $transaction->description = "Parking fee";
         $transaction->save();

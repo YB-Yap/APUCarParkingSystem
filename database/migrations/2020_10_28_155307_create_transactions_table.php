@@ -17,6 +17,7 @@ class CreateTransactionsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned()->index();
             $table->enum('type', ['deduct', 'topup'])->default('deduct');
+            $table->enum('category', ['parking', 'subscription'])->default('parking');
             $table->integer('amount')->unsigned();
             $table->string('description');
             $table->timestamps();
