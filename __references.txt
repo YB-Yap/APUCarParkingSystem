@@ -1,5 +1,5 @@
 // fix error 404 when user type the exact url manually
-// Damon -2018
+// Damon - 2018
 https://stackoverflow.com/questions/51008803/laravel-vue-router-returns-404-page/51009019
 
 // extract month, day from timestamp
@@ -16,4 +16,14 @@ https://github.com/shershen08/vue-masonry?ref=madewithvuejs.com
 https://stackoverflow.com/questions/44080385/laravel-groupby-min-max-filter-grouped-results
 https://github.com/laravel/blog-contest-may-mayhem/issues/15
 
+// array group by object key
+// timo - 2016
+https://stackoverflow.com/questions/40774697/how-to-group-an-array-of-objects-by-key/40774759#40774759
 
+// loop object
+// Tim down - 2010
+https://stackoverflow.com/questions/2958841/how-to-loop-through-key-value-object-in-javascript
+
+// update object in array using lodash
+// guillermo Moratorio - 2017
+https://stackoverflow.com/questions/46459960/updating-value-of-array-of-object-using-lodash/46474249

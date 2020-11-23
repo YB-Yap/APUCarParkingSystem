@@ -27,6 +27,23 @@
                     <span>Duration: {{ `${latest_record.hours} hour(s) ${latest_record.minutes} minute(s)` }}</span><br>
                     <span>Parking fee: RM{{ (latest_record.fee / 100).toFixed(2) }}</span>
                 </div>
+
+                <h1>Previous record</h1>
+                <div class="section-wrapper" v-if="parking_records.length == 0">
+                    No records.
+                </div>
+                <div class="section-wrapper" v-else>
+                    <div v-for="(record, index) in parking_records" :key=index>
+                        <h5>{{ index }}</h5>
+                        <div class="section-child-wrapper" v-for="(data, i) in record" :key=i>
+                            {{ data.parking_zone }}<br>
+                            {{ data.time_in }}<br>
+                            {{ data.time_out }}<br>
+                            {{ `${data.duration.hours} hour(s) ${data.duration.minutes} minute(s)` }}<br>
+                            {{ `RM ${(data.fee / 100).toFixed(2)}` }}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -46,19 +63,21 @@
                     hours: 0,
                     minutes: 0,
                 },
+                parking_records: {},
             }
         },
         mounted() {
             this.getCarState();
             this.getCarParkAvailability();
             this.getCarParkSize();
+            this.getParkingRecords();
         },
         methods: {
             getCarState() {
                 axios
                     .get('/parking/get-state')
                     .then((result) => {
-                        console.log(result.data)
+                        // console.log(result.data)
                         if (result.data.isInParking) {
                             this.is_in_parking = true;
                             this.car_state = result.data.data[0];
@@ -77,7 +96,7 @@
                 axios
                     .get('/parking/estimate-fee')
                     .then((result) => {
-                        console.log(result.data)
+                        // console.log(result.data)
                         this.estimated_fee = (result.data / 100).toFixed(2);
                         this.$forceUpdate();
                     });
@@ -94,6 +113,45 @@
                     .get('/api/parking/size')
                     .then((result) => {
                         this.parking_size = result.data;
+                    });
+            },
+            toDateString(_date) {
+                return _date.getFullYear() + '-' +
+                        ("0" + (_date.getMonth() + 1)).slice(-2) + '-' +
+                        ("0" + _date.getDate()).slice(-2);
+            },
+            toTimeString(_date) {
+                return ("0" + _date.getHours()).slice(-2) + ':' +
+                        ("0" + _date.getMinutes()).slice(-2) + ':' +
+                        ("0" + _date.getSeconds()).slice(-2);
+            },
+            getParkingRecords() {
+                axios
+                    .get('/parking/records')
+                    .then((result) => {
+                        this.parking_records = _.groupBy(result.data.data, record => {
+                            let _date = new Date(record.time_in);
+                            _date.get
+                            return this.toDateString(_date);
+                        });
+                        console.log(JSON.parse(JSON.stringify(this.parking_records)));
+                        for (var group in this.parking_records) {
+                            // console.log(this.parking_records[group]);
+                            _.map(this.parking_records[group], record => {
+                                // console.log(record);
+                                let _hours = Math.floor(record.duration);
+                                let _minutes = Math.floor((record.duration - _hours) * 60);
+                                // console.log(_hours, _minutes);
+                                record.duration = {
+                                    hours: _hours,
+                                    minutes: _minutes
+                                };
+                                record.time_in = this.toTimeString(new Date(record.time_in));
+                                record.time_out = this.toTimeString(new Date(record.time_out));
+                                return record;
+                            });
+                        };
+                        // console.log(this.parking_records);
                     });
             },
         }

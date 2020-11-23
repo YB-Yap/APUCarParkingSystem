@@ -2684,6 +2684,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2696,21 +2713,22 @@ __webpack_require__.r(__webpack_exports__);
       latest_record: {
         hours: 0,
         minutes: 0
-      }
+      },
+      parking_records: {}
     };
   },
   mounted: function mounted() {
     this.getCarState();
     this.getCarParkAvailability();
     this.getCarParkSize();
+    this.getParkingRecords();
   },
   methods: {
     getCarState: function getCarState() {
       var _this = this;
 
       axios.get('/parking/get-state').then(function (result) {
-        console.log(result.data);
-
+        // console.log(result.data)
         if (result.data.isInParking) {
           _this.is_in_parking = true;
           _this.car_state = result.data.data[0];
@@ -2731,7 +2749,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       axios.get('/parking/estimate-fee').then(function (result) {
-        console.log(result.data);
+        // console.log(result.data)
         _this2.estimated_fee = (result.data / 100).toFixed(2);
 
         _this2.$forceUpdate();
@@ -2749,6 +2767,46 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/api/parking/size').then(function (result) {
         _this4.parking_size = result.data;
+      });
+    },
+    toDateString: function toDateString(_date) {
+      return _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
+    },
+    toTimeString: function toTimeString(_date) {
+      return ("0" + _date.getHours()).slice(-2) + ':' + ("0" + _date.getMinutes()).slice(-2) + ':' + ("0" + _date.getSeconds()).slice(-2);
+    },
+    getParkingRecords: function getParkingRecords() {
+      var _this5 = this;
+
+      axios.get('/parking/records').then(function (result) {
+        _this5.parking_records = _.groupBy(result.data.data, function (record) {
+          var _date = new Date(record.time_in);
+
+          _date.get;
+          return _this5.toDateString(_date);
+        });
+        console.log(JSON.parse(JSON.stringify(_this5.parking_records)));
+
+        for (var group in _this5.parking_records) {
+          // console.log(this.parking_records[group]);
+          _.map(_this5.parking_records[group], function (record) {
+            // console.log(record);
+            var _hours = Math.floor(record.duration);
+
+            var _minutes = Math.floor((record.duration - _hours) * 60); // console.log(_hours, _minutes);
+
+
+            record.duration = {
+              hours: _hours,
+              minutes: _minutes
+            };
+            record.time_in = _this5.toTimeString(new Date(record.time_in));
+            record.time_out = _this5.toTimeString(new Date(record.time_out));
+            return record;
+          });
+        }
+
+        ; // console.log(this.parking_records);
       });
     }
   }
@@ -50349,7 +50407,66 @@ var render = function() {
                 )
               ])
             ])
-          : _vm._e()
+          : _vm._e(),
+        _vm._v(" "),
+        _c("h1", [_vm._v("Previous record")]),
+        _vm._v(" "),
+        _vm.parking_records.length == 0
+          ? _c("div", { staticClass: "section-wrapper" }, [
+              _vm._v("\n                No records.\n            ")
+            ])
+          : _c(
+              "div",
+              { staticClass: "section-wrapper" },
+              _vm._l(_vm.parking_records, function(record, index) {
+                return _c(
+                  "div",
+                  { key: index },
+                  [
+                    _c("h5", [_vm._v(_vm._s(index))]),
+                    _vm._v(" "),
+                    _vm._l(record, function(data, i) {
+                      return _c(
+                        "div",
+                        { key: i, staticClass: "section-child-wrapper" },
+                        [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(data.parking_zone)
+                          ),
+                          _c("br"),
+                          _vm._v(
+                            "\n                        " + _vm._s(data.time_in)
+                          ),
+                          _c("br"),
+                          _vm._v(
+                            "\n                        " + _vm._s(data.time_out)
+                          ),
+                          _c("br"),
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(
+                                data.duration.hours +
+                                  " hour(s) " +
+                                  data.duration.minutes +
+                                  " minute(s)"
+                              )
+                          ),
+                          _c("br"),
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s("RM " + (data.fee / 100).toFixed(2)) +
+                              "\n                    "
+                          )
+                        ]
+                      )
+                    })
+                  ],
+                  2
+                )
+              }),
+              0
+            )
       ])
     ])
   ])
@@ -50699,7 +50816,7 @@ var render = function() {
               _c(
                 "div",
                 {
-                  staticClass: "disclaimer border",
+                  staticClass: "section-child-wrapper border",
                   class: !_vm.disclaimer_check
                     ? "border-danger"
                     : "border-success"
@@ -50803,7 +50920,7 @@ var render = function() {
                 _c(
                   "div",
                   {
-                    staticClass: "disclaimer border",
+                    staticClass: "section-child-wrapper border",
                     class: !_vm.termination_check
                       ? "border-danger"
                       : "border-success"

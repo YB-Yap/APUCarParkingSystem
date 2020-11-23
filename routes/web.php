@@ -40,6 +40,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/parking/estimate-fee', 'ParkingController@estimateFee');
     Route::post('/parking/enter', 'ParkingController@enterCarPark');
     Route::post('/parking/exit', 'ParkingController@exitCarPark');
+    Route::get('/parking/records', 'ParkingController@getRecords');
 
     Route::get('/subscription/get-state', 'SubscriptionController@getSubsState');
     Route::post('/subscription/purchase', 'SubscriptionController@purchaseSubs');

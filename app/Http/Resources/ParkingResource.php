@@ -21,7 +21,6 @@ class ParkingResource extends JsonResource
             'time_out' => $this->time_out,
             'duration' => $this->duration,
             'fee' => $this->fee,
-            // 'estimated_fee' => $this->estimateFee(),
         ];
     }
 }
