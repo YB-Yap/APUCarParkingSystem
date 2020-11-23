@@ -39,7 +39,7 @@
                     <span class="mdi mdi-credit-card-outline"> RM 60.00</span><br>
                     <span class="mdi mdi-timer-outline"> {{ valid_from }} ~ {{ valid_till }}</span><br>
                     <span class="mdi mdi-boom-gate-up-outline"> 1 Month</span>
-                    <div class="disclaimer border" :class="!disclaimer_check ? 'border-danger' : 'border-success'">
+                    <div class="section-child-wrapper border" :class="!disclaimer_check ? 'border-danger' : 'border-success'">
                         <input type="checkbox" class="mr-2" v-model="disclaimer_check">
                         <label>By checking this, you understand that this subscription is not refundable.</label>
                     </div>
@@ -55,7 +55,7 @@
                         Before proceeding, we would like to inform you that this action is <strong>irreversible</strong>
                         and all your subscriptions will be terminated.
                     </p>
-                    <div class="disclaimer border" :class="!termination_check ? 'border-danger' : 'border-success'">
+                    <div class="section-child-wrapper border" :class="!termination_check ? 'border-danger' : 'border-success'">
                         <input type="checkbox" class="mr-2" v-model="termination_check">
                         <label>Yes, terminate all my subscriptions.</label>
                     </div>
@@ -91,7 +91,9 @@
         },
         methods: {
             toDateString(_date) {
-                return _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
+                return _date.getFullYear() + '-' +
+                        ("0" + (_date.getMonth() + 1)).slice(-2) + '-' +
+                        ("0" + _date.getDate()).slice(-2);
             },
             getSubscriptionState() {
                 axios
