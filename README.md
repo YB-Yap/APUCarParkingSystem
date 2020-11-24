@@ -31,6 +31,8 @@ APU Car Parking System is able,
 - Minor changes to `get-state` route
 - Minor changes to `Subscription`, `Parking Status` UI
 - Added `Subscription History`
+- Added `Vue-Autonumeric` and `AutoNumeric` dependency
+- Added `Admin/Setting`
 ######  23/11/2020
 - Changed `.disclaimer` to `.section-child-wrapper` in app.scss
 - Added parking records listing in `Parking Status`

@@ -19,12 +19,17 @@
                     <router-link :to="{name: 'subscription', params: {user_id: user_id}}" class="more-link">
                         <span class="more-icon mdi mdi-calendar-clock"> Subscription</span>
                     </router-link>
-                </li>
-                <li class="list-group-item">
+                </li> -->
+                <!-- <li class="list-group-item">
                     <router-link :to="{name: 'simulator', params: {user_id: user_id}}" class="more-link">
                         <span class="more-icon mdi mdi-alert-circle"> **Simulator**</span>
                     </router-link>
                 </li> -->
+                <li class="list-group-item">
+                    <router-link to="setting" class="more-link">
+                        <span class="more-icon mdi mdi-cog"> Setting</span>
+                    </router-link>
+                </li>
                 <li class="list-group-item">
                     <a class="more-link" @click="logout()">
                         <span class="more-icon mdi mdi-logout"> Logout</span>

@@ -5,6 +5,7 @@ import Simulator from "./pages/Simulator";
 import Subscription from "./pages/Subscription";
 import SubscriptionHistory from "./pages/SubscriptionHistory";
 import AdminDashboard from "./pages/Admin/Dashboard";
+import AdminSetting from "./pages/Admin/Setting";
 import AdminMore from "./pages/Admin/More";
 
 export const routes = [
@@ -55,6 +56,11 @@ export const routes = [
         path: "/admin/dashboard",
         name: "admin_dashboard",
         component: AdminDashboard
+    },
+    {
+        path: "/admin/setting",
+        name: "admin_setting",
+        component: AdminSetting
     },
     {
         path: "/admin/more",

@@ -27,3 +27,9 @@ https://stackoverflow.com/questions/2958841/how-to-loop-through-key-value-object
 // update object in array using lodash
 // guillermo Moratorio - 2017
 https://stackoverflow.com/questions/46459960/updating-value-of-array-of-object-using-lodash/46474249
+
+// vue-autonumeric
+https://github.com/autoNumeric/vue-autoNumeric
+
+// placeholder colour
+https://css-tricks.com/almanac/selectors/p/placeholder/
