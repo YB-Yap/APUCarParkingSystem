@@ -193,7 +193,7 @@
             },
             getCarState() {
                 axios
-                    .get('/parking/get-state')
+                    .get('/parking/state')
                     .then((result) => {
                         console.log(result.data)
                         if (result.data.isInParking) {
@@ -225,7 +225,7 @@
             },
             getSubscriptionState() {
                 axios
-                    .get('/subscription/get-state')
+                    .get('/subscription/state')
                     .then((result) => {
                         console.log(result.data)
                         if (result.data.hasSubscription) {
