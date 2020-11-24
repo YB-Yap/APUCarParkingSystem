@@ -1,7 +1,7 @@
 <template>
     <div class="page">
         <div class="page-header">
-            <h1 class="page-title">Setting</h1>
+            <h1 class="page-title">Settings</h1>
         </div>
         <div class="page-content">
             <div class="center-container">
@@ -14,7 +14,7 @@
                             <div class="input-group-text">RM</div>
                             </div>
                             <vue-autonumeric
-                                v-model="config.subs_price"
+                                v-model="config.subscription_price"
                                 :options="{
                                     minimumValue: '0',
                                     maximumValue: '100000',
@@ -22,7 +22,7 @@
                                 }"
                                 class="form-control" id="subsPrice"
                                 placeholder="60.00" aria-describedby="subsPriceHelp"
-                                :class="(config.subs_price == null) ? 'border border-danger input-error' : null"
+                                :class="(config.subscription_price == null) ? 'border border-danger input-error' : null"
                             ></vue-autonumeric>
                         </div>
                         <small id="subsPriceHelp" class="form-text text-muted">
@@ -33,7 +33,7 @@
                     <div class="form-group">
                         <label for="subsCapacity">Capacity *</label>
                         <vue-autonumeric
-                            v-model="config.subs_capacity"
+                            v-model="config.subscription_quantity"
                             :options="{
                                 minimumValue: '0',
                                 maximumValue: '100000',
@@ -42,7 +42,7 @@
                             }"
                             class="form-control" id="subsCapacity"
                             placeholder="10" aria-describedby="subsCapacityHelp"
-                            :class="(config.subs_capacity == null) ? 'border border-danger input-error' : null"
+                            :class="(config.subscription_quantity == null) ? 'border border-danger input-error' : null"
                         ></vue-autonumeric>
                         <small id="subsCapacityHelp" class="form-text text-muted">
                             Subscription capacity is the total amount of subscription that can be purchased.<br>
@@ -98,6 +98,7 @@
                 <button
                     class="btn btn-primary mt-4 w-100"
                     :disabled="invalid_form"
+                    @click="updateConfig()"
                 >Update</button>
             </div>
         </div>
@@ -111,8 +112,8 @@
         data() {
             return {
                 config: {
-                    subs_price: 0.00,
-                    subs_capacity: 0,
+                    subscription_price: 0.00,
+                    subscription_quantity: 0,
                     zone_a_size: 0,
                     zone_b_size: 0,
                 },
@@ -123,10 +124,49 @@
         },
         computed: {
             invalid_form: function() {
-                return ((this.config.subs_price != null) &&
-                    (this.config.subs_capacity != null) &&
+                return ((this.config.subscription_price != null) &&
+                    (this.config.subscription_quantity != null) &&
                     (this.config.zone_a_size != null) &&
                     (this.config.zone_b_size != null)) ? false : true;
+            }
+        },
+        mounted() {
+            this.getConfig();
+        },
+        methods: {
+            getConfig() {
+                axios
+                    .get('/api/admin/config')
+                    .then((result) => {
+                        console.log(result.data);
+                        $.each(result.data, (config_key, config_value) => {
+                            if (config_value.key == 'subscription_price') {
+                                this.config[config_value.key] = (config_value.value / 100).toFixed(2);
+                            } else {
+                                this.config[config_value.key] = config_value.value;
+                            }
+                        });
+                    });
+            },
+            updateConfig() {
+                this.$swal({
+                    title: 'Update config',
+                    text: 'Please wait while the system is updating config.',
+                    icon: 'info',
+                    allowOutsideClick: false,
+                })
+                this.$swal.showLoading();
+                axios
+                    .post(`/api/admin/config/update`, this.config)
+                    .then((result) => {
+                        if (result.status == 200) {
+                            this.$swal.fire({
+                                title: 'Update config',
+                                text: 'Config successful',
+                                icon: 'success',
+                            })
+                        }
+                    });
             }
         }
     }

@@ -38,11 +38,11 @@
                 <router-link :to="{name: 'subscription', params: {user_id: user.id}}" class="nav-link">
                     <span class="nav-icon mdi mdi-calendar-clock"></span>
                     <span>Subscription</span>
-                </router-link>
-                <router-link :to="{name: 'simulator', params: {user_id: user.id}}" class="nav-link">
-                    <span class="nav-icon mdi mdi-alert-circle"></span>
-                    <span>Simulator</span>
                 </router-link> -->
+                <router-link to="settings" class="nav-link">
+                    <span class="nav-icon mdi mdi-cog"></span>
+                    <span>Settings</span>
+                </router-link>
                 <router-link :to="{name: 'admin_more', params: {user_id: user.id}}" class="nav-link">
                     <span class="nav-icon mdi mdi-dots-vertical"></span>
                     <span>More</span>

@@ -14,7 +14,9 @@ class ConfigController extends Controller
      */
     public function index()
     {
-        //
+        $data = Config::all();
+
+        return response()->json($data, 200);
     }
 
     /**
@@ -81,5 +83,19 @@ class ConfigController extends Controller
     public function destroy(Config $config)
     {
         //
+    }
+
+    public function updateConfig(Request $request)
+    {
+        $config = $request->all();
+        $config['subscription_price'] = $config['subscription_price'] * 100;
+
+        foreach ($config as $key => $value) {
+            Config::where('key', $key)->update(['value' => $value]);
+        }
+
+        return response()->json([
+            'message' => 'Updated Successful.'
+        ], 200);
     }
 }

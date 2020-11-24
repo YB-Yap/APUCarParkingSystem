@@ -26,8 +26,8 @@
                     </router-link>
                 </li> -->
                 <li class="list-group-item">
-                    <router-link to="setting" class="more-link">
-                        <span class="more-icon mdi mdi-cog"> Setting</span>
+                    <router-link to="settings" class="more-link">
+                        <span class="more-icon mdi mdi-cog"> Settings</span>
                     </router-link>
                 </li>
                 <li class="list-group-item">

@@ -25,6 +25,11 @@ Route::get('/subscription/availability', 'SubscriptionController@getAvailability
 Route::get('/subscription/size', 'SubscriptionController@getSize');
 Route::get('/subscription/estimate-restock-date', 'SubscriptionController@estimateRestockDate');
 
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('/config', 'ConfigController');
+    Route::post('/config/update', 'ConfigController@updateConfig');
+});
+
 // Route::group(['middleware' => ['auth']], function () {
 
 // });

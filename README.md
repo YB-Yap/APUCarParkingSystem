@@ -20,7 +20,7 @@ APU Car Parking System allows **admin**,
 - *WIP* To check the availability of car parking areas.
 - To check all records.
 - To check all subscription.
-- *WIP* To modify overall subscription capacity.
+- *TBT* To modify overall subscription capacity.
 - To terminate season parking subscription.
   
 APU Car Parking System is able,
@@ -32,7 +32,8 @@ APU Car Parking System is able,
 - Minor changes to `Subscription`, `Parking Status` UI
 - Added `Subscription History`
 - Added `Vue-Autonumeric` and `AutoNumeric` dependency
-- Added `Admin/Setting`
+- Added `Admin/Settins`
+- Completed `Settings` functions
 ######  23/11/2020
 - Changed `.disclaimer` to `.section-child-wrapper` in app.scss
 - Added parking records listing in `Parking Status`

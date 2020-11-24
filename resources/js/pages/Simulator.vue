@@ -181,15 +181,7 @@
                         }
                     })
             },
-            // checkTopup() {
-            //     if (!(this.topup_amount >= 0.01 && this.topup_amount <= 9999.99)) {
-            //         this.invalid_topup = true;
-            //     } else {
-            //         this.invalid_topup = false;
-            //     }
-            // },
         }
-
     }
 </script>
 
