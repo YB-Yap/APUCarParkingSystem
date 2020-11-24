@@ -36,15 +36,17 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/apcard/balance', 'UserController@getApcardBalance');
     Route::post('/apcard/topup', 'UserController@topupApcard');
 
-    Route::get('/parking/get-state', 'ParkingController@getCarState');
+    Route::get('/parking/state', 'ParkingController@getState');
     Route::get('/parking/estimate-fee', 'ParkingController@estimateFee');
     Route::post('/parking/enter', 'ParkingController@enterCarPark');
     Route::post('/parking/exit', 'ParkingController@exitCarPark');
     Route::get('/parking/records', 'ParkingController@getRecords');
 
-    Route::get('/subscription/get-state', 'SubscriptionController@getSubsState');
+    Route::get('/subscription/state', 'SubscriptionController@getState');
     Route::post('/subscription/purchase', 'SubscriptionController@purchaseSubs');
     Route::post('/subscription/terminate', 'SubscriptionController@terminateSubs');
+
+    Route::get('/transaction/subscription-records', 'TransactionController@getSubsRecords');
 
     Route::get('/{vue_capture?}', function () {
         return view('index');

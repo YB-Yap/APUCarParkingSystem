@@ -2115,7 +2115,7 @@ __webpack_require__.r(__webpack_exports__);
     getCarState: function getCarState() {
       var _this3 = this;
 
-      axios.get('/parking/get-state').then(function (result) {
+      axios.get('/parking/state').then(function (result) {
         console.log(result.data);
 
         if (result.data.isInParking) {
@@ -2152,7 +2152,7 @@ __webpack_require__.r(__webpack_exports__);
     getSubscriptionState: function getSubscriptionState() {
       var _this5 = this;
 
-      axios.get('/subscription/get-state').then(function (result) {
+      axios.get('/subscription/state').then(function (result) {
         console.log(result.data);
 
         if (result.data.hasSubscription) {
@@ -2480,7 +2480,7 @@ __webpack_require__.r(__webpack_exports__);
     getCarState: function getCarState() {
       var _this3 = this;
 
-      axios.get('/parking/get-state').then(function (result) {
+      axios.get('/parking/state').then(function (result) {
         console.log(result.data);
 
         if (result.data.isInParking) {
@@ -2517,7 +2517,7 @@ __webpack_require__.r(__webpack_exports__);
     getSubscriptionState: function getSubscriptionState() {
       var _this5 = this;
 
-      axios.get('/subscription/get-state').then(function (result) {
+      axios.get('/subscription/state').then(function (result) {
         console.log(result.data);
 
         if (result.data.hasSubscription) {
@@ -2582,6 +2582,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2701,6 +2706,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2727,8 +2761,7 @@ __webpack_require__.r(__webpack_exports__);
     getCarState: function getCarState() {
       var _this = this;
 
-      axios.get('/parking/get-state').then(function (result) {
-        // console.log(result.data)
+      axios.get('/parking/state').then(function (result) {
         if (result.data.isInParking) {
           _this.is_in_parking = true;
           _this.car_state = result.data.data[0];
@@ -2749,7 +2782,6 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       axios.get('/parking/estimate-fee').then(function (result) {
-        // console.log(result.data)
         _this2.estimated_fee = (result.data / 100).toFixed(2);
 
         _this2.$forceUpdate();
@@ -2775,6 +2807,10 @@ __webpack_require__.r(__webpack_exports__);
     toTimeString: function toTimeString(_date) {
       return ("0" + _date.getHours()).slice(-2) + ':' + ("0" + _date.getMinutes()).slice(-2) + ':' + ("0" + _date.getSeconds()).slice(-2);
     },
+    getWeekDay: function getWeekDay(_date) {
+      var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      return weekdays[_date.getDay()];
+    },
     getParkingRecords: function getParkingRecords() {
       var _this5 = this;
 
@@ -2782,19 +2818,14 @@ __webpack_require__.r(__webpack_exports__);
         _this5.parking_records = _.groupBy(result.data.data, function (record) {
           var _date = new Date(record.time_in);
 
-          _date.get;
-          return _this5.toDateString(_date);
+          return "".concat(_this5.toDateString(_date), ", ").concat(_this5.getWeekDay(_date));
         });
-        console.log(JSON.parse(JSON.stringify(_this5.parking_records)));
 
         for (var group in _this5.parking_records) {
-          // console.log(this.parking_records[group]);
           _.map(_this5.parking_records[group], function (record) {
-            // console.log(record);
             var _hours = Math.floor(record.duration);
 
-            var _minutes = Math.floor((record.duration - _hours) * 60); // console.log(_hours, _minutes);
-
+            var _minutes = Math.floor((record.duration - _hours) * 60);
 
             record.duration = {
               hours: _hours,
@@ -2806,7 +2837,7 @@ __webpack_require__.r(__webpack_exports__);
           });
         }
 
-        ; // console.log(this.parking_records);
+        ;
       });
     }
   }
@@ -2906,7 +2937,7 @@ __webpack_require__.r(__webpack_exports__);
     getCarState: function getCarState() {
       var _this2 = this;
 
-      axios.get('/parking/get-state').then(function (result) {
+      axios.get('/parking/state').then(function (result) {
         console.log(result.data);
 
         if (result.data.isInParking) {
@@ -3105,6 +3136,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['user_id'],
   data: function data() {
@@ -3132,7 +3171,7 @@ __webpack_require__.r(__webpack_exports__);
     getSubscriptionState: function getSubscriptionState() {
       var _this = this;
 
-      axios.get('/subscription/get-state').then(function (result) {
+      axios.get('/subscription/state').then(function (result) {
         console.log(result.data);
 
         if (result.data.hasSubscription) {
@@ -3261,6 +3300,92 @@ __webpack_require__.r(__webpack_exports__);
 
           _this6.$forceUpdate();
         }
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/SubscriptionHistory.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/SubscriptionHistory.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      subscription_records: []
+    };
+  },
+  mounted: function mounted() {
+    this.getSubscriptionRecords();
+  },
+  methods: {
+    toDateString: function toDateString(_date) {
+      return _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
+    },
+    toTimeString: function toTimeString(_date) {
+      return ("0" + _date.getHours()).slice(-2) + ':' + ("0" + _date.getMinutes()).slice(-2) + ':' + ("0" + _date.getSeconds()).slice(-2);
+    },
+    getWeekDay: function getWeekDay(_date) {
+      var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      return weekdays[_date.getDay()];
+    },
+    getSubscriptionRecords: function getSubscriptionRecords() {
+      var _this = this;
+
+      axios.get('/transaction/subscription-records').then(function (result) {
+        console.log(result.data.data); // this.subscription_records = result.data.data;
+
+        _this.subscription_records = _.map(result.data.data, function (record) {
+          if (record.description.toLowerCase().includes('purchase')) {
+            record.style = 'success';
+          } else if (record.description.toLowerCase().includes('extend')) {
+            record.style = 'info';
+          } else if (record.description.toLowerCase().includes('terminate')) {
+            record.style = 'danger';
+          }
+
+          var _date = new Date(record.created_at);
+
+          record.created_at = {
+            date: _this.toDateString(_date),
+            weekday: _this.getWeekDay(_date),
+            time: _this.toTimeString(_date)
+          };
+          return record;
+        });
       });
     }
   }
@@ -7784,7 +7909,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".record-label {\n  flex-basis: 130px;\n  width: 100%;\n}", ""]);
 
 // exports
 
@@ -7823,6 +7948,25 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 // module
 exports.push([module.i, ".terminate-section {\n  background-color: #424242 !important;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/SubscriptionHistory.vue?vue&type=style&index=0&lang=scss&":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/SubscriptionHistory.vue?vue&type=style&index=0&lang=scss& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
 
 // exports
 
@@ -42030,6 +42174,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/SubscriptionHistory.vue?vue&type=style&index=0&lang=scss&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/SubscriptionHistory.vue?vue&type=style&index=0&lang=scss& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./SubscriptionHistory.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/SubscriptionHistory.vue?vue&type=style&index=0&lang=scss&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/lib/addStyles.js":
 /*!****************************************************!*\
   !*** ./node_modules/style-loader/lib/addStyles.js ***!
@@ -50247,6 +50421,26 @@ var render = function() {
               "router-link",
               {
                 staticClass: "more-link",
+                attrs: { to: "subscription-history" }
+              },
+              [
+                _c("span", { staticClass: "more-icon mdi mdi-list-status" }, [
+                  _vm._v(" Subscription History")
+                ])
+              ]
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "li",
+          { staticClass: "list-group-item" },
+          [
+            _c(
+              "router-link",
+              {
+                staticClass: "more-link",
                 attrs: {
                   to: { name: "simulator", params: { user_id: _vm.user_id } }
                 }
@@ -50409,7 +50603,7 @@ var render = function() {
             ])
           : _vm._e(),
         _vm._v(" "),
-        _c("h1", [_vm._v("Previous record")]),
+        _c("h1", [_vm._v("Parking history")]),
         _vm._v(" "),
         _vm.parking_records.length == 0
           ? _c("div", { staticClass: "section-wrapper" }, [
@@ -50430,34 +50624,74 @@ var render = function() {
                         "div",
                         { key: i, staticClass: "section-child-wrapper" },
                         [
-                          _vm._v(
-                            "\n                        " +
-                              _vm._s(data.parking_zone)
-                          ),
-                          _c("br"),
-                          _vm._v(
-                            "\n                        " + _vm._s(data.time_in)
-                          ),
-                          _c("br"),
-                          _vm._v(
-                            "\n                        " + _vm._s(data.time_out)
-                          ),
-                          _c("br"),
-                          _vm._v(
-                            "\n                        " +
-                              _vm._s(
-                                data.duration.hours +
-                                  " hour(s) " +
-                                  data.duration.minutes +
-                                  " minute(s)"
-                              )
-                          ),
-                          _c("br"),
-                          _vm._v(
-                            "\n                        " +
-                              _vm._s("RM " + (data.fee / 100).toFixed(2)) +
-                              "\n                    "
-                          )
+                          _c("div", { staticClass: "d-flex" }, [
+                            _vm._m(1, true),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              { staticClass: "record-text flex-grow-1" },
+                              [_vm._v(": " + _vm._s(data.parking_zone))]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "d-flex" }, [
+                            _vm._m(2, true),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              { staticClass: "record-text flex-grow-1" },
+                              [_vm._v(": " + _vm._s(data.time_in))]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "d-flex" }, [
+                            _vm._m(3, true),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              { staticClass: "record-text flex-grow-1" },
+                              [_vm._v(": " + _vm._s(data.time_out))]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "d-flex" }, [
+                            _vm._m(4, true),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              { staticClass: "record-text flex-grow-1" },
+                              [
+                                _vm._v(
+                                  "\n                                : " +
+                                    _vm._s(
+                                      data.duration.hours +
+                                        " hour(s) " +
+                                        data.duration.minutes +
+                                        " minute(s)"
+                                    ) +
+                                    "\n                            "
+                                )
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "d-flex" }, [
+                            _vm._m(5, true),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              { staticClass: "record-text flex-grow-1" },
+                              [
+                                _vm._v(
+                                  "\n                                : " +
+                                    _vm._s(
+                                      "RM " + (data.fee / 100).toFixed(2)
+                                    ) +
+                                    "\n                            "
+                                )
+                              ]
+                            )
+                          ])
                         ]
                       )
                     })
@@ -50478,6 +50712,51 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "page-header" }, [
       _c("h1", { staticClass: "page-title" }, [_vm._v("Parking Status")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "record-label" }, [
+      _c("span", { staticClass: "mdi mdi-boom-gate" }),
+      _vm._v(" Parking zone\n                            ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "record-label" }, [
+      _c("span", { staticClass: "mdi mdi-location-enter" }),
+      _vm._v(" Time in\n                            ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "record-label" }, [
+      _c("span", { staticClass: "mdi mdi-location-exit" }),
+      _vm._v(" Time out\n                            ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "record-label" }, [
+      _c("span", { staticClass: "mdi mdi-timer-outline" }),
+      _vm._v(" Duration\n                            ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "record-label" }, [
+      _c("span", { staticClass: "mdi mdi-credit-card" }),
+      _vm._v(" Parking fee\n                            ")
     ])
   }
 ]
@@ -50707,55 +50986,71 @@ var render = function() {
       _c("div", { staticClass: "center-container" }, [
         _c("h1", [_vm._v("Subscription status")]),
         _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "section-wrapper" },
+          [
+            _vm._v(
+              "\n                " +
+                _vm._s(
+                  _vm.has_subscription
+                    ? "Your subscription is currently active."
+                    : "You don't have any subscription."
+                ) +
+                "\n                "
+            ),
+            _c("router-link", { attrs: { to: "subscription-history" } }, [
+              _c(
+                "button",
+                { staticClass: "btn btn-primary d-block mt-4 w-100" },
+                [
+                  _c("span", { staticClass: "mdi mdi-list-status" }),
+                  _vm._v(" View subscription history\n                    ")
+                ]
+              )
+            ])
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _vm.has_subscription
+          ? _c("h3", [_vm._v("Owned subscription")])
+          : _vm._e(),
+        _vm._v(" "),
         _vm.has_subscription
           ? _c(
               "div",
-              [
-                _c("div", { staticClass: "section-wrapper" }, [
-                  _vm._v(
-                    "\n                    Your subscription is currently active.\n                "
-                  )
-                ]),
-                _vm._v(" "),
-                _vm._l(_vm.subscription_state, function(sub, index) {
-                  return _c(
-                    "div",
-                    { key: index, staticClass: "section-wrapper" },
-                    [
-                      _c(
-                        "div",
-                        { class: sub.is_active ? "text-success" : "text-info" },
-                        [
-                          _vm._v(
-                            "\n                        Valid from: " +
-                              _vm._s(sub.valid_at)
-                          ),
-                          _c("br"),
-                          _vm._v(
-                            "\n                        Valid till: " +
-                              _vm._s(sub.valid_till)
-                          ),
-                          _c("br"),
-                          _vm._v(
-                            "\n                        Status: " +
-                              _vm._s(sub.is_active ? "Active" : "Inactive")
-                          ),
-                          _c("br")
-                        ]
-                      )
-                    ]
-                  )
-                })
-              ],
-              2
-            )
-          : _c("div", [
-              _c("div", { staticClass: "section-wrapper" }, [
-                _vm._v(
-                  "\n                    You don't have any subscription.\n                "
+              { staticClass: "section-wrapper" },
+              _vm._l(_vm.subscription_state, function(sub, index) {
+                return _c(
+                  "div",
+                  {
+                    key: index,
+                    staticClass: "section-child-wrapper border",
+                    class: sub.is_active ? "border-success" : "border-info"
+                  },
+                  [
+                    _vm._v(
+                      "\n                    Valid from: " +
+                        _vm._s(sub.valid_at)
+                    ),
+                    _c("br"),
+                    _vm._v(
+                      "\n                    Valid till: " +
+                        _vm._s(sub.valid_till)
+                    ),
+                    _c("br"),
+                    _vm._v(
+                      "\n                    Status: " +
+                        _vm._s(sub.is_active ? "Active" : "Inactive")
+                    ),
+                    _c("br")
+                  ]
                 )
-              ])
-            ]),
+              }),
+              0
+            )
+          : _vm._e(),
         _vm._v(" "),
         _c("h1", [_vm._v("Season Parking Subscription")]),
         _vm._v(" "),
@@ -51017,6 +51312,90 @@ var staticRenderFns = [
       _vm._v(
         "\n                    and all your subscriptions will be terminated.\n                "
       )
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/SubscriptionHistory.vue?vue&type=template&id=7c068f3e&":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/SubscriptionHistory.vue?vue&type=template&id=7c068f3e& ***!
+  \*****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "page" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "page-content" }, [
+      _c("div", { staticClass: "center-container" }, [
+        _c("h1", [_vm._v("Subscription history")]),
+        _vm._v(" "),
+        _vm.subscription_records.length == 0
+          ? _c("div", { staticClass: "section-wrapper" }, [
+              _vm._v("\n                No records.\n            ")
+            ])
+          : _c(
+              "div",
+              { staticClass: "section-wrapper" },
+              _vm._l(_vm.subscription_records, function(record, index) {
+                return _c(
+                  "div",
+                  { key: index, staticClass: "section-child-wrapper" },
+                  [
+                    _c("h5", { class: "text-" + record.style }, [
+                      _vm._v(_vm._s(record.description))
+                    ]),
+                    _vm._v(
+                      "\n                    Amount: " +
+                        _vm._s(
+                          (record.type == "deduct" ? "-" : "+") +
+                            " RM" +
+                            (record.amount / 100).toFixed(2)
+                        )
+                    ),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "mdi mdi-clock-outline" }),
+                    _vm._v(
+                      " Timestamp:\n                    " +
+                        _vm._s(
+                          record.created_at.date +
+                            ", " +
+                            record.created_at.weekday +
+                            " at " +
+                            record.created_at.time
+                        ) +
+                        "\n                "
+                    )
+                  ]
+                )
+              }),
+              0
+            )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "page-header" }, [
+      _c("h1", { staticClass: "page-title" }, [_vm._v("Subscription History")])
     ])
   }
 ]
@@ -67194,6 +67573,93 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/pages/SubscriptionHistory.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/pages/SubscriptionHistory.vue ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _SubscriptionHistory_vue_vue_type_template_id_7c068f3e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SubscriptionHistory.vue?vue&type=template&id=7c068f3e& */ "./resources/js/pages/SubscriptionHistory.vue?vue&type=template&id=7c068f3e&");
+/* harmony import */ var _SubscriptionHistory_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SubscriptionHistory.vue?vue&type=script&lang=js& */ "./resources/js/pages/SubscriptionHistory.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _SubscriptionHistory_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SubscriptionHistory.vue?vue&type=style&index=0&lang=scss& */ "./resources/js/pages/SubscriptionHistory.vue?vue&type=style&index=0&lang=scss&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _SubscriptionHistory_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _SubscriptionHistory_vue_vue_type_template_id_7c068f3e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _SubscriptionHistory_vue_vue_type_template_id_7c068f3e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/pages/SubscriptionHistory.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/pages/SubscriptionHistory.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/pages/SubscriptionHistory.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SubscriptionHistory_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./SubscriptionHistory.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/SubscriptionHistory.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SubscriptionHistory_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/pages/SubscriptionHistory.vue?vue&type=style&index=0&lang=scss&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/pages/SubscriptionHistory.vue?vue&type=style&index=0&lang=scss& ***!
+  \**************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_SubscriptionHistory_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./SubscriptionHistory.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/SubscriptionHistory.vue?vue&type=style&index=0&lang=scss&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_SubscriptionHistory_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_SubscriptionHistory_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_SubscriptionHistory_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_SubscriptionHistory_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_SubscriptionHistory_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/pages/SubscriptionHistory.vue?vue&type=template&id=7c068f3e&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/pages/SubscriptionHistory.vue?vue&type=template&id=7c068f3e& ***!
+  \***********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SubscriptionHistory_vue_vue_type_template_id_7c068f3e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./SubscriptionHistory.vue?vue&type=template&id=7c068f3e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/SubscriptionHistory.vue?vue&type=template&id=7c068f3e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SubscriptionHistory_vue_vue_type_template_id_7c068f3e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SubscriptionHistory_vue_vue_type_template_id_7c068f3e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/routes.js":
 /*!********************************!*\
   !*** ./resources/js/routes.js ***!
@@ -67209,8 +67675,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_More__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pages/More */ "./resources/js/pages/More.vue");
 /* harmony import */ var _pages_Simulator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pages/Simulator */ "./resources/js/pages/Simulator.vue");
 /* harmony import */ var _pages_Subscription__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pages/Subscription */ "./resources/js/pages/Subscription.vue");
-/* harmony import */ var _pages_Admin_Dashboard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./pages/Admin/Dashboard */ "./resources/js/pages/Admin/Dashboard.vue");
-/* harmony import */ var _pages_Admin_More__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./pages/Admin/More */ "./resources/js/pages/Admin/More.vue");
+/* harmony import */ var _pages_SubscriptionHistory__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./pages/SubscriptionHistory */ "./resources/js/pages/SubscriptionHistory.vue");
+/* harmony import */ var _pages_Admin_Dashboard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./pages/Admin/Dashboard */ "./resources/js/pages/Admin/Dashboard.vue");
+/* harmony import */ var _pages_Admin_More__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./pages/Admin/More */ "./resources/js/pages/Admin/More.vue");
+
 
 
 
@@ -67246,18 +67714,22 @@ var routes = [{
   props: true,
   component: _pages_Subscription__WEBPACK_IMPORTED_MODULE_4__["default"]
 }, {
+  path: "/subscription-history",
+  name: "subscription_history",
+  component: _pages_SubscriptionHistory__WEBPACK_IMPORTED_MODULE_5__["default"]
+}, {
   path: "/admin/",
   name: "admin_index",
   redirect: "/admin/dashboard"
 }, {
   path: "/admin/dashboard",
   name: "admin_dashboard",
-  component: _pages_Admin_Dashboard__WEBPACK_IMPORTED_MODULE_5__["default"]
+  component: _pages_Admin_Dashboard__WEBPACK_IMPORTED_MODULE_6__["default"]
 }, {
   path: "/admin/more",
   name: "admin_more",
   props: true,
-  component: _pages_Admin_More__WEBPACK_IMPORTED_MODULE_6__["default"]
+  component: _pages_Admin_More__WEBPACK_IMPORTED_MODULE_7__["default"]
 }];
 
 /***/ }),

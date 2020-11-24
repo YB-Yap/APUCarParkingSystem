@@ -3,6 +3,7 @@ import ParkingStatus from "./pages/ParkingStatus";
 import More from "./pages/More";
 import Simulator from "./pages/Simulator";
 import Subscription from "./pages/Subscription";
+import SubscriptionHistory from "./pages/SubscriptionHistory";
 import AdminDashboard from "./pages/Admin/Dashboard";
 import AdminMore from "./pages/Admin/More";
 
@@ -39,6 +40,11 @@ export const routes = [
         name: "subscription",
         props: true,
         component: Subscription
+    },
+    {
+        path: "/subscription-history",
+        name: "subscription_history",
+        component: SubscriptionHistory
     },
     {
         path: "/admin/",

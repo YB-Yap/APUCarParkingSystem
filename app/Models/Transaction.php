@@ -15,4 +15,14 @@ class Transaction extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function scopeTypeSubs($query)
+    {
+        return $query->where('category', 'subscription');
+    }
+
+    public function scopeTypeParking($query)
+    {
+        return $query->where('category', 'parking');
+    }
 }

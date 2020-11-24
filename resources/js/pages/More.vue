@@ -21,6 +21,11 @@
                     </router-link>
                 </li>
                 <li class="list-group-item">
+                    <router-link to="subscription-history" class="more-link">
+                        <span class="more-icon mdi mdi-list-status"> Subscription History</span>
+                    </router-link>
+                </li>
+                <li class="list-group-item">
                     <router-link :to="{name: 'simulator', params: {user_id: user_id}}" class="more-link">
                         <span class="more-icon mdi mdi-alert-circle"> **Simulator**</span>
                     </router-link>
