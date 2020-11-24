@@ -98,7 +98,7 @@ class SubscriptionController extends Controller
         return response()->json(getSubsSize(), 200);
     }
 
-    public function getSubsState()
+    public function getState()
     {
         $user = Auth::user();
         $has_subcription = false;

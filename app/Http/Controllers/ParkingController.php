@@ -110,7 +110,7 @@ class ParkingController extends Controller
         return response()->json(getCarParkSize(), 200);
     }
 
-    public function getCarState()
+    public function getState()
     {
         $user = Auth::user();
         $today = Carbon::now()->toDateString();
@@ -287,6 +287,8 @@ class ParkingController extends Controller
 
     public function getRecords()
     {
-        return ParkingResource::collection(Auth::user()->parking()->latest('updated_at')->get());
+        return ParkingResource::collection(
+            Auth::user()->parking()->latest('updated_at')->get()
+        );
     }
 }
