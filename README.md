@@ -20,7 +20,7 @@ APU Car Parking System allows **admin**,
 - *WIP* To check the availability of car parking areas.
 - To check all records.
 - To check all subscription.
-- To modify overall subscription capacity.
+- *WIP* To modify overall subscription capacity.
 - To terminate season parking subscription.
   
 APU Car Parking System is able,
