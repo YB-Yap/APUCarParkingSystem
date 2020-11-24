@@ -6,21 +6,29 @@
         <div class="page-content">
             <div class="center-container">
                 <h1>Subscription status</h1>
-                <div v-if="has_subscription">
-                    <div class="section-wrapper">
-                        Your subscription is currently active.
-                    </div>
-                    <div class="section-wrapper" v-for="(sub, index) in subscription_state" :key="index">
-                        <div :class="sub.is_active ? 'text-success' : 'text-info'">
-                            Valid from: {{ sub.valid_at }}<br>
-                            Valid till: {{ sub.valid_till }}<br>
-                            Status: {{ sub.is_active ? 'Active' : 'Inactive' }}<br>
-                        </div>
-                    </div>
+                <div class="section-wrapper">
+                    {{
+                        has_subscription
+                        ? 'Your subscription is currently active.'
+                        : 'You don\'t have any subscription.'
+                    }}
+                    <router-link to="subscription-history">
+                        <button class="btn btn-primary d-block mt-4 w-100">
+                            <span class="mdi mdi-list-status"></span> View subscription history
+                        </button>
+                    </router-link>
                 </div>
-                <div v-else>
-                    <div class="section-wrapper">
-                        You don't have any subscription.
+                <h3 v-if="has_subscription">Owned subscription</h3>
+                <div v-if="has_subscription" class="section-wrapper">
+                    <div
+                        class="section-child-wrapper border"
+                        v-for="(sub, index) in subscription_state"
+                        :key="index"
+                        :class="sub.is_active ? 'border-success' : 'border-info'"
+                    >
+                        Valid from: {{ sub.valid_at }}<br>
+                        Valid till: {{ sub.valid_till }}<br>
+                        Status: {{ sub.is_active ? 'Active' : 'Inactive' }}<br>
                     </div>
                 </div>
 
@@ -97,7 +105,7 @@
             },
             getSubscriptionState() {
                 axios
-                    .get('/subscription/get-state')
+                    .get('/subscription/state')
                     .then((result) => {
                         console.log(result.data)
                         if (result.data.hasSubscription) {

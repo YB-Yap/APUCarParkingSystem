@@ -28,7 +28,7 @@
                     <span>Parking fee: RM{{ (latest_record.fee / 100).toFixed(2) }}</span>
                 </div>
 
-                <h1>Previous record</h1>
+                <h1>Parking history</h1>
                 <div class="section-wrapper" v-if="parking_records.length == 0">
                     No records.
                 </div>
@@ -36,11 +36,40 @@
                     <div v-for="(record, index) in parking_records" :key=index>
                         <h5>{{ index }}</h5>
                         <div class="section-child-wrapper" v-for="(data, i) in record" :key=i>
-                            {{ data.parking_zone }}<br>
-                            {{ data.time_in }}<br>
-                            {{ data.time_out }}<br>
-                            {{ `${data.duration.hours} hour(s) ${data.duration.minutes} minute(s)` }}<br>
-                            {{ `RM ${(data.fee / 100).toFixed(2)}` }}
+                            <div class="d-flex">
+                                <span class="record-label">
+                                    <span class="mdi mdi-boom-gate"></span> Parking zone
+                                </span>
+                                <span class="record-text flex-grow-1">: {{ data.parking_zone }}</span>
+                            </div>
+                            <div class="d-flex">
+                                <span class="record-label">
+                                    <span class="mdi mdi-location-enter"></span> Time in
+                                </span>
+                                <span class="record-text flex-grow-1">: {{ data.time_in }}</span>
+                            </div>
+                            <div class="d-flex">
+                                <span class="record-label">
+                                    <span class="mdi mdi-location-exit"></span> Time out
+                                </span>
+                                <span class="record-text flex-grow-1">: {{ data.time_out }}</span>
+                            </div>
+                            <div class="d-flex">
+                                <span class="record-label">
+                                    <span class="mdi mdi-timer-outline"></span> Duration
+                                </span>
+                                <span class="record-text flex-grow-1">
+                                    : {{ `${data.duration.hours} hour(s) ${data.duration.minutes} minute(s)` }}
+                                </span>
+                            </div>
+                            <div class="d-flex">
+                                <span class="record-label">
+                                    <span class="mdi mdi-credit-card"></span> Parking fee
+                                </span>
+                                <span class="record-text flex-grow-1">
+                                    : {{ `RM ${(data.fee / 100).toFixed(2)}` }}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -75,9 +104,8 @@
         methods: {
             getCarState() {
                 axios
-                    .get('/parking/get-state')
+                    .get('/parking/state')
                     .then((result) => {
-                        // console.log(result.data)
                         if (result.data.isInParking) {
                             this.is_in_parking = true;
                             this.car_state = result.data.data[0];
@@ -96,7 +124,6 @@
                 axios
                     .get('/parking/estimate-fee')
                     .then((result) => {
-                        // console.log(result.data)
                         this.estimated_fee = (result.data / 100).toFixed(2);
                         this.$forceUpdate();
                     });
@@ -125,23 +152,22 @@
                         ("0" + _date.getMinutes()).slice(-2) + ':' +
                         ("0" + _date.getSeconds()).slice(-2);
             },
+            getWeekDay(_date){
+                let weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                return weekdays[_date.getDay()];
+            },
             getParkingRecords() {
                 axios
                     .get('/parking/records')
                     .then((result) => {
                         this.parking_records = _.groupBy(result.data.data, record => {
                             let _date = new Date(record.time_in);
-                            _date.get
-                            return this.toDateString(_date);
+                            return `${this.toDateString(_date)}, ${this.getWeekDay(_date)}`;
                         });
-                        console.log(JSON.parse(JSON.stringify(this.parking_records)));
                         for (var group in this.parking_records) {
-                            // console.log(this.parking_records[group]);
                             _.map(this.parking_records[group], record => {
-                                // console.log(record);
                                 let _hours = Math.floor(record.duration);
                                 let _minutes = Math.floor((record.duration - _hours) * 60);
-                                // console.log(_hours, _minutes);
                                 record.duration = {
                                     hours: _hours,
                                     minutes: _minutes
@@ -151,7 +177,6 @@
                                 return record;
                             });
                         };
-                        // console.log(this.parking_records);
                     });
             },
         }
@@ -161,4 +186,8 @@
 <style lang="scss">
     @import './resources/sass/_variables.scss';
 
+    .record-label {
+        flex-basis: 130px;
+        width: 100%;
+    }
 </style>
