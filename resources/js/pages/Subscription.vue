@@ -78,7 +78,6 @@
 
 <script>
     export default {
-        props: ['user_id'],
         data() {
             return {
                 has_subscription: false,

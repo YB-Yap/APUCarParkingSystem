@@ -27,6 +27,9 @@ APU Car Parking System is able,
 - To automatically terminate expired subscriptions using time-based job scheduler.
 
 ## Change log
+######  25/11/2020
+- Added `LandingPage` and `Admin/LandingPage`
+- Added `getUserProfile()` for `Dashboard`
 ######  24/11/2020
 - Minor changes to `get-state` route
 - Minor changes to `Subscription`, `Parking Status` UI

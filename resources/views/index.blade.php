@@ -36,7 +36,7 @@
         <div id="app">
             {{-- This is where the single page application begins --}}
             {{-- dynamic pages using Vue Router --}}
-            <Dashboard :user="{{ Auth::user() }}"></Dashboard>
+            <landing-page></landing-page>
         </div>
 
         <!-- Scripts -->

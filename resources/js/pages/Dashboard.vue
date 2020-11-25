@@ -1,124 +1,96 @@
 <template>
-    <div class="content-container">
-        <div class="content">
-            <!-- content -->
-            <div v-if="isDashboard()" class="dashboard-wrapper">
-                 <div v-masonry transition-duration="0.3s" item-selector=".dashboard-block">
-                    <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
-                        <div class="block-content">
-                            <div class="profile">
-                                <img :src="user.profile_pic_path" :alt="user.fullname" class="profile-pic">
-                                <div class="text">
-                                    <h5 class="block-title">Welcome back, {{ user.fullname }}</h5>
-                                    <p class="block-subtitle">Nice to see you again.</p>
-                                </div>
-                            </div>
-                            <div class="profile-links">
-                                <a class="link" @click="logout()">
-                                    <span class="block-icon mdi mdi-logout"></span>
-                                    <span>Logout</span>
-                                </a>
+    <div class="page">
+        <div class="dashboard-wrapper">
+            <div v-masonry transition-duration="0.3s" item-selector=".dashboard-block">
+                <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
+                    <div class="block-content">
+                        <div class="profile">
+                            <img :src="user.profile_pic_path" :alt="user.fullname" class="profile-pic">
+                            <div class="text">
+                                <h5 class="block-title">Welcome back, {{ user.fullname }}</h5>
+                                <p class="block-subtitle">Nice to see you again.</p>
                             </div>
                         </div>
-                    </div>
-                    <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
-                        <div class="block-content text-center">
-                            <span class="block-icon mdi mdi-credit-card"></span><br>
-                            <span>APCard Balance</span><br>
-                            <span>{{ "RM" + this.apcard_balance }}</span>
-                        </div>
-                    </div>
-                    <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
-                        <div class="block-content" style="height: 200px;">
-                            <h5 class="block-title">
-                                <span class="mdi mdi-parking"></span>
-                                Parking Status
-                            </h5>
-                            <div v-if="parking.is_in_parking">
-                                <span>Your car is currently parked in Zone {{ parking.car_state.parking_zone }}.</span><br>
-                                <span>Enter time: {{ parking.car_state.time_in }}</span><br>
-                                <span>Estimated parking fee: RM{{ parking.estimated_fee }}</span>
-                            </div>
-                            <div v-else>
-                                <span>Your car is not parked in any Zone.</span><br>
-                                <span>Zone A: {{ parking.availability.zone_a }}</span><br>
-                                <span>Zone B: {{ parking.availability.zone_b }}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div v-if="parking.has_parked_today" v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
-                        <div class="block-content" style="height: 200px;">
-                            <h5 class="block-title">
-                                <span class="mdi mdi-parking"></span>
-                                Previously, you have parked at ...
-                            </h5>
-                            <span>Parking Zone: {{ parking.latest_record.parking_zone }}</span><br>
-                            <span>Enter time: {{ parking.latest_record.time_in }}</span><br>
-                            <span>Exit time: {{ parking.latest_record.time_out }}</span><br>
-                            <span>Duration: {{ `${parking.latest_record.hours} hour(s) ${parking.latest_record.minutes} minute(s)` }}</span><br>
-                            <span>Parking fee: RM{{ (parking.latest_record.fee / 100).toFixed(2) }}</span>
-                        </div>
-                    </div>
-                    <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
-                        <div class="block-content" style="height: 200px;">
-                            <h5 class="block-title">
-                                <span class="mdi mdi-calendar-clock"></span>
-                                Subscription Status
-                            </h5>
-                            <div v-if="subscription.has_subs">
-                                Your subscription is currently active.<br>
-                                Valid from: {{ subscription.valid_from }}<br>
-                                Valid till: {{ subscription.valid_till }}
-                            </div>
-                            <div v-else>
-                                You don't have any subscription.<br>
-                                Availability: {{ subscription.availability }} of {{ subscription.size }}
-                                <div v-if="subscription.availability == 0">
-                                    <span>Sorry, there are no subscription available at the moment.</span><br>
-                                    <span>Estimated restock date: {{ subscription.estimated_date }}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block" v-for="item in 4" :key="item">
-                        <div class="block-content">
-                            <img style="width: 100%" src="http://via.placeholder.com/350x150">
-                            <br>
-                            <h5><strong>{{ item }}</strong></h5>
-                            <p>{{ item + " testing masonry" }}</p>
-                            <p v-if="item == 1">{{ item + " testing masonry" }}</p>
-                            <p v-if="item == 1">{{ item + " testing masonry" }}</p>
-                            <p v-if="item == 1">{{ item + " testing masonry" }}</p>
-                            <p v-if="item == 1">{{ item + " testing masonry" }}</p>
-                            <p v-if="item == 1">{{ item + " testing masonry" }}</p>
+                        <div class="profile-links">
+                            <a class="link" @click="logout()">
+                                <span class="block-icon mdi mdi-logout"></span>
+                                <span>Logout</span>
+                            </a>
                         </div>
                     </div>
                 </div>
-            </div>
-            <router-view v-else></router-view>
-        </div>
-        <div class="btm-navbar">
-            <div class="row flex flex-nowrap justify-content-center">
-                <router-link to="dashboard" class="nav-link">
-                    <span class="nav-icon mdi mdi-home"></span>
-                    <span>Dashboard</span>
-                </router-link>
-                <router-link to="parking-status" class="nav-link">
-                    <span class="nav-icon mdi mdi-parking"></span>
-                    <span>Parking Status</span>
-                </router-link>
-                <router-link :to="{name: 'subscription', params: {user_id: user.id}}" class="nav-link">
-                    <span class="nav-icon mdi mdi-calendar-clock"></span>
-                    <span>Subscription</span>
-                </router-link>
-                <router-link :to="{name: 'simulator', params: {user_id: user.id}}" class="nav-link">
-                    <span class="nav-icon mdi mdi-alert-circle"></span>
-                    <span>Simulator</span>
-                </router-link>
-                <router-link :to="{name: 'more', params: {user_id: user.id}}" class="nav-link">
-                    <span class="nav-icon mdi mdi-dots-vertical"></span>
-                    <span>More</span>
-                </router-link>
+                <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
+                    <div class="block-content text-center">
+                        <span class="block-icon mdi mdi-credit-card"></span><br>
+                        <span>APCard Balance</span><br>
+                        <span>{{ "RM" + this.apcard_balance }}</span>
+                    </div>
+                </div>
+                <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
+                    <div class="block-content" style="height: 200px;">
+                        <h5 class="block-title">
+                            <span class="mdi mdi-parking"></span>
+                            Parking Status
+                        </h5>
+                        <div v-if="parking.is_in_parking">
+                            <span>Your car is currently parked in Zone {{ parking.car_state.parking_zone }}.</span><br>
+                            <span>Enter time: {{ parking.car_state.time_in }}</span><br>
+                            <span>Estimated parking fee: RM{{ parking.estimated_fee }}</span>
+                        </div>
+                        <div v-else>
+                            <span>Your car is not parked in any Zone.</span><br>
+                            <span>Zone A: {{ parking.availability.zone_a }}</span><br>
+                            <span>Zone B: {{ parking.availability.zone_b }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="parking.has_parked_today" v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
+                    <div class="block-content" style="height: 200px;">
+                        <h5 class="block-title">
+                            <span class="mdi mdi-parking"></span>
+                            Previously, you have parked at ...
+                        </h5>
+                        <span>Parking Zone: {{ parking.latest_record.parking_zone }}</span><br>
+                        <span>Enter time: {{ parking.latest_record.time_in }}</span><br>
+                        <span>Exit time: {{ parking.latest_record.time_out }}</span><br>
+                        <span>Duration: {{ `${parking.latest_record.hours} hour(s) ${parking.latest_record.minutes} minute(s)` }}</span><br>
+                        <span>Parking fee: RM{{ (parking.latest_record.fee / 100).toFixed(2) }}</span>
+                    </div>
+                </div>
+                <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
+                    <div class="block-content" style="height: 200px;">
+                        <h5 class="block-title">
+                            <span class="mdi mdi-calendar-clock"></span>
+                            Subscription Status
+                        </h5>
+                        <div v-if="subscription.has_subs">
+                            Your subscription is currently active.<br>
+                            Valid from: {{ subscription.valid_from }}<br>
+                            Valid till: {{ subscription.valid_till }}
+                        </div>
+                        <div v-else>
+                            You don't have any subscription.<br>
+                            Availability: {{ subscription.availability }} of {{ subscription.size }}
+                            <div v-if="subscription.availability == 0">
+                                <span>Sorry, there are no subscription available at the moment.</span><br>
+                                <span>Estimated restock date: {{ subscription.estimated_date }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block" v-for="item in 4" :key="item">
+                    <div class="block-content">
+                        <img style="width: 100%" src="http://via.placeholder.com/350x150">
+                        <br>
+                        <h5><strong>{{ item }}</strong></h5>
+                        <p>{{ item + " testing masonry" }}</p>
+                        <p v-if="item == 1">{{ item + " testing masonry" }}</p>
+                        <p v-if="item == 1">{{ item + " testing masonry" }}</p>
+                        <p v-if="item == 1">{{ item + " testing masonry" }}</p>
+                        <p v-if="item == 1">{{ item + " testing masonry" }}</p>
+                        <p v-if="item == 1">{{ item + " testing masonry" }}</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -126,11 +98,12 @@
 
 <script>
     export default {
-        props: {
-            user: Object
-        },
         data() {
             return {
+                user: {
+                    profile_pic_path: '',
+                    fullname: '',
+                },
                 apcard_balance: 0,
                 parking: {
                     availability: {},
@@ -155,6 +128,7 @@
             }
         },
         mounted() {
+            this.getUserProfile();
             this.getAPCardBalance();
             this.getCarParkAvailability();
             this.getCarState();
@@ -176,6 +150,13 @@
                         window.location.href = '/logout'
                     }
                 })
+            },
+            getUserProfile() {
+                axios
+                    .get('/user/profile')
+                    .then((result) => {
+                        this.user = result.data;
+                    });
             },
             getAPCardBalance() {
                 axios
@@ -269,66 +250,12 @@
                         this.subscription.size = result.data;
                     });
             },
-            isDashboard() {
-                return this.$route.path === '/dashboard'
-            }
         }
     }
 </script>
 
 <style lang="scss">
-    // import variables.scss
     @import './resources/sass/_variables.scss';
-
-    .content-container {
-        width: 100%;
-        height: 100%;
-    }
-    .content {
-        width: 100%;
-        height: calc(100% - 58px);
-        background-color: $main-bg;
-        overflow-x: hidden;
-        overflow-y: auto;
-    }
-    .btm-navbar {
-        position: absolute;
-        z-index: 100;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 58px;
-        background-color: $main-bg;
-        color: $main-txt;
-        border-top: 1px solid #00000033;
-
-        .nav-icon {
-            display: block;
-            text-align: center;
-            font-size: 23px;
-            margin: -10px;
-            height: 38px;
-        }
-
-        .nav-link {
-            color: $secondary-txt;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
-            text-decoration: none;
-            flex-basis: 168px;
-            text-align: center;
-            cursor: pointer;
-
-            &:hover {
-                color: $blue;
-            }
-        }
-
-        .btm-nav-active {
-            color: $blue;
-        }
-    }
 
     .dashboard-block {
         padding: 20px;

@@ -6,7 +6,7 @@
         <div class="page-content">
             <ul class="list-group">
                 <li class="list-group-item">
-                    <router-link to="dashboard" class="more-link">
+                    <router-link to="/admin/dashboard" class="more-link">
                         <span class="more-icon mdi mdi-home"> Dashboard</span>
                     </router-link>
                 </li>
@@ -26,7 +26,7 @@
                     </router-link>
                 </li> -->
                 <li class="list-group-item">
-                    <router-link to="settings" class="more-link">
+                    <router-link to="/admin/settings" class="more-link">
                         <span class="more-icon mdi mdi-cog"> Settings</span>
                     </router-link>
                 </li>
@@ -42,7 +42,6 @@
 
 <script>
     export default {
-        props: ['user_id'],
         methods: {
             logout() {
                 this.$swal.fire({

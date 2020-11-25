@@ -18,8 +18,8 @@ import "masonry-layout/dist/masonry.pkgd.min.js";
 import {VueMasonryPlugin} from "vue-masonry";
 
 // vue components
-import Dashboard from "./pages/Dashboard";
-import AdminDashboard from "./pages/Admin/Dashboard";
+import LandingPage from "./pages/LandingPage";
+import AdminLandingPage from "./pages/Admin/LandingPage";
 
 Vue.use(VueRouter);
 Vue.use(VueSweetalert2);
@@ -37,6 +37,6 @@ const router = new VueRouter({
 
 const app = new Vue({
     el: '#app',
-    components: { Dashboard, AdminDashboard },
+    components: { LandingPage, AdminLandingPage },
     router,
 });

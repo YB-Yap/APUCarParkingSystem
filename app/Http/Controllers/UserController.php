@@ -33,9 +33,9 @@ class UserController extends Controller
                 // attempt successful
                 Auth::login($user);
                 if (Auth::user()->role == "admin") {
-                    return redirect('/admin/dashboard');
+                    return redirect('/admin');
                 }
-                return redirect('/dashboard');
+                return redirect('/');
             }
         }
 
@@ -55,6 +55,12 @@ class UserController extends Controller
         }
 
         return redirect('/login');
+    }
+
+    public function getProfile(Request $request)
+    {
+        $user = Auth::user();
+        return response()->json($user, 200);
     }
 
     // get apcard balance

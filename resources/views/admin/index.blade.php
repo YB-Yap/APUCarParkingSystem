@@ -34,7 +34,7 @@
     </head>
     <body>
         <div id="app">
-            <admin-dashboard :user="{{ Auth::user() }}"></admin-dashboard>
+            <admin-landing-page></admin-landing-page>
         </div>
 
         <!-- Scripts -->

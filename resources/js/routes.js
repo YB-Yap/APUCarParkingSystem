@@ -1,3 +1,5 @@
+import LandingPage from "./pages/LandingPage";
+import AdminLandingPage from "./pages/Admin/LandingPage";
 import Dashboard from "./pages/Dashboard";
 import ParkingStatus from "./pages/ParkingStatus";
 import More from "./pages/More";
@@ -9,11 +11,6 @@ import AdminSettings from "./pages/Admin/Settings";
 import AdminMore from "./pages/Admin/More";
 
 export const routes = [
-    {
-        path: "/",
-        name: "index",
-        redirect: "/dashboard",
-    },
     {
         path: "/dashboard",
         name: "dashboard",
@@ -27,30 +24,22 @@ export const routes = [
     {
         path: "/more",
         name: "more",
-        props: true,
         component: More
     },
     {
         path: "/simulator",
         name: "simulator",
-        props: true,
         component: Simulator
     },
     {
         path: "/subscription",
         name: "subscription",
-        props: true,
         component: Subscription
     },
     {
         path: "/subscription-history",
         name: "subscription_history",
         component: SubscriptionHistory
-    },
-    {
-        path: "/admin/",
-        name: "admin_index",
-        redirect: "/admin/dashboard",
     },
     {
         path: "/admin/dashboard",
@@ -65,7 +54,6 @@ export const routes = [
     {
         path: "/admin/more",
         name: "admin_more",
-        props: true,
         component: AdminMore
     },
 ];

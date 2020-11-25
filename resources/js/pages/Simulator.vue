@@ -22,7 +22,11 @@
                         </select>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <button class="btn btn-success" :disabled="is_in_parking" @click="enterCarPark()">Enter Car Park</button>
+                        <button
+                            class="btn btn-success"
+                            :disabled="is_in_parking || selected_parking_zone == ''"
+                            @click="enterCarPark()"
+                        >Enter Car Park</button>
                         <button class="btn btn-danger" :disabled="!is_in_parking" @click="exitCarPark()">Exit Car Park</button>
                     </div>
                 </div>
@@ -56,7 +60,6 @@
 
 <script>
     export default {
-        props: ['user_id'],
         data() {
             return {
                 apcard_balance: 0,

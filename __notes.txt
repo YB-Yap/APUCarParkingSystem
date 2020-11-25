@@ -18,13 +18,13 @@ server jobs
 
 simulator page
     - improve ui
-    - flexible exit (exit at different time)
+    - (maybe) flexible exit (exit at different time)
         - add parameter for exitCarPark(), null if not given
     - use sweetalert as gate display
 
 dashboard
     - improve car status (show how many are currently in parking area)
-    - estimated fee (maybe also check if the apcard has enough balance)
+    - TBT - estimated fee (maybe also check if the apcard has enough balance)
     - TBT - latest record logic
     - add dummy blocks from apspace
 
@@ -32,6 +32,10 @@ parking status page
     - improve ui
         - maybe add bar chart for the parking zone availability
     - TBT - estimated fee
+    - TBT - parking records
+
+subscription history
+    - TBT - list all history
 
 admin site
     - records listing
@@ -49,9 +53,6 @@ admin site
 
 
 To be added
-    - parking history and subscription transaction
-        - put parking records in parking status
-        - put subscription transactions in subscription history
     ----------
     not doing
     (maybe add filter function)

@@ -1,52 +1,24 @@
 <template>
-    <div class="content-container">
-        <div class="content">
-            <!-- content -->
-            <div v-if="isDashboard()" class="dashboard-wrapper">
-                 <div v-masonry transition-duration="0.3s" item-selector=".dashboard-block">
-                    <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
-                        <div class="block-content">
-                            <div class="profile">
-                                <img :src="user.profile_pic_path" :alt="user.fullname" class="profile-pic">
-                                <div class="text">
-                                    <h5 class="block-title">Welcome back, {{ user.fullname }}</h5>
-                                    <p class="block-subtitle">Nice to see you again.</p>
-                                </div>
+    <div class="page">
+        <div class="dashboard-wrapper">
+                <div v-masonry transition-duration="0.3s" item-selector=".dashboard-block">
+                <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
+                    <div class="block-content">
+                        <div class="profile">
+                            <img :src="user.profile_pic_path" :alt="user.fullname" class="profile-pic">
+                            <div class="text">
+                                <h5 class="block-title">Welcome back, {{ user.fullname }}</h5>
+                                <p class="block-subtitle">Nice to see you again.</p>
                             </div>
-                            <div class="profile-links">
-                                <a class="link" @click="logout()">
-                                    <span class="block-icon mdi mdi-logout"></span>
-                                    <span>Logout</span>
-                                </a>
-                            </div>
+                        </div>
+                        <div class="profile-links">
+                            <a class="link" @click="logout()">
+                                <span class="block-icon mdi mdi-logout"></span>
+                                <span>Logout</span>
+                            </a>
                         </div>
                     </div>
                 </div>
-            </div>
-            <router-view v-else></router-view>
-        </div>
-        <div class="btm-navbar">
-            <div class="row flex flex-nowrap justify-content-center">
-                <router-link to="dashboard" class="nav-link">
-                    <span class="nav-icon mdi mdi-home"></span>
-                    <span>Dashboard</span>
-                </router-link>
-                <!-- <router-link to="parking-status" class="nav-link">
-                    <span class="nav-icon mdi mdi-parking"></span>
-                    <span>Parking Status</span>
-                </router-link>
-                <router-link :to="{name: 'subscription', params: {user_id: user.id}}" class="nav-link">
-                    <span class="nav-icon mdi mdi-calendar-clock"></span>
-                    <span>Subscription</span>
-                </router-link> -->
-                <router-link to="settings" class="nav-link">
-                    <span class="nav-icon mdi mdi-cog"></span>
-                    <span>Settings</span>
-                </router-link>
-                <router-link :to="{name: 'admin_more', params: {user_id: user.id}}" class="nav-link">
-                    <span class="nav-icon mdi mdi-dots-vertical"></span>
-                    <span>More</span>
-                </router-link>
             </div>
         </div>
     </div>
@@ -54,11 +26,12 @@
 
 <script>
     export default {
-        props: {
-            user: Object
-        },
         data() {
             return {
+                user: {
+                    profile_pic_path: '',
+                    fullname: '',
+                },
                 apcard_balance: 0,
                 parking: {
                     availability: {},
@@ -83,6 +56,7 @@
             }
         },
         mounted() {
+            this.getUserProfile();
             // this.getAPCardBalance();
             // this.getCarParkAvailability();
             // this.getCarState();
@@ -104,6 +78,13 @@
                         window.location.href = '/logout'
                     }
                 })
+            },
+            getUserProfile() {
+                axios
+                    .get('/user/profile')
+                    .then((result) => {
+                        this.user = result.data;
+                    });
             },
             getAPCardBalance() {
                 axios

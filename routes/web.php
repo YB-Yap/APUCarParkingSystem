@@ -33,6 +33,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     // user
+    Route::get('/user/profile', 'UserController@getProfile');
     Route::get('/apcard/balance', 'UserController@getApcardBalance');
     Route::post('/apcard/topup', 'UserController@topupApcard');
 
