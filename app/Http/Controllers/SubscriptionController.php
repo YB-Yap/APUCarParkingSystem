@@ -6,6 +6,7 @@ use App\Http\Resources\SubscriptionResource;
 use App\Models\Config;
 use App\Models\Subscription;
 use App\Models\Transaction;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -98,9 +99,25 @@ class SubscriptionController extends Controller
         return response()->json(getSubsSize(), 200);
     }
 
-    public function getState()
+    public function getState(Request $request)
     {
-        $user = Auth::user();
+        if ($request->isMethod('post')) {
+            if (!$request->has('tp_number')) {
+                return response()->json([
+                    'message' => 'TP number not found',
+                    'isSuccess' => false
+                ], 200);
+            }
+            $user = User::where('tp_number', $request->input('tp_number'))->first();
+            if (!$user) {
+                return response()->json([
+                    'message' => 'User not found',
+                    'isSuccess' => false
+                ], 200);
+            }
+        } else {
+            $user = Auth::user();
+        }
         $has_subcription = false;
         $subscriptions = $user->subscription()->where('is_expired', false)->get();
 
@@ -109,6 +126,7 @@ class SubscriptionController extends Controller
         }
 
         return response()->json([
+            'isSuccess' => true,
             'hasSubscription' => $has_subcription,
             'data' => SubscriptionResource::collection($subscriptions)
         ], 200);

@@ -1,5 +1,3 @@
-import LandingPage from "./pages/LandingPage";
-import AdminLandingPage from "./pages/Admin/LandingPage";
 import Dashboard from "./pages/Dashboard";
 import ParkingStatus from "./pages/ParkingStatus";
 import More from "./pages/More";
@@ -7,6 +5,7 @@ import Simulator from "./pages/Simulator";
 import Subscription from "./pages/Subscription";
 import SubscriptionHistory from "./pages/SubscriptionHistory";
 import AdminDashboard from "./pages/Admin/Dashboard";
+import AdminSubscription from "./pages/Admin/Subscription";
 import AdminSettings from "./pages/Admin/Settings";
 import AdminMore from "./pages/Admin/More";
 
@@ -45,6 +44,11 @@ export const routes = [
         path: "/admin/dashboard",
         name: "admin_dashboard",
         component: AdminDashboard
+    },
+    {
+        path: "/admin/subscription",
+        name: "admin_subscription",
+        component: AdminSubscription
     },
     {
         path: "/admin/settings",

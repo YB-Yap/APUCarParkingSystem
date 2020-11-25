@@ -44,6 +44,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/parking/records', 'ParkingController@getRecords');
 
     Route::get('/subscription/state', 'SubscriptionController@getState');
+    Route::post('/subscription/state', 'SubscriptionController@getState');
     Route::post('/subscription/purchase', 'SubscriptionController@purchaseSubs');
     Route::post('/subscription/terminate', 'SubscriptionController@terminateSubs');
 

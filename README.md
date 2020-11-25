@@ -17,11 +17,11 @@ APU Car Parking System allows **students**,
   
 APU Car Parking System allows **admin**,
 - **DONE** To login and logout from the system.
-- *WIP* To check the availability of car parking areas.
+- To check the availability of car parking areas.
 - To check all records.
 - To check all subscription.
 - *TBT* To modify overall subscription capacity.
-- To terminate season parking subscription.
+- *WIP* To terminate season parking subscription.
   
 APU Car Parking System is able,
 - To automatically terminate expired subscriptions using time-based job scheduler.
@@ -30,6 +30,7 @@ APU Car Parking System is able,
 ######  25/11/2020
 - Added `LandingPage` and `Admin/LandingPage`
 - Added `getUserProfile()` for `Dashboard`
+- Added `getStudentSubs()` for `Admin/Subscription`
 ######  24/11/2020
 - Minor changes to `get-state` route
 - Minor changes to `Subscription`, `Parking Status` UI
