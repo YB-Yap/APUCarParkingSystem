@@ -29,7 +29,8 @@ APU Car Parking System is able,
 ## Change log
 ######  26/11/2020
 - Completed `Admin/Subscription` functions [`purchase`, `terminate`]
-- Added `parking
+- Added `vue-chartjs`
+- Added dummy blocks for `Dashboard`
 ######  25/11/2020
 - Added `LandingPage` and `Admin/LandingPage`
 - Added `getUserProfile()` for `Dashboard`

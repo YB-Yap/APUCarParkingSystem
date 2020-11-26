@@ -26,8 +26,10 @@
     "dependencies": {
         "@mdi/font": "^5.8.55",
         "autonumeric": "^4.6.0",
+        "chart.js": "^2.9.4",
         "masonry-layout": "^4.2.2",
         "vue-autonumeric": "^1.2.6",
+        "vue-chartjs": "^3.5.1",
         "vue-masonry": "^0.11.8",
         "vue-router": "^3.4.8",
         "vue-sweetalert2": "^4.1.1"

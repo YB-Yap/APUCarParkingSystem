@@ -92,6 +92,14 @@
                 </div>
                 <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
                     <div class="block-content">
+                        <h5 class="block-title">Result</h5>
+                        <div class="mt-4">
+                            <ResultChart/>
+                        </div>
+                    </div>
+                </div>
+                <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
+                    <div class="block-content">
                         <h5 class="block-title">Financials</h5>
                         <img src="/images/happy.svg" alt="happy" class="happy mt-3">
                         <div class="text-center mt-4 mb-2">
@@ -119,7 +127,12 @@
 </template>
 
 <script>
+    import ResultChart from "../components/charts/Result.vue";
+
     export default {
+        components: {
+            ResultChart,
+        },
         data() {
             return {
                 user: {
