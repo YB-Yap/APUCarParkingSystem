@@ -36,7 +36,7 @@
                 <div class="section-wrapper" v-if="!has_subscription">
                     Availability: {{ subscription_availability }} of {{ subscription_size }}
                 </div>
-                <div class="section-wrapper" v-if="subscription_availability == 0 && has_subscription == false">
+                <div class="section-wrapper" v-if="subscription_availability == 0 && !has_subscription">
                     <span>Sorry, there are no subscription available at the moment.</span><br>
                     <span>Estimated restock date: {{ estimated_date }}</span>
                 </div>

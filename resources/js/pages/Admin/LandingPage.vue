@@ -12,11 +12,11 @@
                 <!-- <router-link to="parking-status" class="nav-link">
                     <span class="nav-icon mdi mdi-parking"></span>
                     <span>Parking Status</span>
-                </router-link>
-                <router-link :to="{name: 'subscription', params: {user_id: user.id}}" class="nav-link">
+                </router-link> -->
+                <router-link to="/admin/subscription" class="nav-link">
                     <span class="nav-icon mdi mdi-calendar-clock"></span>
                     <span>Subscription</span>
-                </router-link> -->
+                </router-link>
                 <router-link to="/admin/settings" class="nav-link">
                     <span class="nav-icon mdi mdi-cog"></span>
                     <span>Settings</span>

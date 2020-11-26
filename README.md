@@ -21,12 +21,14 @@ APU Car Parking System allows **admin**,
 - To check all records.
 - To check all subscription.
 - *TBT* To modify overall subscription capacity.
-- *WIP* To terminate season parking subscription.
+- *TBT* To terminate season parking subscription.
   
 APU Car Parking System is able,
 - To automatically terminate expired subscriptions using time-based job scheduler.
 
 ## Change log
+######  26/11/2020
+- Completed `Admin/Subscription` functions [`purchase`, `terminate`]
 ######  25/11/2020
 - Added `LandingPage` and `Admin/LandingPage`
 - Added `getUserProfile()` for `Dashboard`

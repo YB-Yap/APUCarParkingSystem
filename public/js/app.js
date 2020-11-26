@@ -2608,11 +2608,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       student_id: '',
-      // invalid_id: false,
+      stored_id: '',
+      // for static id that does not change
+      has_profile: false,
       has_subscription: false,
       subscription_availability: 0,
       subscription_size: 0,
@@ -2624,17 +2634,6 @@ __webpack_require__.r(__webpack_exports__);
       termination_check: false
     };
   },
-  // watch: {
-  //     student_id: function(val) {
-  //         console.log(val)
-  //         const regex = new RegExp('TP[0-9]{6}');
-  //         // var match = val.match(regex);
-  //         console.log(String(val).match(/regex/ig));
-  //         // if (!match) {
-  //         //     this.invalid_id = true;
-  //         // }
-  //     }
-  // },
   computed: {
     invalid_id: function invalid_id() {
       if (this.student_id.length != 8) {
@@ -2657,17 +2656,22 @@ __webpack_require__.r(__webpack_exports__);
     getStudentSubs: function getStudentSubs() {
       var _this = this;
 
+      var refresh = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+      var student_id = this.stored_id == '' ? this.student_id : this.stored_id;
       axios.post('/subscription/state', {
-        tp_number: this.student_id
+        tp_number: student_id
       }).then(function (result) {
         if (result.data.isSuccess) {
-          _this.$swal.fire({
-            title: 'Load subscription',
-            text: 'Loaded successful',
-            icon: 'success'
-          });
+          if (!refresh) {
+            _this.$swal.fire({
+              title: 'Load subscription',
+              text: 'Loaded successful',
+              icon: 'success'
+            });
+          }
 
-          console.log(result.data);
+          _this.has_profile = true;
+          _this.stored_id = JSON.parse(JSON.stringify(student_id));
 
           if (result.data.hasSubscription) {
             _this.has_subscription = true;
@@ -2736,6 +2740,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this5 = this;
 
       var data = {
+        tp_number: this.stored_id,
         valid_at: this.valid_from,
         valid_till: this.valid_till,
         mode: this.has_subscription ? 'extend' : 'purchase'
@@ -2753,21 +2758,21 @@ __webpack_require__.r(__webpack_exports__);
             title: 'Purchasing Subscription',
             text: 'Purchase successful',
             icon: 'success'
+          }).then(function () {
+            _this5.getStudentSubs(true);
+
+            _this5.getSubscriptionAvailability();
+
+            _this5.getSubscriptionSize();
+
+            _this5.disclaimer_check = false;
+
+            _this5.$forceUpdate();
           });
-
-          _this5.getSubscriptionState();
-
-          _this5.getSubscriptionAvailability();
-
-          _this5.getSubscriptionSize();
-
-          _this5.disclaimer_check = false;
-
-          _this5.$forceUpdate();
         } else {
           _this5.$swal.fire({
             title: result.data.message,
-            text: "Please top up your APCard at least RM".concat((result.data.to_pay / 100).toFixed(2)),
+            text: 'Oh no, something went wrong.',
             icon: 'error',
             confirmButtonText: 'Ok'
           });
@@ -2784,23 +2789,32 @@ __webpack_require__.r(__webpack_exports__);
         allowOutsideClick: false
       });
       this.$swal.showLoading();
-      axios.post('/subscription/terminate').then(function (result) {
+      axios.post('/subscription/terminate', {
+        tp_number: this.stored_id
+      }).then(function (result) {
         if (result.status == 200) {
           _this6.$swal.fire({
             title: 'Terminating Subscription',
             text: 'Teminate successful',
             icon: 'success'
+          }).then(function () {
+            _this6.getStudentSubs(true);
+
+            _this6.getSubscriptionAvailability();
+
+            _this6.getSubscriptionSize();
+
+            _this6.termination_check = false;
+
+            _this6.$forceUpdate();
           });
-
-          _this6.getSubscriptionState();
-
-          _this6.getSubscriptionAvailability();
-
-          _this6.getSubscriptionSize();
-
-          _this6.termination_check = false;
-
-          _this6.$forceUpdate();
+        } else {
+          _this6.$swal.fire({
+            title: result.data.message,
+            text: 'Oh no, something went wrong.',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+          });
         }
       });
     }
@@ -50501,6 +50515,16 @@ var render = function() {
           _vm._v(" "),
           _c(
             "router-link",
+            { staticClass: "nav-link", attrs: { to: "/admin/subscription" } },
+            [
+              _c("span", { staticClass: "nav-icon mdi mdi-calendar-clock" }),
+              _vm._v(" "),
+              _c("span", [_vm._v("Subscription")])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "router-link",
             { staticClass: "nav-link", attrs: { to: "/admin/settings" } },
             [
               _c("span", { staticClass: "nav-icon mdi mdi-cog" }),
@@ -50562,6 +50586,28 @@ var render = function() {
                 _c("span", { staticClass: "more-icon mdi mdi-home" }, [
                   _vm._v(" Dashboard")
                 ])
+              ]
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "li",
+          { staticClass: "list-group-item" },
+          [
+            _c(
+              "router-link",
+              {
+                staticClass: "more-link",
+                attrs: { to: "/admin/subscription" }
+              },
+              [
+                _c(
+                  "span",
+                  { staticClass: "more-icon mdi mdi-calendar-clock" },
+                  [_vm._v(" Subscription")]
+                )
               ]
             )
           ],
@@ -50967,8 +51013,10 @@ var render = function() {
         _c("h1", [_vm._v("Student's subscription")]),
         _vm._v(" "),
         _c("div", { staticClass: "section-wrapper" }, [
+          _vm._v("\n                To check student's subscription, "),
+          _c("br"),
           _vm._v(
-            "\n                Enter the TP number of the student below and click Submit "
+            "\n                enter the TP number of the student below and click Submit "
           ),
           _c("br"),
           _vm._v(" "),
@@ -51023,15 +51071,33 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _vm.has_subscription
+        _vm.has_profile &&
+        _vm.subscription_availability == 0 &&
+        !_vm.has_subscription
+          ? _c("div", { staticClass: "section-wrapper" }, [
+              _c("span", [
+                _vm._v(
+                  "Sorry, there are no subscription available at the moment."
+                )
+              ]),
+              _c("br"),
+              _vm._v(" "),
+              _c("span", [
+                _vm._v("Estimated restock date: " + _vm._s(_vm.estimated_date))
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.has_profile &&
+        (_vm.subscription_availability > 0 || _vm.has_subscription)
           ? _c("div", { staticClass: "section-wrapper" }, [
               _c("h5", { staticClass: "section-title" }, [
                 _vm._v(
                   "\n                    " +
                     _vm._s(
                       _vm.has_subscription
-                        ? "Extend my subscription"
-                        : "Purchase a subscription"
+                        ? "Extend subscription"
+                        : "Purchase subscription"
                     ) +
                     "\n                "
                 )
@@ -51153,7 +51219,7 @@ var render = function() {
               },
               [
                 _c("h5", { staticClass: "section-title" }, [
-                  _vm._v("Terminate my subscription")
+                  _vm._v("Terminate subscription")
                 ]),
                 _vm._v(" "),
                 _vm._m(1),
@@ -51208,7 +51274,7 @@ var render = function() {
                     }),
                     _vm._v(" "),
                     _c("label", [
-                      _vm._v("Yes, terminate all my subscriptions.")
+                      _vm._v("Yes, terminate student's subscriptions.")
                     ])
                   ]
                 ),
@@ -51234,21 +51300,25 @@ var render = function() {
             )
           : _vm._e(),
         _vm._v(" "),
-        _vm.has_subscription
-          ? _c("h3", [_vm._v("Owned subscription")])
-          : _vm._e(),
+        _c("h3", [_vm._v("Owned subscription")]),
         _vm._v(" "),
-        _c("div", { staticClass: "section-wrapper" }, [
-          _vm._v(
-            "\n                " +
-              _vm._s(
-                _vm.has_subscription
-                  ? "Your subscription is currently active."
-                  : "You don't have any subscription."
-              ) +
-              "\n            "
-          )
-        ]),
+        !_vm.has_profile
+          ? _c("div", { staticClass: "section-wrapper" }, [
+              _vm._v(
+                "\n                Please load subscirption data by submitting student's TP number.\n            "
+              )
+            ])
+          : _c("div", { staticClass: "section-wrapper" }, [
+              _vm._v(
+                "\n                " +
+                  _vm._s(
+                    _vm.has_subscription
+                      ? "Student currently has active subscription."
+                      : "Student doesn't have any subscription."
+                  ) +
+                  "\n            "
+              )
+            ]),
         _vm._v(" "),
         _vm.has_subscription
           ? _c(
@@ -51307,7 +51377,7 @@ var staticRenderFns = [
       ),
       _c("strong", [_vm._v("irreversible")]),
       _vm._v(
-        "\n                    and all your subscriptions will be terminated.\n                "
+        "\n                    and all the student's subscriptions will be terminated.\n                "
       )
     ])
   }
@@ -52517,7 +52587,7 @@ var render = function() {
             ])
           : _vm._e(),
         _vm._v(" "),
-        _vm.subscription_availability == 0 && _vm.has_subscription == false
+        _vm.subscription_availability == 0 && !_vm.has_subscription
           ? _c("div", { staticClass: "section-wrapper" }, [
               _c("span", [
                 _vm._v(

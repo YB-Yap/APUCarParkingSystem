@@ -15,11 +15,11 @@
                         <span class="more-icon mdi mdi-parking"> Parking Status</span>
                     </router-link>
                 </li> -->
-                <!-- <li class="list-group-item">
-                    <router-link :to="{name: 'subscription', params: {user_id: user_id}}" class="more-link">
+                <li class="list-group-item">
+                    <router-link to="/admin/subscription" class="more-link">
                         <span class="more-icon mdi mdi-calendar-clock"> Subscription</span>
                     </router-link>
-                </li> -->
+                </li>
                 <!-- <li class="list-group-item">
                     <router-link :to="{name: 'simulator', params: {user_id: user_id}}" class="more-link">
                         <span class="more-icon mdi mdi-alert-circle"> **Simulator**</span>

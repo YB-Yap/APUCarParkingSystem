@@ -134,15 +134,29 @@ class SubscriptionController extends Controller
 
     public function purchaseSubs(Request $request)
     {
-        $user = Auth::user();
+        $viaAdmin = false;
+        if ($request->has('tp_number')) {
+            $user = User::where('tp_number', $request->input('tp_number'))->first();
+            if (!$user) {
+                return response()->json([
+                    'message' => 'User not found',
+                    'isSuccess' => false
+                ], 200);
+            }
+            $viaAdmin = true;
+        } else {
+            $user = Auth::user();
+        }
         $subs_price = Config::subscriptionPrice()->value;
 
         // check if enough balance
-        if ($user->apcard_balance < $subs_price) {
-            return response()->json(['message' => 'Insufficient fund.', 'to_pay' => $subs_price, 'isSuccess' => false]);
+        if (!$viaAdmin) {
+            if ($user->apcard_balance < $subs_price) {
+                return response()->json(['message' => 'Insufficient fund.', 'to_pay' => $subs_price, 'isSuccess' => false]);
+            }
+            $user->apcard_balance = $user->apcard_balance - $subs_price;
+            $user->update();
         }
-        $user->apcard_balance = $user->apcard_balance - $subs_price;
-        $user->update();
 
         $subscription = new Subscription();
 
@@ -169,7 +183,17 @@ class SubscriptionController extends Controller
 
     public function terminateSubs(Request $request)
     {
-        $user = Auth::user();
+        if ($request->has('tp_number')) {
+            $user = User::where('tp_number', $request->input('tp_number'))->first();
+            if (!$user) {
+                return response()->json([
+                    'message' => 'User not found',
+                    'isSuccess' => false
+                ], 200);
+            }
+        } else {
+            $user = Auth::user();
+        }
 
         $user->subscription()->where('is_expired', false)->update(['is_active' => false, 'is_expired' => true]);
 

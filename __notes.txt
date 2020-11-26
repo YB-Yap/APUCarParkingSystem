@@ -43,13 +43,13 @@ admin site
         - subscription log
         - transaction log ????
     - subscription
-        - purchase
+        - purchase                      -- assumption: student go to counter, and pay cash
         - list all active subs
         - termninate
     - config page
-        - subs size
-        - subs price
-        - simulator - carpking size
+        - TBT - subs size
+        - TBT - subs price
+        - TBT - simulator - carpking size
 
 
 To be added

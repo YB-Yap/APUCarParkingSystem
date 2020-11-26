@@ -12,7 +12,8 @@
 
                 <h1>Student's subscription</h1>
                 <div class="section-wrapper">
-                    Enter the TP number of the student below and click Submit <br>
+                    To check student's subscription, <br>
+                    enter the TP number of the student below and click Submit <br>
                     <span class="text-muted">*Case insensitive</span>
                     <input
                         type="text" class="form-control mt-2" placeholder="TP012345"
@@ -26,9 +27,13 @@
                     </button>
                 </div>
 
-                <div class="section-wrapper" v-if="has_subscription">
+                <div class="section-wrapper" v-if="has_profile && subscription_availability == 0 && !has_subscription">
+                    <span>Sorry, there are no subscription available at the moment.</span><br>
+                    <span>Estimated restock date: {{ estimated_date }}</span>
+                </div>
+                <div class="section-wrapper" v-if="has_profile && (subscription_availability > 0 || has_subscription)">
                     <h5 class="section-title">
-                        {{ has_subscription ? 'Extend my subscription' : 'Purchase a subscription' }}
+                        {{ has_subscription ? 'Extend subscription' : 'Purchase subscription' }}
                     </h5>
                     <span class="mdi mdi-credit-card-outline"> RM 60.00</span><br>
                     <span class="mdi mdi-timer-outline"> {{ valid_from }} ~ {{ valid_till }}</span><br>
@@ -44,29 +49,32 @@
                 <hr>
                 <h5 class="text-danger text-center mt-4" v-if="has_subscription">** Danger **</h5>
                 <div class="terminate-section section-wrapper border border-danger" v-if="has_subscription">
-                    <h5 class="section-title">Terminate my subscription</h5>
+                    <h5 class="section-title">Terminate subscription</h5>
                     <p>
                         Before proceeding, we would like to inform you that this action is <strong>irreversible</strong>
-                        and all your subscriptions will be terminated.
+                        and all the student's subscriptions will be terminated.
                     </p>
                     <div class="section-child-wrapper border" :class="!termination_check ? 'border-danger' : 'border-success'">
                         <input type="checkbox" class="mr-2" v-model="termination_check">
-                        <label>Yes, terminate all my subscriptions.</label>
+                        <label>Yes, terminate student's subscriptions.</label>
                     </div>
                     <button class="btn btn-danger d-block w-100 mt-3" :disabled="!termination_check" @click="terminateSubs()">
                         Terminate subscription
                     </button>
                 </div>
 
-                <h3 v-if="has_subscription">Owned subscription</h3>
-                <div class="section-wrapper">
+                <h3>Owned subscription</h3>
+                <div class="section-wrapper" v-if="!has_profile">
+                    Please load subscirption data by submitting student's TP number.
+                </div>
+                <div class="section-wrapper" v-else>
                     {{
                         has_subscription
-                        ? 'Your subscription is currently active.'
-                        : 'You don\'t have any subscription.'
+                        ? 'Student currently has active subscription.'
+                        : 'Student doesn\'t have any subscription.'
                     }}
                 </div>
-                <div v-if="has_subscription" class="section-wrapper">
+                <div class="section-wrapper" v-if="has_subscription">
                     <div
                         class="section-child-wrapper border"
                         v-for="(sub, index) in subscription_state"
@@ -88,7 +96,8 @@
         data() {
             return {
                 student_id: '',
-                // invalid_id: false,
+                stored_id: '',      // for static id that does not change
+                has_profile: false,
                 has_subscription: false,
                 subscription_availability: 0,
                 subscription_size: 0,
@@ -100,17 +109,6 @@
                 termination_check: false,
             }
         },
-        // watch: {
-        //     student_id: function(val) {
-        //         console.log(val)
-        //         const regex = new RegExp('TP[0-9]{6}');
-        //         // var match = val.match(regex);
-        //         console.log(String(val).match(/regex/ig));
-        //         // if (!match) {
-        //         //     this.invalid_id = true;
-        //         // }
-        //     }
-        // },
         computed: {
             invalid_id() {
                 if (this.student_id.length != 8) {
@@ -131,17 +129,22 @@
                         ("0" + (_date.getMonth() + 1)).slice(-2) + '-' +
                         ("0" + _date.getDate()).slice(-2);
             },
-            getStudentSubs() {
+            getStudentSubs(refresh = false) {
+                let student_id = (this.stored_id == '') ? this.student_id : this.stored_id
                 axios
-                    .post('/subscription/state', {tp_number: this.student_id})
+                    .post('/subscription/state', {tp_number: student_id})
                     .then((result) => {
                         if (result.data.isSuccess) {
-                            this.$swal.fire({
-                                title: 'Load subscription',
-                                text: 'Loaded successful',
-                                icon: 'success',
-                            })
-                            console.log(result.data)
+                            if (!refresh) {
+                                this.$swal.fire({
+                                    title: 'Load subscription',
+                                    text: 'Loaded successful',
+                                    icon: 'success',
+                                })
+                            }
+                            this.has_profile = true;
+                            this.stored_id = JSON.parse(JSON.stringify(student_id));
+
                             if (result.data.hasSubscription) {
                                 this.has_subscription = true;
                                 this.subscription_state = result.data.data;
@@ -198,6 +201,7 @@
             },
             purchaseSubs() {
                 let data = {
+                    tp_number: this.stored_id,
                     valid_at: this.valid_from,
                     valid_till: this.valid_till,
                     mode: this.has_subscription ? 'extend' : 'purchase'
@@ -219,15 +223,17 @@
                                 text: 'Purchase successful',
                                 icon: 'success',
                             })
-                            this.getSubscriptionState();
-                            this.getSubscriptionAvailability();
-                            this.getSubscriptionSize();
-                            this.disclaimer_check = false;
-                            this.$forceUpdate();
+                            .then(() => {
+                                this.getStudentSubs(true);
+                                this.getSubscriptionAvailability();
+                                this.getSubscriptionSize();
+                                this.disclaimer_check = false;
+                                this.$forceUpdate();
+                            })
                         } else {
                             this.$swal.fire({
                                 title: result.data.message,
-                                text: `Please top up your APCard at least RM${(result.data.to_pay / 100).toFixed(2)}`,
+                                text: 'Oh no, something went wrong.',
                                 icon: 'error',
                                 confirmButtonText: 'Ok'
                             })
@@ -244,7 +250,7 @@
                 this.$swal.showLoading();
 
                 axios
-                    .post('/subscription/terminate')
+                    .post('/subscription/terminate', {tp_number: this.stored_id})
                     .then((result) => {
                         if (result.status == 200) {
                             this.$swal.fire({
@@ -252,11 +258,20 @@
                                 text: 'Teminate successful',
                                 icon: 'success',
                             })
-                            this.getSubscriptionState();
-                            this.getSubscriptionAvailability();
-                            this.getSubscriptionSize();
-                            this.termination_check = false;
-                            this.$forceUpdate();
+                            .then(() => {
+                                this.getStudentSubs(true);
+                                this.getSubscriptionAvailability();
+                                this.getSubscriptionSize();
+                                this.termination_check = false;
+                                this.$forceUpdate();
+                            })
+                        } else {
+                            this.$swal.fire({
+                                title: result.data.message,
+                                text: 'Oh no, something went wrong.',
+                                icon: 'error',
+                                confirmButtonText: 'Ok'
+                            })
                         }
                     });
             },
