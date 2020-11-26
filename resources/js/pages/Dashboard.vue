@@ -77,18 +77,40 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block" v-for="item in 4" :key="item">
+                </div><div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
                     <div class="block-content">
-                        <img style="width: 100%" src="http://via.placeholder.com/350x150">
-                        <br>
-                        <h5><strong>{{ item }}</strong></h5>
-                        <p>{{ item + " testing masonry" }}</p>
-                        <p v-if="item == 1">{{ item + " testing masonry" }}</p>
-                        <p v-if="item == 1">{{ item + " testing masonry" }}</p>
-                        <p v-if="item == 1">{{ item + " testing masonry" }}</p>
-                        <p v-if="item == 1">{{ item + " testing masonry" }}</p>
-                        <p v-if="item == 1">{{ item + " testing masonry" }}</p>
+                        <h5 class="block-title">Today's Schedule</h5>
+                        <div class="text-center text-muted mt-4">No class today</div>
+                        <div class="mt-3">
+                            <span class="text-danger">*Note: </span>
+                            The upcoming classes in this section belong to your default intake which is: <b>UC3F2005IT</b><br>
+                            * Timetable here is displayed for the intake grouping <b>()</b>.
+                            You can change the grouping settings from the timetable page and then refreshing this page.<br>
+                            **All times in this section are displayed in Malaysia Time Zone (GMT+8)
+                        </div>
+                    </div>
+                </div>
+                <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
+                    <div class="block-content">
+                        <h5 class="block-title">Financials</h5>
+                        <img src="/images/happy.svg" alt="happy" class="happy mt-3">
+                        <div class="text-center mt-4 mb-2">
+                            <b>No Outstanding Payments need to be done!</b><br>
+                            You have cleared all of your outstanding payments.
+                        </div>
+                    </div>
+                </div>
+                <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
+                    <div class="block-content">
+                        <h5 class="block-title">Notice Board</h5>
+                        <img src="/images/relocate-car-park.jpg" alt="relocate car park" class="w-100 mt-3">
+                        <div class="text-center mt-4">
+                            <span class="mdi mdi-circle p-2 text-muted"></span>
+                            <span class="mdi mdi-circle p-2 text-primary"></span>
+                            <span class="mdi mdi-circle p-2 text-muted"></span>
+                            <span class="mdi mdi-circle p-2 text-muted"></span>
+                            <span class="mdi mdi-circle p-2 text-muted"></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -320,5 +342,13 @@
     }
     .block-icon {
         font-size: 24px;
+    }
+
+    .happy {
+        width: 60%;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        height: auto;
     }
 </style>

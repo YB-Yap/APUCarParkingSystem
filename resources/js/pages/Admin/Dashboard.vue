@@ -1,7 +1,7 @@
 <template>
     <div class="page">
         <div class="dashboard-wrapper">
-                <div v-masonry transition-duration="0.3s" item-selector=".dashboard-block">
+            <div v-masonry transition-duration="0.3s" item-selector=".dashboard-block">
                 <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
                     <div class="block-content">
                         <div class="profile">
@@ -19,6 +19,32 @@
                         </div>
                     </div>
                 </div>
+                <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
+                    <div class="block-content">
+                        <h5 class="block-title">
+                            <span class="mdi mdi-parking"></span>
+                            Parking Status
+                        </h5>
+                        <div>
+                            <span>Zone A: {{ parking.availability.zone_a }}</span><br>
+                            <span>Zone B: {{ parking.availability.zone_b }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
+                    <div class="block-content">
+                        <h5 class="block-title">
+                            <span class="mdi mdi-calendar-clock"></span>
+                            Subscription Status
+                        </h5>
+                        <div>
+                            Availability: {{ subscription.availability }} of {{ subscription.size }}
+                            <div v-if="subscription.availability == 0">
+                                <span>Estimated restock date: {{ subscription.estimated_date }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -32,25 +58,25 @@
                     profile_pic_path: '',
                     fullname: '',
                 },
-                apcard_balance: 0,
+                // apcard_balance: 0,
                 parking: {
                     availability: {},
-                    is_in_parking: false,
+                    // is_in_parking: false,
                     car_state: {},
-                    estimated_fee: 0,
-                    has_parked_today: false,
-                    latest_record: {
-                        hours: 0,
-                        minutes: 0,
-                    },
+                    // estimated_fee: 0,
+                    // has_parked_today: false,
+                    // latest_record: {
+                    //     hours: 0,
+                    //     minutes: 0,
+                    // },
                 },
                 subscription: {
                     availability: 0,
                     size: 0,
-                    has_subs: false,
-                    state: [],
-                    valid_from: '',
-                    valid_till: '',
+                //     has_subs: false,
+                //     state: [],
+                //     valid_from: '',
+                //     valid_till: '',
                     estimated_date: '',
                 }
             }
@@ -58,11 +84,11 @@
         mounted() {
             this.getUserProfile();
             // this.getAPCardBalance();
-            // this.getCarParkAvailability();
+            this.getCarParkAvailability();
             // this.getCarState();
             // this.getSubscriptionState();
-            // this.getSubscriptionAvailability();
-            // this.getSubscriptionSize();
+            this.getSubscriptionAvailability();
+            this.getSubscriptionSize();
         },
         methods: {
             logout() {

@@ -17,7 +17,7 @@ APU Car Parking System allows **students**,
   
 APU Car Parking System allows **admin**,
 - **DONE** To login and logout from the system.
-- To check the availability of car parking areas.
+- *TBT* To check the availability of car parking areas.
 - To check all records.
 - To check all subscription.
 - *TBT* To modify overall subscription capacity.
@@ -29,6 +29,7 @@ APU Car Parking System is able,
 ## Change log
 ######  26/11/2020
 - Completed `Admin/Subscription` functions [`purchase`, `terminate`]
+- Added `parking
 ######  25/11/2020
 - Added `LandingPage` and `Admin/LandingPage`
 - Added `getUserProfile()` for `Dashboard`

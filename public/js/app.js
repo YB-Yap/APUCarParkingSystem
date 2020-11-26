@@ -2036,6 +2036,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2043,36 +2069,37 @@ __webpack_require__.r(__webpack_exports__);
         profile_pic_path: '',
         fullname: ''
       },
-      apcard_balance: 0,
+      // apcard_balance: 0,
       parking: {
         availability: {},
-        is_in_parking: false,
-        car_state: {},
-        estimated_fee: 0,
-        has_parked_today: false,
-        latest_record: {
-          hours: 0,
-          minutes: 0
-        }
+        // is_in_parking: false,
+        car_state: {} // estimated_fee: 0,
+        // has_parked_today: false,
+        // latest_record: {
+        //     hours: 0,
+        //     minutes: 0,
+        // },
+
       },
       subscription: {
         availability: 0,
         size: 0,
-        has_subs: false,
-        state: [],
-        valid_from: '',
-        valid_till: '',
+        //     has_subs: false,
+        //     state: [],
+        //     valid_from: '',
+        //     valid_till: '',
         estimated_date: ''
       }
     };
   },
   mounted: function mounted() {
     this.getUserProfile(); // this.getAPCardBalance();
-    // this.getCarParkAvailability();
-    // this.getCarState();
+
+    this.getCarParkAvailability(); // this.getCarState();
     // this.getSubscriptionState();
-    // this.getSubscriptionAvailability();
-    // this.getSubscriptionSize();
+
+    this.getSubscriptionAvailability();
+    this.getSubscriptionSize();
   },
   methods: {
     logout: function logout() {
@@ -2832,6 +2859,28 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -8498,7 +8547,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".dashboard-block {\n  padding: 20px;\n  width: 100%;\n}\n.dashboard-block .block-content {\n  padding: 15px;\n  background-color: #303030;\n  color: #e8e6e6;\n  width: 100%;\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n  border-radius: 6px;\n}\n.dashboard-block .block-content .block-title {\n  color: #3490dc;\n  font-weight: 700;\n}\n.dashboard-block .block-content .block-subtitle {\n  color: #9e9e9e;\n  font-weight: 400;\n}\n.profile {\n  display: block;\n  width: 100%;\n}\n.profile .profile-pic {\n  width: 64px;\n  height: 64px;\n  -o-object-fit: cover;\n     object-fit: cover;\n  float: left;\n  border-radius: 32px;\n}\n.profile .text {\n  display: inline-block;\n  padding-left: 16px;\n}\n.profile-links {\n  display: block;\n  width: 100%;\n  height: 64px;\n  position: relative;\n}\n.profile-links .link {\n  color: #9e9e9e;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  overflow: hidden;\n  text-decoration: none;\n  cursor: pointer;\n  position: absolute;\n  right: 0px;\n  bottom: 0px;\n}\n.profile-links .link:hover {\n  color: #3490dc;\n}\n.block-icon {\n  font-size: 24px;\n}", ""]);
+exports.push([module.i, ".dashboard-block {\n  padding: 20px;\n  width: 100%;\n}\n.dashboard-block .block-content {\n  padding: 15px;\n  background-color: #303030;\n  color: #e8e6e6;\n  width: 100%;\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n  border-radius: 6px;\n}\n.dashboard-block .block-content .block-title {\n  color: #3490dc;\n  font-weight: 700;\n}\n.dashboard-block .block-content .block-subtitle {\n  color: #9e9e9e;\n  font-weight: 400;\n}\n.profile {\n  display: block;\n  width: 100%;\n}\n.profile .profile-pic {\n  width: 64px;\n  height: 64px;\n  -o-object-fit: cover;\n     object-fit: cover;\n  float: left;\n  border-radius: 32px;\n}\n.profile .text {\n  display: inline-block;\n  padding-left: 16px;\n}\n.profile-links {\n  display: block;\n  width: 100%;\n  height: 64px;\n  position: relative;\n}\n.profile-links .link {\n  color: #9e9e9e;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  overflow: hidden;\n  text-decoration: none;\n  cursor: pointer;\n  position: absolute;\n  right: 0px;\n  bottom: 0px;\n}\n.profile-links .link:hover {\n  color: #3490dc;\n}\n.block-icon {\n  font-size: 24px;\n}\n.happy {\n  width: 60%;\n  margin-left: auto;\n  margin-right: auto;\n  display: block;\n  height: auto;\n}", ""]);
 
 // exports
 
@@ -50467,13 +50516,91 @@ var render = function() {
                 ])
               ])
             ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              directives: [{ name: "masonry-tile", rawName: "v-masonry-tile" }],
+              staticClass: "col-md-6 col-lg-4 dashboard-block"
+            },
+            [
+              _c("div", { staticClass: "block-content" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c("div", [
+                  _c("span", [
+                    _vm._v("Zone A: " + _vm._s(_vm.parking.availability.zone_a))
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("span", [
+                    _vm._v("Zone B: " + _vm._s(_vm.parking.availability.zone_b))
+                  ])
+                ])
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              directives: [{ name: "masonry-tile", rawName: "v-masonry-tile" }],
+              staticClass: "col-md-6 col-lg-4 dashboard-block"
+            },
+            [
+              _c("div", { staticClass: "block-content" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c("div", [
+                  _vm._v(
+                    "\n                        Availability: " +
+                      _vm._s(_vm.subscription.availability) +
+                      " of " +
+                      _vm._s(_vm.subscription.size) +
+                      "\n                        "
+                  ),
+                  _vm.subscription.availability == 0
+                    ? _c("div", [
+                        _c("span", [
+                          _vm._v(
+                            "Estimated restock date: " +
+                              _vm._s(_vm.subscription.estimated_date)
+                          )
+                        ])
+                      ])
+                    : _vm._e()
+                ])
+              ])
+            ]
           )
         ]
       )
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h5", { staticClass: "block-title" }, [
+      _c("span", { staticClass: "mdi mdi-parking" }),
+      _vm._v("\n                        Parking Status\n                    ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h5", { staticClass: "block-title" }, [
+      _c("span", { staticClass: "mdi mdi-calendar-clock" }),
+      _vm._v(
+        "\n                        Subscription Status\n                    "
+      )
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -51687,55 +51814,33 @@ var render = function() {
               )
             ]
           ),
+          _c(
+            "div",
+            {
+              directives: [{ name: "masonry-tile", rawName: "v-masonry-tile" }],
+              staticClass: "col-md-6 col-lg-4 dashboard-block"
+            },
+            [_vm._m(3)]
+          ),
           _vm._v(" "),
-          _vm._l(4, function(item) {
-            return _c(
-              "div",
-              {
-                directives: [
-                  { name: "masonry-tile", rawName: "v-masonry-tile" }
-                ],
-                key: item,
-                staticClass: "col-md-6 col-lg-4 dashboard-block"
-              },
-              [
-                _c("div", { staticClass: "block-content" }, [
-                  _c("img", {
-                    staticStyle: { width: "100%" },
-                    attrs: { src: "http://via.placeholder.com/350x150" }
-                  }),
-                  _vm._v(" "),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("h5", [_c("strong", [_vm._v(_vm._s(item))])]),
-                  _vm._v(" "),
-                  _c("p", [_vm._v(_vm._s(item + " testing masonry"))]),
-                  _vm._v(" "),
-                  item == 1
-                    ? _c("p", [_vm._v(_vm._s(item + " testing masonry"))])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  item == 1
-                    ? _c("p", [_vm._v(_vm._s(item + " testing masonry"))])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  item == 1
-                    ? _c("p", [_vm._v(_vm._s(item + " testing masonry"))])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  item == 1
-                    ? _c("p", [_vm._v(_vm._s(item + " testing masonry"))])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  item == 1
-                    ? _c("p", [_vm._v(_vm._s(item + " testing masonry"))])
-                    : _vm._e()
-                ])
-              ]
-            )
-          })
-        ],
-        2
+          _c(
+            "div",
+            {
+              directives: [{ name: "masonry-tile", rawName: "v-masonry-tile" }],
+              staticClass: "col-md-6 col-lg-4 dashboard-block"
+            },
+            [_vm._m(4)]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              directives: [{ name: "masonry-tile", rawName: "v-masonry-tile" }],
+              staticClass: "col-md-6 col-lg-4 dashboard-block"
+            },
+            [_vm._m(5)]
+          )
+        ]
       )
     ])
   ])
@@ -51770,6 +51875,87 @@ var staticRenderFns = [
       _vm._v(
         "\n                        Subscription Status\n                    "
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "block-content" }, [
+      _c("h5", { staticClass: "block-title" }, [_vm._v("Today's Schedule")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "text-center text-muted mt-4" }, [
+        _vm._v("No class today")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "mt-3" }, [
+        _c("span", { staticClass: "text-danger" }, [_vm._v("*Note: ")]),
+        _vm._v(
+          "\n                        The upcoming classes in this section belong to your default intake which is: "
+        ),
+        _c("b", [_vm._v("UC3F2005IT")]),
+        _c("br"),
+        _vm._v(
+          "\n                        * Timetable here is displayed for the intake grouping "
+        ),
+        _c("b", [_vm._v("()")]),
+        _vm._v(
+          ".\n                        You can change the grouping settings from the timetable page and then refreshing this page."
+        ),
+        _c("br"),
+        _vm._v(
+          "\n                        **All times in this section are displayed in Malaysia Time Zone (GMT+8)\n                    "
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "block-content" }, [
+      _c("h5", { staticClass: "block-title" }, [_vm._v("Financials")]),
+      _vm._v(" "),
+      _c("img", {
+        staticClass: "happy mt-3",
+        attrs: { src: "/images/happy.svg", alt: "happy" }
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "text-center mt-4 mb-2" }, [
+        _c("b", [_vm._v("No Outstanding Payments need to be done!")]),
+        _c("br"),
+        _vm._v(
+          "\n                        You have cleared all of your outstanding payments.\n                    "
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "block-content" }, [
+      _c("h5", { staticClass: "block-title" }, [_vm._v("Notice Board")]),
+      _vm._v(" "),
+      _c("img", {
+        staticClass: "w-100 mt-3",
+        attrs: {
+          src: "/images/relocate-car-park.jpg",
+          alt: "relocate car park"
+        }
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "text-center mt-4" }, [
+        _c("span", { staticClass: "mdi mdi-circle p-2 text-muted" }),
+        _vm._v(" "),
+        _c("span", { staticClass: "mdi mdi-circle p-2 text-primary" }),
+        _vm._v(" "),
+        _c("span", { staticClass: "mdi mdi-circle p-2 text-muted" }),
+        _vm._v(" "),
+        _c("span", { staticClass: "mdi mdi-circle p-2 text-muted" }),
+        _vm._v(" "),
+        _c("span", { staticClass: "mdi mdi-circle p-2 text-muted" })
+      ])
     ])
   }
 ]
