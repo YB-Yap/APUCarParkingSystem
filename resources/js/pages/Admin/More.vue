@@ -10,11 +10,6 @@
                         <span class="more-icon mdi mdi-home"> Dashboard</span>
                     </router-link>
                 </li>
-                <!-- <li class="list-group-item">
-                    <router-link to="parking-status" class="more-link">
-                        <span class="more-icon mdi mdi-parking"> Parking Status</span>
-                    </router-link>
-                </li> -->
                 <li class="list-group-item">
                     <router-link to="/admin/subscription" class="more-link">
                         <span class="more-icon mdi mdi-calendar-clock"> Subscription</span>
@@ -23,6 +18,11 @@
                 <li class="list-group-item">
                     <router-link to="/admin/subscription/active" class="more-link">
                         <span class="more-icon mdi mdi-list-status"> View active subscription</span>
+                    </router-link>
+                </li>
+                <li class="list-group-item">
+                    <router-link to="/admin/logs" class="more-link">
+                        <span class="more-icon mdi mdi-format-list-numbered"> View Logs</span>
                     </router-link>
                 </li>
                 <li class="list-group-item">

@@ -9,13 +9,13 @@
                     <span class="nav-icon mdi mdi-home"></span>
                     <span>Dashboard</span>
                 </router-link>
-                <!-- <router-link to="parking-status" class="nav-link">
-                    <span class="nav-icon mdi mdi-parking"></span>
-                    <span>Parking Status</span>
-                </router-link> -->
                 <router-link to="/admin/subscription" class="nav-link">
                     <span class="nav-icon mdi mdi-calendar-clock"></span>
                     <span>Subscription</span>
+                </router-link>
+                <router-link to="/admin/logs" class="nav-link">
+                    <span class="nav-icon mdi mdi-format-list-numbered"></span>
+                    <span>View Logs</span>
                 </router-link>
                 <router-link to="/admin/settings" class="nav-link">
                     <span class="nav-icon mdi mdi-cog"></span>

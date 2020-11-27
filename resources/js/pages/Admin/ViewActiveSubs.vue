@@ -1,10 +1,17 @@
 <template>
     <div class="page">
         <div class="page-header">
-            <h1 class="page-title">Subscription</h1>
+            <h1 class="page-title">View Active Subscription</h1>
         </div>
         <div class="page-content">
             <div class="center-container">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><span @click="goTo()">Subscription</span></li>
+                        <li class="breadcrumb-item active" aria-current="page">Active Subscription</li>
+                    </ol>
+                </nav>
+
                 <h1>Season Parking Subscription</h1>
                 <div class="section-wrapper">
                     Availability: {{ subscription_availability }} of {{ subscription_size }}
@@ -46,6 +53,9 @@
             this.getActiveSubs();
         },
         methods: {
+            goTo() {
+                this.$router.push('/admin/subscription');
+            },
             toDateString(_date) {
                 return _date.getFullYear() + '-' +
                         ("0" + (_date.getMonth() + 1)).slice(-2) + '-' +
@@ -98,6 +108,28 @@
     }
 </script>
 
-<style>
+<style lang="scss">
+    @import './resources/sass/_variables.scss';
 
+    .breadcrumb {
+        background-color: $tertiary-bg;
+
+        .breadcrumb-item {
+            color: $blue;
+
+            &:hover {
+                text-decoration: underline;
+                cursor: pointer;
+            }
+        }
+
+        .active {
+            color: $main-txt;
+
+            &:hover {
+                text-decoration: none;
+                cursor: default;
+            }
+        }
+    }
 </style>

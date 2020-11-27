@@ -18,7 +18,7 @@ APU Car Parking System allows **students**,
 APU Car Parking System allows **admin**,
 - **DONE** To login and logout from the system.
 - *TBT* To check the availability of car parking areas.
-- To check all records.
+- *WIP* To check all records.
 - *TBT* To check all subscription.
 - *TBT* To modify overall subscription capacity.
 - *TBT* To terminate season parking subscription.
@@ -30,6 +30,7 @@ APU Car Parking System is able,
 ######  27/11/2020
 - Added `Admin/ViewActiveSubs`
 - Added `laravel-vue-pagination`
+- Added `Logs` pages
 ######  26/11/2020
 - Completed `Admin/Subscription` functions [`purchase`, `terminate`]
 - Added `vue-chartjs`
