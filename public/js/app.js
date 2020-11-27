@@ -2541,6 +2541,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {
     logout: function logout() {
@@ -90207,6 +90217,50 @@ var render = function() {
                   "span",
                   { staticClass: "more-icon mdi mdi-format-list-numbered" },
                   [_vm._v(" View Logs")]
+                )
+              ]
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "li",
+          { staticClass: "list-group-item" },
+          [
+            _c(
+              "router-link",
+              {
+                staticClass: "more-link",
+                attrs: { to: "/admin/logs/parking" }
+              },
+              [
+                _c(
+                  "span",
+                  { staticClass: "more-icon mdi mdi-format-list-numbered" },
+                  [_vm._v(" View Parking Log")]
+                )
+              ]
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "li",
+          { staticClass: "list-group-item" },
+          [
+            _c(
+              "router-link",
+              {
+                staticClass: "more-link",
+                attrs: { to: "/admin/logs/subscription" }
+              },
+              [
+                _c(
+                  "span",
+                  { staticClass: "more-icon mdi mdi-format-list-numbered" },
+                  [_vm._v(" View Subscription Log")]
                 )
               ]
             )

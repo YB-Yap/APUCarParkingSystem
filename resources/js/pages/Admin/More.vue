@@ -26,6 +26,16 @@
                     </router-link>
                 </li>
                 <li class="list-group-item">
+                    <router-link to="/admin/logs/parking" class="more-link">
+                        <span class="more-icon mdi mdi-format-list-numbered"> View Parking Log</span>
+                    </router-link>
+                </li>
+                <li class="list-group-item">
+                    <router-link to="/admin/logs/subscription" class="more-link">
+                        <span class="more-icon mdi mdi-format-list-numbered"> View Subscription Log</span>
+                    </router-link>
+                </li>
+                <li class="list-group-item">
                     <router-link to="/admin/settings" class="more-link">
                         <span class="more-icon mdi mdi-cog"> Settings</span>
                     </router-link>
