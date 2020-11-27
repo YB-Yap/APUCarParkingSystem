@@ -26,6 +26,8 @@ Route::group(['middleware' => ['auth']], function () {
     // admin
     Route::group(['middleware' => ['admin']], function () {
         Route::prefix('admin')->name('admin.')->group(function () {
+            Route::get('/subscription/all-active', 'SubscriptionController@getActiveSubs');
+
             Route::get('/{vue_capture?}', function () {
                 return view('admin.index');
             })->where('vue_capture', '[\/\w\.-]*');

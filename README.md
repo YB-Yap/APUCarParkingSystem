@@ -19,7 +19,7 @@ APU Car Parking System allows **admin**,
 - **DONE** To login and logout from the system.
 - *TBT* To check the availability of car parking areas.
 - To check all records.
-- To check all subscription.
+- *TBT* To check all subscription.
 - *TBT* To modify overall subscription capacity.
 - *TBT* To terminate season parking subscription.
   
@@ -27,6 +27,8 @@ APU Car Parking System is able,
 - To automatically terminate expired subscriptions using time-based job scheduler.
 
 ## Change log
+######  27/11/2020
+- Added `Admin/ViewActiveSubs`
 ######  26/11/2020
 - Completed `Admin/Subscription` functions [`purchase`, `terminate`]
 - Added `vue-chartjs`

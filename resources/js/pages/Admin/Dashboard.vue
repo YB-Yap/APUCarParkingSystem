@@ -184,7 +184,7 @@
                 axios
                     .get('/api/subscription/estimate-restock-date')
                     .then((result) => {
-                        this.subscription.estimated_date = result.data.estimated_date;
+                        this.subscription.estimated_date = result.data.estimatedDate;
                     });
             },
             getSubscriptionAvailability() {

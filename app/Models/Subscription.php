@@ -26,4 +26,9 @@ class Subscription extends Model
     {
         return $query->where('is_active', true)->get();
     }
+
+    public function scopeAllSubs($query)
+    {
+        return $query->where('is_expired', false)->get();
+    }
 }

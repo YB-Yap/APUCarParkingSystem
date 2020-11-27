@@ -45,9 +45,9 @@ admin site
         - subscription log
         - transaction log ????
     - subscription
-        - purchase                      -- assumption: student go to counter, and pay cash
-        - list all active subs
-        - termninate
+        - TBT - purchase                      -- assumption: student go to counter, and pay cash
+        - TBT - list all active subs
+        - TBT - termninate
     - config page
         - TBT - subs size
         - TBT - subs price

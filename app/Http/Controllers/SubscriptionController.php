@@ -223,7 +223,14 @@ class SubscriptionController extends Controller
         $estimated_date->addDays(1);
 
         return response()->json([
-            'estimated_date' => $estimated_date->toDateString(),
+            'estimatedDate' => $estimated_date->toDateString(),
         ], 200);
+    }
+
+    public function getActiveSubs()
+    {
+        $subscriptions = Subscription::with(['user'])->allSubs();
+
+        return response()->json($subscriptions, 200);
     }
 }

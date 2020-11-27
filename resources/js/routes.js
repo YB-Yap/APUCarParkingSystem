@@ -6,6 +6,7 @@ import Subscription from "./pages/Subscription";
 import SubscriptionHistory from "./pages/SubscriptionHistory";
 import AdminDashboard from "./pages/Admin/Dashboard";
 import AdminSubscription from "./pages/Admin/Subscription";
+import AdminViewActiveSubs from "./pages/Admin/ViewActiveSubs";
 import AdminSettings from "./pages/Admin/Settings";
 import AdminMore from "./pages/Admin/More";
 
@@ -49,6 +50,11 @@ export const routes = [
         path: "/admin/subscription",
         name: "admin_subscription",
         component: AdminSubscription
+    },
+    {
+        path: "/admin/subscription/active",
+        name: "admin_view_active_subscription",
+        component: AdminViewActiveSubs
     },
     {
         path: "/admin/settings",

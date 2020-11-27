@@ -8,6 +8,11 @@
                 <h1>Season Parking Subscription</h1>
                 <div class="section-wrapper">
                     Availability: {{ subscription_availability }} of {{ subscription_size }}
+                    <router-link to="/admin/subscription/active">
+                        <button class="btn btn-primary d-block mt-4 w-100">
+                            <span class="mdi mdi-list-status"></span> View active subscription
+                        </button>
+                    </router-link>
                 </div>
 
                 <h1>Student's subscription</h1>
@@ -179,7 +184,7 @@
                 axios
                     .get('/api/subscription/estimate-restock-date')
                     .then((result) => {
-                        this.estimated_date = result.data.estimated_date;
+                        this.estimated_date = result.data.estimatedDate;
                     });
             },
             getSubscriptionAvailability() {

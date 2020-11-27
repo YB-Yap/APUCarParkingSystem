@@ -2239,7 +2239,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this7 = this;
 
       axios.get('/api/subscription/estimate-restock-date').then(function (result) {
-        _this7.subscription.estimated_date = result.data.estimated_date;
+        _this7.subscription.estimated_date = result.data.estimatedDate;
       });
     },
     getSubscriptionAvailability: function getSubscriptionAvailability() {
@@ -2678,6 +2678,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2777,7 +2782,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       axios.get('/api/subscription/estimate-restock-date').then(function (result) {
-        _this2.estimated_date = result.data.estimated_date;
+        _this2.estimated_date = result.data.estimatedDate;
       });
     },
     getSubscriptionAvailability: function getSubscriptionAvailability() {
@@ -2878,6 +2883,114 @@ __webpack_require__.r(__webpack_exports__);
             confirmButtonText: 'Ok'
           });
         }
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Admin/ViewActiveSubs.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Admin/ViewActiveSubs.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      subscription_availability: 0,
+      subscription_size: 0,
+      subscription_state: [],
+      estimated_date: ''
+    };
+  },
+  mounted: function mounted() {
+    this.getSubscriptionAvailability();
+    this.getSubscriptionSize();
+    this.getActiveSubs();
+  },
+  methods: {
+    toDateString: function toDateString(_date) {
+      return _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
+    },
+    getActiveSubs: function getActiveSubs() {
+      var _this = this;
+
+      this.$swal({
+        title: 'Loading subscriptions',
+        text: 'Please wait.',
+        icon: 'info',
+        allowOutsideClick: false
+      });
+      this.$swal.showLoading();
+      axios.get('/admin/subscription/all-active').then(function (result) {
+        _this.$swal.close(); // console.log(result.data);
+
+
+        _this.subscription_state = _.groupBy(result.data, function (record) {
+          return record.user_id;
+        }); // console.log(this.subscription_state);
+      });
+    },
+    estimateSubsRestockDate: function estimateSubsRestockDate() {
+      var _this2 = this;
+
+      axios.get('/api/subscription/estimate-restock-date').then(function (result) {
+        _this2.estimated_date = result.data.estimatedDate;
+      });
+    },
+    getSubscriptionAvailability: function getSubscriptionAvailability() {
+      var _this3 = this;
+
+      axios.get('/api/subscription/availability').then(function (result) {
+        _this3.subscription_availability = result.data;
+
+        if (_this3.subscription_availability == 0) {
+          _this3.estimateSubsRestockDate();
+        }
+      });
+    },
+    getSubscriptionSize: function getSubscriptionSize() {
+      var _this4 = this;
+
+      axios.get('/api/subscription/size').then(function (result) {
+        _this4.subscription_size = result.data;
       });
     }
   }
@@ -3169,7 +3282,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this7 = this;
 
       axios.get('/api/subscription/estimate-restock-date').then(function (result) {
-        _this7.subscription.estimated_date = result.data.estimated_date;
+        _this7.subscription.estimated_date = result.data.estimatedDate;
       });
     },
     getSubscriptionAvailability: function getSubscriptionAvailability() {
@@ -3876,7 +3989,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       axios.get('/api/subscription/estimate-restock-date').then(function (result) {
-        _this2.estimated_date = result.data.estimated_date;
+        _this2.estimated_date = result.data.estimatedDate;
       });
     },
     getSubscriptionAvailability: function getSubscriptionAvailability() {
@@ -88833,6 +88946,26 @@ var render = function() {
           [
             _c(
               "router-link",
+              {
+                staticClass: "more-link",
+                attrs: { to: "/admin/subscription/active" }
+              },
+              [
+                _c("span", { staticClass: "more-icon mdi mdi-list-status" }, [
+                  _vm._v(" View active subscription")
+                ])
+              ]
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "li",
+          { staticClass: "list-group-item" },
+          [
+            _c(
+              "router-link",
               { staticClass: "more-link", attrs: { to: "/admin/settings" } },
               [
                 _c("span", { staticClass: "more-icon mdi mdi-cog" }, [
@@ -89213,15 +89346,30 @@ var render = function() {
       _c("div", { staticClass: "center-container" }, [
         _c("h1", [_vm._v("Season Parking Subscription")]),
         _vm._v(" "),
-        _c("div", { staticClass: "section-wrapper" }, [
-          _vm._v(
-            "\n                Availability: " +
-              _vm._s(_vm.subscription_availability) +
-              " of " +
-              _vm._s(_vm.subscription_size) +
-              "\n            "
-          )
-        ]),
+        _c(
+          "div",
+          { staticClass: "section-wrapper" },
+          [
+            _vm._v(
+              "\n                Availability: " +
+                _vm._s(_vm.subscription_availability) +
+                " of " +
+                _vm._s(_vm.subscription_size) +
+                "\n                "
+            ),
+            _c("router-link", { attrs: { to: "/admin/subscription/active" } }, [
+              _c(
+                "button",
+                { staticClass: "btn btn-primary d-block mt-4 w-100" },
+                [
+                  _c("span", { staticClass: "mdi mdi-list-status" }),
+                  _vm._v(" View active subscription\n                    ")
+                ]
+              )
+            ])
+          ],
+          1
+        ),
         _vm._v(" "),
         _c("h1", [_vm._v("Student's subscription")]),
         _vm._v(" "),
@@ -89592,6 +89740,106 @@ var staticRenderFns = [
       _vm._v(
         "\n                    and all the student's subscriptions will be terminated.\n                "
       )
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Admin/ViewActiveSubs.vue?vue&type=template&id=78e5d3c7&":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Admin/ViewActiveSubs.vue?vue&type=template&id=78e5d3c7& ***!
+  \******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "page" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "page-content" }, [
+      _c("div", { staticClass: "center-container" }, [
+        _c("h1", [_vm._v("Season Parking Subscription")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "section-wrapper" }, [
+          _vm._v(
+            "\n                Availability: " +
+              _vm._s(_vm.subscription_availability) +
+              " of " +
+              _vm._s(_vm.subscription_size) +
+              "\n            "
+          )
+        ]),
+        _vm._v(" "),
+        _c("h1", [_vm._v("Active Subscription")]),
+        _vm._v(" "),
+        _vm.subscription_availability != 0
+          ? _c(
+              "div",
+              { staticClass: "section-wrapper" },
+              [
+                _c("hr"),
+                _vm._v(" "),
+                _vm._l(_vm.subscription_state, function(subs, index) {
+                  return _c("div", { key: index }, [
+                    _c("h5", [
+                      _vm._v(
+                        _vm._s(
+                          subs[0].user.fullname + ", " + subs[0].user.tp_number
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "section-child-wrapper" }, [
+                      _vm._v(
+                        "\n                        Valid from: " +
+                          _vm._s(subs[0].valid_at)
+                      ),
+                      _c("br"),
+                      _vm._v(
+                        "\n                        Valid till: " +
+                          _vm._s(subs[subs.length - 1].valid_till)
+                      ),
+                      _c("br"),
+                      _vm._v(
+                        "\n                        Duration: " +
+                          _vm._s(subs.length) +
+                          " month(s)\n                    "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("hr")
+                  ])
+                })
+              ],
+              2
+            )
+          : _c("div", { staticClass: "section-wrapper" }, [
+              _vm._v(
+                "\n                There are no active subscriptions.\n            "
+              )
+            ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "page-header" }, [
+      _c("h1", { staticClass: "page-title" }, [_vm._v("Subscription")])
     ])
   }
 ]
@@ -107257,6 +107505,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/pages/Admin/ViewActiveSubs.vue":
+/*!*****************************************************!*\
+  !*** ./resources/js/pages/Admin/ViewActiveSubs.vue ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ViewActiveSubs_vue_vue_type_template_id_78e5d3c7___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ViewActiveSubs.vue?vue&type=template&id=78e5d3c7& */ "./resources/js/pages/Admin/ViewActiveSubs.vue?vue&type=template&id=78e5d3c7&");
+/* harmony import */ var _ViewActiveSubs_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ViewActiveSubs.vue?vue&type=script&lang=js& */ "./resources/js/pages/Admin/ViewActiveSubs.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ViewActiveSubs_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ViewActiveSubs_vue_vue_type_template_id_78e5d3c7___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ViewActiveSubs_vue_vue_type_template_id_78e5d3c7___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/pages/Admin/ViewActiveSubs.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/pages/Admin/ViewActiveSubs.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/pages/Admin/ViewActiveSubs.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ViewActiveSubs_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ViewActiveSubs.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Admin/ViewActiveSubs.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ViewActiveSubs_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/pages/Admin/ViewActiveSubs.vue?vue&type=template&id=78e5d3c7&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/pages/Admin/ViewActiveSubs.vue?vue&type=template&id=78e5d3c7& ***!
+  \************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ViewActiveSubs_vue_vue_type_template_id_78e5d3c7___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ViewActiveSubs.vue?vue&type=template&id=78e5d3c7& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Admin/ViewActiveSubs.vue?vue&type=template&id=78e5d3c7&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ViewActiveSubs_vue_vue_type_template_id_78e5d3c7___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ViewActiveSubs_vue_vue_type_template_id_78e5d3c7___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/pages/Dashboard.vue":
 /*!******************************************!*\
   !*** ./resources/js/pages/Dashboard.vue ***!
@@ -107884,8 +108201,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_SubscriptionHistory__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./pages/SubscriptionHistory */ "./resources/js/pages/SubscriptionHistory.vue");
 /* harmony import */ var _pages_Admin_Dashboard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./pages/Admin/Dashboard */ "./resources/js/pages/Admin/Dashboard.vue");
 /* harmony import */ var _pages_Admin_Subscription__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./pages/Admin/Subscription */ "./resources/js/pages/Admin/Subscription.vue");
-/* harmony import */ var _pages_Admin_Settings__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./pages/Admin/Settings */ "./resources/js/pages/Admin/Settings.vue");
-/* harmony import */ var _pages_Admin_More__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pages/Admin/More */ "./resources/js/pages/Admin/More.vue");
+/* harmony import */ var _pages_Admin_ViewActiveSubs__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./pages/Admin/ViewActiveSubs */ "./resources/js/pages/Admin/ViewActiveSubs.vue");
+/* harmony import */ var _pages_Admin_Settings__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pages/Admin/Settings */ "./resources/js/pages/Admin/Settings.vue");
+/* harmony import */ var _pages_Admin_More__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./pages/Admin/More */ "./resources/js/pages/Admin/More.vue");
+
 
 
 
@@ -107929,13 +108248,17 @@ var routes = [{
   name: "admin_subscription",
   component: _pages_Admin_Subscription__WEBPACK_IMPORTED_MODULE_7__["default"]
 }, {
+  path: "/admin/subscription/active",
+  name: "admin_view_active_subscription",
+  component: _pages_Admin_ViewActiveSubs__WEBPACK_IMPORTED_MODULE_8__["default"]
+}, {
   path: "/admin/settings",
   name: "admin_settings",
-  component: _pages_Admin_Settings__WEBPACK_IMPORTED_MODULE_8__["default"]
+  component: _pages_Admin_Settings__WEBPACK_IMPORTED_MODULE_9__["default"]
 }, {
   path: "/admin/more",
   name: "admin_more",
-  component: _pages_Admin_More__WEBPACK_IMPORTED_MODULE_9__["default"]
+  component: _pages_Admin_More__WEBPACK_IMPORTED_MODULE_10__["default"]
 }];
 
 /***/ }),
