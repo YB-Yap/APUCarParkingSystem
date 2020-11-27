@@ -41,8 +41,9 @@ admin site
     - dashboard
         - improve UI
     - records listing
-        - parking log
-        - subscription log
+        - improve UI
+        - TBT - parking log
+        - TBT - subscription log
     - subscription
         - TBT - purchase                      -- assumption: student go to counter, and pay cash
         - TBT - list all active subs

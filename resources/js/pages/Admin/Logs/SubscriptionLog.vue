@@ -12,6 +12,13 @@
                     </ol>
                 </nav>
                 Subscription log
+                <pagination :data="subscription_logs" align="right" @pagination-change-page="getSubscriptionLog"></pagination>
+
+                <ul>
+                    <li v-for="log in subscription_logs.data" :key="log.id">{{ log }}</li>
+                </ul>
+
+                <pagination :data="subscription_logs" align="right" @pagination-change-page="getSubscriptionLog"></pagination>
             </div>
         </div>
     </div>
@@ -19,9 +26,25 @@
 
 <script>
     export default {
+        data() {
+            return {
+                subscription_logs: {},
+            }
+        },
+        mounted() {
+            this.getSubscriptionLog();
+        },
         methods: {
             goTo() {
                 this.$router.push('/admin/logs');
+            },
+            getSubscriptionLog(page = 1) {
+                axios
+                    .get(`/api/admin/subscription?page=${page}`)
+                    .then((result) => {
+                        console.log(result.data);
+                        this.subscription_logs = result.data;
+                    });
             },
         }
     }

@@ -233,4 +233,11 @@ class SubscriptionController extends Controller
 
         return response()->json($subscriptions, 200);
     }
+
+    public function getLog()
+    {
+        $subscription_log = Transaction::with(['user'])->typeSubs()->latest('created_at')->paginate(5);
+
+        return response()->json($subscription_log, 200);
+    }
 }

@@ -12,6 +12,13 @@
                     </ol>
                 </nav>
                 parking log
+                <pagination :data="parking_logs" align="right" @pagination-change-page="getParkingLog"></pagination>
+
+                <ul>
+                    <li v-for="log in parking_logs.data" :key="log.id">{{ log }}</li>
+                </ul>
+
+                <pagination :data="parking_logs" align="right" @pagination-change-page="getParkingLog"></pagination>
             </div>
         </div>
     </div>
@@ -19,9 +26,25 @@
 
 <script>
     export default {
+        data() {
+            return {
+                parking_logs: {},
+            }
+        },
+        mounted() {
+            this.getParkingLog();
+        },
         methods: {
             goTo() {
                 this.$router.push('/admin/logs');
+            },
+            getParkingLog(page = 1) {
+                axios
+                    .get(`/api/admin/parking?page=${page}`)
+                    .then((result) => {
+                        console.log(result.data);
+                        this.parking_logs = result.data;
+                    });
             },
         }
     }

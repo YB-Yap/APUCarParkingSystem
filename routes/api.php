@@ -26,6 +26,8 @@ Route::get('/subscription/size', 'SubscriptionController@getSize');
 Route::get('/subscription/estimate-restock-date', 'SubscriptionController@estimateRestockDate');
 
 Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('/parking', 'ParkingController');
+    Route::get('/subscription', 'SubscriptionController@getLog');
     Route::resource('/config', 'ConfigController');
     Route::post('/config/update', 'ConfigController@updateConfig');
 });

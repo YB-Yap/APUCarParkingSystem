@@ -25,6 +25,8 @@ Vue.use(VueRouter);
 Vue.use(VueSweetalert2);
 Vue.use(VueMasonryPlugin);
 
+Vue.component('pagination', require('laravel-vue-pagination'));
+
 const router = new VueRouter({
     mode: "history",
     base: "/",
