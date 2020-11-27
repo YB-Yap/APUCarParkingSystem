@@ -29,6 +29,7 @@ APU Car Parking System is able,
 ## Change log
 ######  27/11/2020
 - Added `Admin/ViewActiveSubs`
+- Added `laravel-vue-pagination`
 ######  26/11/2020
 - Completed `Admin/Subscription` functions [`purchase`, `terminate`]
 - Added `vue-chartjs`
