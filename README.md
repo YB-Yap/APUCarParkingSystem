@@ -27,6 +27,8 @@ APU Car Parking System is able,
 - To automatically terminate expired subscriptions using time-based job scheduler.
 
 ## Change log
+######  28/11/2020
+- Updated `Logs` UI
 ######  27/11/2020
 - Added `Admin/ViewActiveSubs`
 - Added `laravel-vue-pagination`

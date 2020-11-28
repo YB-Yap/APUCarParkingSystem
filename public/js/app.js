@@ -2401,6 +2401,45 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2414,13 +2453,28 @@ __webpack_require__.r(__webpack_exports__);
     goTo: function goTo() {
       this.$router.push('/admin/logs');
     },
+    toTimeString: function toTimeString(_date) {
+      return ("0" + _date.getHours()).slice(-2) + ':' + ("0" + _date.getMinutes()).slice(-2) + ':' + ("0" + _date.getSeconds()).slice(-2);
+    },
     getParkingLog: function getParkingLog() {
       var _this = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       axios.get("/api/admin/parking?page=".concat(page)).then(function (result) {
-        console.log(result.data);
+        // console.log(result.data);
         _this.parking_logs = result.data;
+
+        _.map(_this.parking_logs.data, function (_log) {
+          var _hours = Math.floor(_log.duration);
+
+          var _minutes = Math.floor((_log.duration - _hours) * 60);
+
+          _log.duration = {
+            hours: _hours,
+            minutes: _minutes
+          };
+          return _log;
+        });
       });
     }
   }
@@ -2437,6 +2491,32 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2481,8 +2561,20 @@ __webpack_require__.r(__webpack_exports__);
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       axios.get("/api/admin/subscription?page=".concat(page)).then(function (result) {
-        console.log(result.data);
+        // console.log(result.data);
         _this.subscription_logs = result.data;
+
+        _.map(_this.subscription_logs.data, function (record) {
+          if (record.description.toLowerCase().includes('purchase')) {
+            record.style = 'success';
+          } else if (record.description.toLowerCase().includes('extend')) {
+            record.style = 'info';
+          } else if (record.description.toLowerCase().includes('terminate')) {
+            record.style = 'danger';
+          }
+
+          return record;
+        });
       });
     }
   }
@@ -4333,8 +4425,8 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get('/transaction/subscription-records').then(function (result) {
-        console.log(result.data.data); // this.subscription_records = result.data.data;
-
+        // console.log(result.data.data);
+        // this.subscription_records = result.data.data;
         _this.subscription_records = _.map(result.data.data, function (record) {
           if (record.description.toLowerCase().includes('purchase')) {
             record.style = 'success';
@@ -25039,7 +25131,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, ".breadcrumb {\n  background-color: #424242;\n}\n.breadcrumb .breadcrumb-item {\n  color: #3490dc;\n}\n.breadcrumb .breadcrumb-item:hover {\n  text-decoration: underline;\n  cursor: pointer;\n}\n.breadcrumb .active {\n  color: #e8e6e6;\n}\n.breadcrumb .active:hover {\n  text-decoration: none;\n  cursor: default;\n}", ""]);
+exports.push([module.i, ".breadcrumb {\n  background-color: #424242;\n}\n.breadcrumb .breadcrumb-item {\n  color: #3490dc;\n}\n.breadcrumb .breadcrumb-item:hover {\n  text-decoration: underline;\n  cursor: pointer;\n}\n.breadcrumb .active {\n  color: #e8e6e6;\n}\n.breadcrumb .active:hover {\n  text-decoration: none;\n  cursor: default;\n}\n.pagination {\n  background-color: #303030;\n}\n.pagination .page-link {\n  color: #e8e6e6;\n  border-radius: 0.25rem;\n  border-color: #424242;\n  background-color: #424242;\n  margin-right: 6px;\n  margin-top: 6px;\n  margin-bottom: 6px;\n}\n.pagination .page-link:hover {\n  background-color: #303030;\n  border-color: #3490dc;\n}\n.pagination .disabled .page-link {\n  border-color: rgba(66, 66, 66, 0.3);\n  background-color: rgba(66, 66, 66, 0.3);\n}\n.table .thead-dark th {\n  background-color: #303030;\n  height: 5rem;\n}\n.table .small-column {\n  width: 110px;\n}", ""]);
 
 // exports
 
@@ -25058,7 +25150,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, ".breadcrumb {\n  background-color: #424242;\n}\n.breadcrumb .breadcrumb-item {\n  color: #3490dc;\n}\n.breadcrumb .breadcrumb-item:hover {\n  text-decoration: underline;\n  cursor: pointer;\n}\n.breadcrumb .active {\n  color: #e8e6e6;\n}\n.breadcrumb .active:hover {\n  text-decoration: none;\n  cursor: default;\n}", ""]);
+exports.push([module.i, ".breadcrumb {\n  background-color: #424242;\n}\n.breadcrumb .breadcrumb-item {\n  color: #3490dc;\n}\n.breadcrumb .breadcrumb-item:hover {\n  text-decoration: underline;\n  cursor: pointer;\n}\n.breadcrumb .active {\n  color: #e8e6e6;\n}\n.breadcrumb .active:hover {\n  text-decoration: none;\n  cursor: default;\n}\n.pagination {\n  background-color: #303030;\n}\n.pagination .page-link {\n  color: #e8e6e6;\n  border-radius: 0.25rem;\n  border-color: #424242;\n  background-color: #424242;\n  margin-right: 6px;\n  margin-top: 6px;\n  margin-bottom: 6px;\n}\n.pagination .page-link:hover {\n  background-color: #303030;\n  border-color: #3490dc;\n}\n.pagination .disabled .page-link {\n  border-color: rgba(66, 66, 66, 0.3);\n  background-color: rgba(66, 66, 66, 0.3);\n}\n.table .thead-dark th {\n  background-color: #303030;\n  height: 5rem;\n}\n.table .small-column {\n  width: 110px;\n}", ""]);
 
 // exports
 
@@ -89997,24 +90089,130 @@ var render = function() {
               )
             ])
           ]),
-          _vm._v("\n            parking log\n            "),
-          _c("pagination", {
-            attrs: { data: _vm.parking_logs, align: "right" },
-            on: { "pagination-change-page": _vm.getParkingLog }
-          }),
           _vm._v(" "),
           _c(
-            "ul",
-            _vm._l(_vm.parking_logs.data, function(log) {
-              return _c("li", { key: log.id }, [_vm._v(_vm._s(log))])
-            }),
-            0
+            "pagination",
+            {
+              attrs: {
+                data: _vm.parking_logs,
+                "show-disabled": true,
+                align: "right"
+              },
+              on: { "pagination-change-page": _vm.getParkingLog }
+            },
+            [
+              _c("span", { attrs: { slot: "prev-nav" }, slot: "prev-nav" }, [
+                _c("span", { staticClass: "mdi mdi-chevron-left" })
+              ]),
+              _vm._v(" "),
+              _c("span", { attrs: { slot: "next-nav" }, slot: "next-nav" }, [
+                _c("span", { staticClass: "mdi mdi-chevron-right" })
+              ])
+            ]
           ),
           _vm._v(" "),
-          _c("pagination", {
-            attrs: { data: _vm.parking_logs, align: "right" },
-            on: { "pagination-change-page": _vm.getParkingLog }
-          })
+          _c("div", { staticClass: "table-responsive" }, [
+            _c(
+              "table",
+              { staticClass: "table table-dark table-striped table-hover" },
+              [
+                _c("caption", [
+                  _vm._v(
+                    "\n                            " +
+                      _vm._s(
+                        "Currently showing page " +
+                          _vm.parking_logs.current_page +
+                          "\n                            of " +
+                          _vm.parking_logs.last_page +
+                          " page(s)"
+                      ) +
+                      "\n                        "
+                  )
+                ]),
+                _vm._v(" "),
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.parking_logs.data, function(log) {
+                    return _c("tr", { key: log.id }, [
+                      _c("th", { attrs: { scope: "row" } }, [
+                        _vm._v(_vm._s(log.id))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(log.user.tp_number))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(log.user.fullname))]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-center" }, [
+                        _vm._v(_vm._s(log.parking_zone))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(log.time_in))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(log.time_out))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(
+                            log.duration.hours +
+                              "h " +
+                              log.duration.minutes +
+                              "m"
+                          )
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s((log.fee / 100).toFixed(2)))]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-center" }, [
+                        _c(
+                          "span",
+                          {
+                            staticClass: "px-2 py-1 rounded-pill",
+                            class: log.is_car_park_full
+                              ? "bg-warning text-dark"
+                              : "bg-success"
+                          },
+                          [
+                            _vm._v(
+                              "\n                                        " +
+                                _vm._s(
+                                  log.is_car_park_full ? "Full" : "Not Full"
+                                ) +
+                                "\n                                    "
+                            )
+                          ]
+                        )
+                      ])
+                    ])
+                  }),
+                  0
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "pagination",
+            {
+              attrs: {
+                data: _vm.parking_logs,
+                "show-disabled": true,
+                align: "right"
+              },
+              on: { "pagination-change-page": _vm.getParkingLog }
+            },
+            [
+              _c("span", { attrs: { slot: "prev-nav" }, slot: "prev-nav" }, [
+                _c("span", { staticClass: "mdi mdi-chevron-left" })
+              ]),
+              _vm._v(" "),
+              _c("span", { attrs: { slot: "next-nav" }, slot: "next-nav" }, [
+                _c("span", { staticClass: "mdi mdi-chevron-right" })
+              ])
+            ]
+          )
         ],
         1
       )
@@ -90028,6 +90226,44 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "page-header" }, [
       _c("h1", { staticClass: "page-title" }, [_vm._v("View Parking Log")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "thead-dark" }, [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("TP Number")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Name")]),
+        _vm._v(" "),
+        _c(
+          "th",
+          { staticClass: "small-column text-center", attrs: { scope: "col" } },
+          [_vm._v("Parking Zone")]
+        ),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Time In")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Time Out")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Duration")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [
+          _vm._v("Fee"),
+          _c("br"),
+          _vm._v("(RM)")
+        ]),
+        _vm._v(" "),
+        _c(
+          "th",
+          { staticClass: "small-column text-center", attrs: { scope: "col" } },
+          [_vm._v("Car Park Entry Status")]
+        )
+      ])
     ])
   }
 ]
@@ -90086,24 +90322,94 @@ var render = function() {
               )
             ])
           ]),
-          _vm._v("\n            Subscription log\n            "),
-          _c("pagination", {
-            attrs: { data: _vm.subscription_logs, align: "right" },
-            on: { "pagination-change-page": _vm.getSubscriptionLog }
-          }),
           _vm._v(" "),
           _c(
-            "ul",
-            _vm._l(_vm.subscription_logs.data, function(log) {
-              return _c("li", { key: log.id }, [_vm._v(_vm._s(log))])
-            }),
-            0
+            "pagination",
+            {
+              attrs: {
+                data: _vm.subscription_logs,
+                "show-disabled": true,
+                align: "right"
+              },
+              on: { "pagination-change-page": _vm.getSubscriptionLog }
+            },
+            [
+              _c("span", { attrs: { slot: "prev-nav" }, slot: "prev-nav" }, [
+                _c("span", { staticClass: "mdi mdi-chevron-left" })
+              ]),
+              _vm._v(" "),
+              _c("span", { attrs: { slot: "next-nav" }, slot: "next-nav" }, [
+                _c("span", { staticClass: "mdi mdi-chevron-right" })
+              ])
+            ]
           ),
           _vm._v(" "),
-          _c("pagination", {
-            attrs: { data: _vm.subscription_logs, align: "right" },
-            on: { "pagination-change-page": _vm.getSubscriptionLog }
-          })
+          _c("div", { staticClass: "table-responsive" }, [
+            _c(
+              "table",
+              { staticClass: "table table-dark table-striped table-hover" },
+              [
+                _c("caption", [
+                  _vm._v(
+                    "\n                            " +
+                      _vm._s(
+                        "Currently showing page " +
+                          _vm.subscription_logs.current_page +
+                          "\n                            of " +
+                          _vm.subscription_logs.last_page +
+                          " page(s)"
+                      ) +
+                      "\n                        "
+                  )
+                ]),
+                _vm._v(" "),
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.subscription_logs.data, function(log) {
+                    return _c("tr", { key: log.id }, [
+                      _c("th", { attrs: { scope: "row" } }, [
+                        _vm._v(_vm._s(log.id))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(log.user.tp_number))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(log.user.fullname))]),
+                      _vm._v(" "),
+                      _c("td", { class: "text-" + log.style }, [
+                        _vm._v(_vm._s(log.description))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(log.created_at))])
+                    ])
+                  }),
+                  0
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "pagination",
+            {
+              attrs: {
+                data: _vm.subscription_logs,
+                "show-disabled": true,
+                align: "right"
+              },
+              on: { "pagination-change-page": _vm.getSubscriptionLog }
+            },
+            [
+              _c("span", { attrs: { slot: "prev-nav" }, slot: "prev-nav" }, [
+                _c("span", { staticClass: "mdi mdi-chevron-left" })
+              ]),
+              _vm._v(" "),
+              _c("span", { attrs: { slot: "next-nav" }, slot: "next-nav" }, [
+                _c("span", { staticClass: "mdi mdi-chevron-right" })
+              ])
+            ]
+          )
         ],
         1
       )
@@ -90117,6 +90423,24 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "page-header" }, [
       _c("h1", { staticClass: "page-title" }, [_vm._v("View Subscription Log")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "thead-dark" }, [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("TP Number")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Description")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Created at")])
+      ])
     ])
   }
 ]
