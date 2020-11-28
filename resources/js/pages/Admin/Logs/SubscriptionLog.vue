@@ -26,6 +26,7 @@
                             <th scope="col">#</th>
                             <th scope="col">TP Number</th>
                             <th scope="col">Name</th>
+                            <th scope="col">Payment Method</th>
                             <th scope="col">Description</th>
                             <th scope="col">Created at</th>
                             </tr>
@@ -35,6 +36,7 @@
                                 <th scope="row">{{ log.id }}</th>
                                 <td>{{ log.user.tp_number }}</td>
                                 <td>{{ log.user.fullname }}</td>
+                                <td>{{ (log.payment_method == 'apcard') ? ' Online via APCard' : 'Via admin counter' }}</td>
                                 <td :class="`text-${log.style}`">{{ log.description }}</td>
                                 <td>{{ log.created_at }}</td>
                             </tr>

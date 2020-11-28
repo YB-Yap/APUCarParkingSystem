@@ -2543,6 +2543,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -90377,6 +90379,16 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(log.user.fullname))]),
                       _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(
+                            log.payment_method == "apcard"
+                              ? " Online via APCard"
+                              : "Via admin counter"
+                          )
+                        )
+                      ]),
+                      _vm._v(" "),
                       _c("td", { class: "text-" + log.style }, [
                         _vm._v(_vm._s(log.description))
                       ]),
@@ -90436,6 +90448,8 @@ var staticRenderFns = [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("TP Number")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Payment Method")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Description")]),
         _vm._v(" "),

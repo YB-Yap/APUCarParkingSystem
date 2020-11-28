@@ -31,6 +31,7 @@ APU Car Parking System is able,
 - Updated `Logs` UI
 - Added `payment_method` enum column for `transactions` table
 - Updated `ParkingController` and `SubscriptionController` for `Transaction`
+- Added `Payment Method` for `Admin/SubscriptionLog` table
 ######  27/11/2020
 - Added `Admin/ViewActiveSubs`
 - Added `laravel-vue-pagination`
