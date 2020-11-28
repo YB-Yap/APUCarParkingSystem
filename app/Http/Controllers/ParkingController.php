@@ -182,6 +182,7 @@ class ParkingController extends Controller
         $transaction->type = "deduct";
         $transaction->category = "parking";
         $transaction->amount = $calc->to_pay;
+        $transaction->payment_method = "apcard";
         $transaction->description = "Parking fee";
         $transaction->save();
 

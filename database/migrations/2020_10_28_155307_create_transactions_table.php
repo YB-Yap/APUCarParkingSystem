@@ -19,6 +19,7 @@ class CreateTransactionsTable extends Migration
             $table->enum('type', ['deduct', 'topup'])->default('deduct');
             $table->enum('category', ['parking', 'subscription'])->default('parking');
             $table->integer('amount')->unsigned();
+            $table->enum('payment_method', ['apcard', 'admin'])->default('apcard');
             $table->string('description');
             $table->timestamps();
             $table->softDeletes();

@@ -172,6 +172,7 @@ class SubscriptionController extends Controller
         $transaction->type = "deduct";
         $transaction->category = "subscription";
         $transaction->amount = $subs_price;
+        $transaction->payment_method = (!$viaAdmin) ? "apcard" : "admin";
         $transaction->description = $request->mode == 'purchase' ?"Purchase subscription" : "Extend subscription";
         $transaction->save();
 
@@ -183,6 +184,7 @@ class SubscriptionController extends Controller
 
     public function terminateSubs(Request $request)
     {
+        $viaAdmin = false;
         if ($request->has('tp_number')) {
             $user = User::where('tp_number', $request->input('tp_number'))->first();
             if (!$user) {
@@ -191,6 +193,7 @@ class SubscriptionController extends Controller
                     'isSuccess' => false
                 ], 200);
             }
+            $viaAdmin = true;
         } else {
             $user = Auth::user();
         }
@@ -203,6 +206,7 @@ class SubscriptionController extends Controller
         $transaction->type = "deduct";
         $transaction->category = "subscription";
         $transaction->amount = 0;
+        $transaction->payment_method = (!$viaAdmin) ? "apcard" : "admin";
         $transaction->description = "Terminate subscription";
         $transaction->save();
 
