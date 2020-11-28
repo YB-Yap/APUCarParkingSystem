@@ -18,7 +18,7 @@ APU Car Parking System allows **students**,
 APU Car Parking System allows **admin**,
 - **DONE** To login and logout from the system.
 - *TBT* To check the availability of car parking areas.
-- *WIP* To check all records.
+- *TBT* To check all records.
 - *TBT* To check all subscription.
 - *TBT* To modify overall subscription capacity.
 - *TBT* To terminate season parking subscription.
