@@ -45,9 +45,10 @@
                                 <td>{{ `${log.duration.hours}h ${log.duration.minutes}m` }}</td>
                                 <td>{{ (log.fee / 100).toFixed(2) }}</td>
                                 <td class="text-center">
-                                    <span class="px-2 py-1 rounded-pill"
-                                        :class="log.is_car_park_full ? 'bg-warning text-dark' : 'bg-success'">
-                                        {{ log.is_car_park_full ? 'Full' : 'Not Full' }}
+                                    <span class="mdi"
+                                        :class="log.is_car_park_full
+                                        ? 'mdi-minus-circle text-warning'
+                                        : 'mdi-check-circle-outline text-success'">
                                     </span>
                                 </td>
                             </tr>
@@ -58,6 +59,11 @@
                     <span slot="prev-nav"><span class="mdi mdi-chevron-left"></span></span>
 	                <span slot="next-nav"><span class="mdi mdi-chevron-right"></span></span>
                 </pagination>
+                <div class="section-wrapper">
+                    Legends: <br>
+                    <span class="mdi mdi-minus-circle text-warning"></span> - Car park is full<br>
+                    <span class="mdi mdi-check-circle-outline text-success"></span> - Car park is not full
+                </div>
             </div>
         </div>
     </div>

@@ -2440,6 +2440,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -90168,24 +90174,12 @@ var render = function() {
                       _c("td", [_vm._v(_vm._s((log.fee / 100).toFixed(2)))]),
                       _vm._v(" "),
                       _c("td", { staticClass: "text-center" }, [
-                        _c(
-                          "span",
-                          {
-                            staticClass: "px-2 py-1 rounded-pill",
-                            class: log.is_car_park_full
-                              ? "bg-warning text-dark"
-                              : "bg-success"
-                          },
-                          [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(
-                                  log.is_car_park_full ? "Full" : "Not Full"
-                                ) +
-                                "\n                                    "
-                            )
-                          ]
-                        )
+                        _c("span", {
+                          staticClass: "mdi",
+                          class: log.is_car_park_full
+                            ? "mdi-minus-circle text-warning"
+                            : "mdi-check-circle-outline text-success"
+                        })
                       ])
                     ])
                   }),
@@ -90214,7 +90208,9 @@ var render = function() {
                 _c("span", { staticClass: "mdi mdi-chevron-right" })
               ])
             ]
-          )
+          ),
+          _vm._v(" "),
+          _vm._m(2)
         ],
         1
       )
@@ -90266,6 +90262,22 @@ var staticRenderFns = [
           [_vm._v("Car Park Entry Status")]
         )
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "section-wrapper" }, [
+      _vm._v("\n                    Legends: "),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "mdi mdi-minus-circle text-warning" }),
+      _vm._v(" - Car park is full"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "mdi mdi-check-circle-outline text-success" }),
+      _vm._v(" - Car park is not full\n                ")
     ])
   }
 ]

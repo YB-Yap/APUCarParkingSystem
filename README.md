@@ -30,6 +30,7 @@ APU Car Parking System is able,
 ######  29/11/2020
 - Added task scheduler commands `ParkingCheck` and `SubscriptionCheck`
 - Updated `ParkingController->exitCarPark()` and `ParkingController->feeCalculation()`
+- Updated `ParkingLog` UI
 ######  28/11/2020
 - Updated `Logs` UI
 - Added `payment_method` enum column for `transactions` table
