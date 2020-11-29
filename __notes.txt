@@ -12,9 +12,9 @@ subscription page
     - TBT - estimate next available
 
 server jobs
-    - at 12:00 am
-        - check subscription, if expired, auto terminate
-        - check parking if there is any car in parking zones, auto add time_out and insert new row, deduct apcard balance
+    - (theoratically written) at 12:00 am
+        - TBT at server side - check subscription, if expired, auto terminate
+        - TBT at server side - check parking if there is any car in parking zones, auto add time_out and insert new row, deduct apcard balance
 
 simulator page
     - improve ui

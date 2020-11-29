@@ -39,3 +39,7 @@ https://vue-chartjs.org/
 
 // laravel-paginator for vue
 https://github.com/gilbitron/laravel-vue-pagination
+
+// laravel task scheduling - cron job
+https://tutsforweb.com/how-to-set-up-task-scheduling-cron-job-in-laravel/
+https://laravel.com/docs/6.x/scheduling

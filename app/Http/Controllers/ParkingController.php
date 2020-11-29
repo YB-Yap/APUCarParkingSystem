@@ -163,7 +163,11 @@ class ParkingController extends Controller
 
         // check if enough balance
         if ($user->apcard_balance < $calc->to_pay) {
-            return response()->json(['message' => 'Insufficient fund.', 'to_pay' => $calc->to_pay, 'isSuccess' => false]);
+            return response()->json([
+                'message' => 'Insufficient fund.',
+                'to_pay' => abs($user->apcard_balance - $calc->to_pay),
+                'isSuccess' => false
+            ]);
         }
         // deduct apcard balance
         $user->apcard_balance = $user->apcard_balance - $calc->to_pay;
@@ -205,7 +209,7 @@ class ParkingController extends Controller
         $previous_paid = 0;
         $previous_duration = 0;
         $total_duration = 0;
-        $is_car_park_full = (getParkingAvailability() == 0);
+        // $is_car_park_full = (getParkingAvailability() == 0);
         $has_subscription = ($_user->subscription()->activeSubsCount() == 1);
 
         $data = toJson([
@@ -214,7 +218,7 @@ class ParkingController extends Controller
         ]);
 
         // FOC - car park is full AND exit within 15 minutes
-        if ($is_car_park_full && $data->current_duration > $this->FOC_HOUR) {
+        if ($_parking->is_car_park_full && $data->current_duration > $this->FOC_HOUR) {
             return $data;
         }
 
