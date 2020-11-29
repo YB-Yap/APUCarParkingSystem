@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\ParkingCheck::class,
+        Commands\SubscriptionCheck::class,
     ];
 
     /**
@@ -24,8 +25,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        // command scheduled
+        $schedule->command('schedule:parking')->daily();
+        $schedule->command('schedule:subscription')->daily();
     }
 
     /**
