@@ -41,7 +41,7 @@
                                 <td>{{ log.user.fullname }}</td>
                                 <td class="text-center">{{ log.parking_zone }}</td>
                                 <td>{{ log.time_in }}</td>
-                                <td>{{ log.time_out }}</td>
+                                <td>{{ (log.time_out) ? log.time_out : 'In car park' }}</td>
                                 <td>{{ `${log.duration.hours}h ${log.duration.minutes}m` }}</td>
                                 <td>{{ (log.fee / 100).toFixed(2) }}</td>
                                 <td class="text-center">

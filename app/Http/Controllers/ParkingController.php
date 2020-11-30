@@ -31,7 +31,7 @@ class ParkingController extends Controller
      */
     public function index()
     {
-        $parking = Parking::with(['user'])->latest('updated_at')->paginate(10);
+        $parking = Parking::with(['user'])->orderByDesc('id')->paginate(10);
 
         return response()->json($parking, 200);
     }

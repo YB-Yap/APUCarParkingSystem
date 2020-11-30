@@ -29,6 +29,8 @@ APU Car Parking System is able,
 ## Change log
 ######  30/11/2020
 - Fixed minor error in `ParkingCheck` command
+- Minor changes to log query
+- Resolved `ParkingLog` showing empty cell when time_out is null
 ######  29/11/2020
 - Added task scheduler commands `ParkingCheck` and `SubscriptionCheck`
 - Updated `ParkingController->exitCarPark()` and `ParkingController->feeCalculation()`

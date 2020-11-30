@@ -90158,7 +90158,11 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(log.time_in))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(log.time_out))]),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(log.time_out ? log.time_out : "In car park")
+                        )
+                      ]),
                       _vm._v(" "),
                       _c("td", [
                         _vm._v(
