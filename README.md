@@ -27,6 +27,8 @@ APU Car Parking System is able,
 - *TBT at server side* To automatically terminate expired subscriptions using time-based job scheduler.
 
 ## Change log
+######  30/11/2020
+- Fixed minor error in `ParkingCheck` command
 ######  29/11/2020
 - Added task scheduler commands `ParkingCheck` and `SubscriptionCheck`
 - Updated `ParkingController->exitCarPark()` and `ParkingController->feeCalculation()`

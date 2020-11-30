@@ -224,7 +224,7 @@ class ParkingController extends Controller
 
         // check if there is other parking record on that day in the same parking zone
         $today_records = $_user->parking()
-                        ->whereDate('time_out', $_now->toDateString())
+                        ->whereDate('time_in', $_now->toDateString())
                         ->whereNotNull('time_out')
                         ->where('parking_zone', $_parking->parking_zone)
                         ->latest('updated_at')

@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Models\Parking;
+use App\Models\Transaction;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
@@ -43,28 +45,33 @@ class ParkingCheck extends Command
         $yesterday = Carbon::today()->subSecond(1);     // 23:59:59
 
         // get all parking records that the vehicle is still inside car park
-        $parking_ids = Parking::whereNull('time_out')->get(['id']);
+        $parking_ids = Parking::whereDate('time_in', $yesterday->toDateString())
+                        ->whereNull('time_out')->get(['id']);
 
-        // loop all the ids for fee calculation and create new records for the next day
-        foreach ($parking_ids as $pid) {
-            $parking = Parking::find($pid->user_id);
-            $user = User::find($parking->user_id);
+        if ($parking_ids) {
+            // loop all the ids for fee calculation and create new records for the next day
+            foreach ($parking_ids as $pid) {
+                $parking = Parking::find($pid->id);
+                $user = User::find($parking->user_id);
 
-            $calc = $this->feeCalculation($user, $parking, $yesterday);
+                $calc = $this->feeCalculation($user, $parking, $yesterday);
 
-            $parking->time_out = $yesterday;
-            $parking->duration = $calc->current_duration;
-            $parking->fee = $calc->to_pay;
-            $parking->update();
+                $parking->time_out = $yesterday;
+                $parking->duration = $calc->current_duration;
+                $parking->fee = $calc->to_pay;
+                $parking->update();
 
-            $this->deductBalance($user, $calc->to_pay);
+                $this->deductBalance($user, $calc->to_pay);
 
-            // create new record
-            $new_parking = new Parking();
-            $new_parking->user_id = $user->id;
-            $new_parking->time_in = $today;
-            $new_parking->save();
+                // create new record
+                $new_parking = new Parking();
+                $new_parking->user_id = $user->id;
+                $new_parking->parking_zone = $parking->parking_zone;
+                $new_parking->time_in = $today;
+                $new_parking->save();
+            }
         }
+
     }
 
 
@@ -116,7 +123,7 @@ class ParkingCheck extends Command
 
         // check if there is other parking record on that day in the same parking zone
         $yesterday_records = $_user->parking()
-                        ->whereDate('time_out', $_yesterday->toDateString())
+                        ->whereDate('time_in', $_yesterday->toDateString())
                         ->whereNotNull('time_out')
                         ->where('parking_zone', $_parking->parking_zone)
                         ->latest('updated_at')
