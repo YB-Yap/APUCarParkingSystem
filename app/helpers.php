@@ -1,6 +1,6 @@
 <?php
 
-use App\models\Config;
+use App\Models\Config;
 use App\Models\Parking;
 use App\Models\Subscription;
 use Symfony\Component\Mime\Encoder\EncoderInterface;

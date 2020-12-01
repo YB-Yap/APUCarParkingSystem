@@ -30,6 +30,7 @@ APU Car Parking System is able,
 ######  2/12/2020
 - Changed `vue-autonumeric` to `autonumeric` due to Linux build error
 - Uploaded project to AWS EC2
+- Resolved `app\helpers.php` namespace `App\Models\Config`
 ######  30/11/2020
 - Fixed minor error in `ParkingCheck` command
 - Minor changes to log query
