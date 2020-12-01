@@ -43,3 +43,12 @@ https://github.com/gilbitron/laravel-vue-pagination
 // laravel task scheduling - cron job
 https://tutsforweb.com/how-to-set-up-task-scheduling-cron-job-in-laravel/
 https://laravel.com/docs/6.x/scheduling
+
+// git clone with 2fa
+https://webkul.com/blog/github-push-with-two-factor-authentication/
+
+// deploy laravel on aws ec2
+https://www.clickittech.com/aws/amazon-ec2/deploy-laravel-on-aws-ec2/
+
+// connect aws ec2 using shh
+https://www.clickittech.com/aws/connect-ec2-instance-using-ssh/
