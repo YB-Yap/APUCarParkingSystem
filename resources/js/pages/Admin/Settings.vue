@@ -13,17 +13,12 @@
                             <div class="input-group-prepend">
                             <div class="input-group-text">RM</div>
                             </div>
-                            <vue-autonumeric
+                            <input
                                 v-model="config.subscription_price"
-                                :options="{
-                                    minimumValue: '0',
-                                    maximumValue: '100000',
-                                    emptyInputBehavior: 'null'
-                                }"
                                 class="form-control" id="subsPrice"
                                 placeholder="60.00" aria-describedby="subsPriceHelp"
                                 :class="(config.subscription_price == null) ? 'border border-danger input-error' : null"
-                            ></vue-autonumeric>
+                            />
                         </div>
                         <small id="subsPriceHelp" class="form-text text-muted">
                             Subscription price must only contain numbers and 2 decimal places.<br>
@@ -32,18 +27,12 @@
                     </div>
                     <div class="form-group">
                         <label for="subsCapacity">Capacity *</label>
-                        <vue-autonumeric
+                        <input
                             v-model="config.subscription_quantity"
-                            :options="{
-                                minimumValue: '0',
-                                maximumValue: '100000',
-                                decimalPlaces: '0',
-                                emptyInputBehavior: 'null'
-                            }"
                             class="form-control" id="subsCapacity"
                             placeholder="10" aria-describedby="subsCapacityHelp"
                             :class="(config.subscription_quantity == null) ? 'border border-danger input-error' : null"
-                        ></vue-autonumeric>
+                        />
                         <small id="subsCapacityHelp" class="form-text text-muted">
                             Subscription capacity is the total amount of subscription that can be purchased.<br>
                             The value should between 0 ~ 100,000
@@ -56,18 +45,12 @@
                 <div class="section-wrapper">
                     <div class="form-group">
                         <label for="zoneASize">Car Park Zone A Size *</label>
-                        <vue-autonumeric
+                        <input
                             v-model="config.zone_a_size"
-                            :options="{
-                                minimumValue: '0',
-                                maximumValue: '100000',
-                                decimalPlaces: '0',
-                                emptyInputBehavior: 'null'
-                            }"
                             class="form-control" id="zoneASize"
                             placeholder="10" aria-describedby="zoneASizeHelp"
                             :class="(config.zone_a_size == null) ? 'border border-danger input-error' : null"
-                        ></vue-autonumeric>
+                        />
                         <small id="zoneASizeHelp" class="form-text text-muted">
                             Car park size is the total amount of car park space available.<br>
                             The value should between 0 ~ 100,000
@@ -75,18 +58,12 @@
                     </div>
                     <div class="form-group">
                         <label for="zoneBSize">Car Park Zone B Size *</label>
-                        <vue-autonumeric
+                        <input
                             v-model="config.zone_b_size"
-                            :options="{
-                                minimumValue: '0',
-                                maximumValue: '100000',
-                                decimalPlaces: '0',
-                                emptyInputBehavior: 'null'
-                            }"
                             class="form-control" id="zoneBSize"
                             placeholder="10" aria-describedby="zoneBSizeHelp"
                             :class="(config.zone_b_size == null) ? 'border border-danger input-error' : null"
-                        ></vue-autonumeric>
+                        />
                         <small id="zoneBSizeHelp" class="form-text text-muted">
                             Car park size is the total amount of car park space available.<br>
                             The value should between 0 ~ 100,000
@@ -106,7 +83,8 @@
 </template>
 
 <script>
-    import VueAutonumeric from 'vue-autonumeric';
+    import AutoNumeric from 'autonumeric';
+    // import VueAutonumeric from 'vue-autonumeric';
 
     export default {
         data() {
@@ -119,9 +97,10 @@
                 },
             }
         },
-        components: {
-            VueAutonumeric,
-        },
+        // components: {
+        //     // AutoNumeric,
+        //     // VueAutonumeric,
+        // },
         computed: {
             invalid_form: function() {
                 return ((this.config.subscription_price != null) &&
@@ -132,6 +111,29 @@
         },
         mounted() {
             this.getConfig();
+            new AutoNumeric('#subsPrice', {
+                                    minimumValue: '0',
+                                    maximumValue: '100000',
+                                    emptyInputBehavior: 'null'
+                                });
+            new AutoNumeric('#subsCapacity', {
+                                    minimumValue: '0',
+                                    maximumValue: '100000',
+                                    decimalPlaces: '0',
+                                    emptyInputBehavior: 'null'
+                                });
+            new AutoNumeric('#zoneASize', {
+                                    minimumValue: '0',
+                                    maximumValue: '100000',
+                                    decimalPlaces: '0',
+                                    emptyInputBehavior: 'null'
+                                });
+            new AutoNumeric('#zoneBSize', {
+                                    minimumValue: '0',
+                                    maximumValue: '100000',
+                                    decimalPlaces: '0',
+                                    emptyInputBehavior: 'null'
+                                });
         },
         methods: {
             getConfig() {
@@ -146,6 +148,10 @@
                                 this.config[config_value.key] = config_value.value;
                             }
                         });
+                        AutoNumeric.set('#subsPrice', this.config.subscription_price)
+                        AutoNumeric.set('#subsCapacity', this.config.subscription_quantity)
+                        AutoNumeric.set('#zoneASize', this.config.zone_a_size)
+                        AutoNumeric.set('#zoneBSize', this.config.zone_b_size)
                     });
             },
             updateConfig() {

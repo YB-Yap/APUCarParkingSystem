@@ -27,6 +27,9 @@ APU Car Parking System is able,
 - *TBT at server side* To automatically terminate expired subscriptions using time-based job scheduler.
 
 ## Change log
+######  2/12/2020
+- Changed `vue-autonumeric` to `autonumeric` due to Linux build error
+- Uploaded project to AWS EC2
 ######  30/11/2020
 - Fixed minor error in `ParkingCheck` command
 - Minor changes to log query
