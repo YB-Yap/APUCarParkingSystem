@@ -52,3 +52,26 @@ https://www.clickittech.com/aws/amazon-ec2/deploy-laravel-on-aws-ec2/
 
 // connect aws ec2 using shh
 https://www.clickittech.com/aws/connect-ec2-instance-using-ssh/
+
+// ec2 mysql remote access
+Sandip Dhummad, GorvGoyl
+https://stackoverflow.com/questions/9766014/connect-to-mysql-on-amazon-ec2-from-a-remote-server
+Mike Lischke
+https://stackoverflow.com/a/50197630
+
+// setup laravel in ubuntu
+https://www.youtube.com/watch?v=3sL5Fwi3Z9M
+
+// setup nginx in ubuntu
+https://www.youtube.com/watch?v=neA5Vpt9ENg&t=108s
+
+// composer vendor file permission
+Etienne Gautier
+https://stackoverflow.com/questions/22390001/runtimeexception-vendor-does-not-exist-and-could-not-be-created
+
+// Nginx: Failed to start A high performance web server and a reverse proxy server
+https://stackoverflow.com/questions/51525710/nginx-failed-to-start-a-high-performance-web-server-and-a-reverse-proxy-server
+
+// Access denied for user 'root'@'localhost'
+Krunal Pathak
+https://askubuntu.com/a/1080013

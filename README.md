@@ -29,10 +29,13 @@ APU Car Parking System is able,
 ## Change log
 ######  2/12/2020
 - Changed `vue-autonumeric` to `autonumeric` due to Linux build error
-- Uploaded project to AWS EC2
+- `Server side` Finished setup Ubuntu 20.04, Nginx 1.18.0, PHP 7.4.3, MySql 8, Composer 2.0.7, npm 6.14.4
+- `Server side` Finished setup APUCarParkingSystem
 - Resolved `app\helpers.php` namespace `App\Models\Config`
 - Resolved `ParkingStatus` showing 07:30 when time_out is null
 - Resolved `ParkingController->getRecords()` orderBy
+- Updated `__references.txt`
+- `Server side` Resolved MySql remote access
 ######  30/11/2020
 - Fixed minor error in `ParkingCheck` command
 - Minor changes to log query

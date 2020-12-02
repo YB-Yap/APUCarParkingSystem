@@ -1,3 +1,7 @@
+mysql remote access:
+user: yby
+password: Apucps123$
+
 parking controller
     - TBT - price calculation for zone b
     - TBT - if enter more than one time in a day, recalculate max price
