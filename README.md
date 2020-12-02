@@ -36,6 +36,7 @@ APU Car Parking System is able,
 - Resolved `ParkingController->getRecords()` orderBy
 - Updated `__references.txt`
 - `Server side` Resolved MySql remote access
+- `Server side` Started task scheduler
 ######  30/11/2020
 - Fixed minor error in `ParkingCheck` command
 - Minor changes to log query
