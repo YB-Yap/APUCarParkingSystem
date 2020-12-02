@@ -295,7 +295,7 @@ class ParkingController extends Controller
     public function getRecords()
     {
         return ParkingResource::collection(
-            Auth::user()->parking()->latest('updated_at')->get()
+            Auth::user()->parking()->orderbyDesc('id')->get()
         );
     }
 }

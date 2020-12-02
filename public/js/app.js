@@ -3893,11 +3893,13 @@ __webpack_require__.r(__webpack_exports__);
       var _this5 = this;
 
       axios.get('/parking/records').then(function (result) {
+        console.log(JSON.parse(JSON.stringify(result.data.data)));
         _this5.parking_records = _.groupBy(result.data.data, function (record) {
           var _date = new Date(record.time_in);
 
           return "".concat(_this5.toDateString(_date), ", ").concat(_this5.getWeekDay(_date));
         });
+        console.log(_this5.parking_records);
 
         for (var group in _this5.parking_records) {
           _.map(_this5.parking_records[group], function (record) {
@@ -3910,7 +3912,7 @@ __webpack_require__.r(__webpack_exports__);
               minutes: _minutes
             };
             record.time_in = _this5.toTimeString(new Date(record.time_in));
-            record.time_out = _this5.toTimeString(new Date(record.time_out));
+            record.time_out = record.time_out ? _this5.toTimeString(new Date(record.time_out)) : null;
             return record;
           });
         }
@@ -92395,7 +92397,16 @@ var render = function() {
                             _c(
                               "span",
                               { staticClass: "record-text flex-grow-1" },
-                              [_vm._v(": " + _vm._s(data.time_out))]
+                              [
+                                _vm._v(
+                                  ": " +
+                                    _vm._s(
+                                      data.time_out
+                                        ? data.time_out
+                                        : "In car park"
+                                    )
+                                )
+                              ]
                             )
                           ]),
                           _vm._v(" "),
@@ -110270,8 +110281,8 @@ var routes = [{
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /var/www/APUCarParkingSystem/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /var/www/APUCarParkingSystem/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\apucps\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\apucps\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
