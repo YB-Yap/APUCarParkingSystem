@@ -52,7 +52,7 @@
                                 <span class="record-label">
                                     <span class="mdi mdi-location-exit"></span> Time out
                                 </span>
-                                <span class="record-text flex-grow-1">: {{ data.time_out }}</span>
+                                <span class="record-text flex-grow-1">: {{ data.time_out ? data.time_out : 'In car park' }}</span>
                             </div>
                             <div class="d-flex">
                                 <span class="record-label">
@@ -160,10 +160,12 @@
                 axios
                     .get('/parking/records')
                     .then((result) => {
+                        console.log(JSON.parse(JSON.stringify(result.data.data)));
                         this.parking_records = _.groupBy(result.data.data, record => {
                             let _date = new Date(record.time_in);
                             return `${this.toDateString(_date)}, ${this.getWeekDay(_date)}`;
                         });
+                        console.log(this.parking_records);
                         for (var group in this.parking_records) {
                             _.map(this.parking_records[group], record => {
                                 let _hours = Math.floor(record.duration);
@@ -173,7 +175,7 @@
                                     minutes: _minutes
                                 };
                                 record.time_in = this.toTimeString(new Date(record.time_in));
-                                record.time_out = this.toTimeString(new Date(record.time_out));
+                                record.time_out = (record.time_out) ? this.toTimeString(new Date(record.time_out)) : null;
                                 return record;
                             });
                         };

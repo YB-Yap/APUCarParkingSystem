@@ -31,6 +31,7 @@ APU Car Parking System is able,
 - Changed `vue-autonumeric` to `autonumeric` due to Linux build error
 - Uploaded project to AWS EC2
 - Resolved `app\helpers.php` namespace `App\Models\Config`
+- Resolved `ParkingStatus` showing 07:30 when time_out is null
 ######  30/11/2020
 - Fixed minor error in `ParkingCheck` command
 - Minor changes to log query
