@@ -2013,22 +2013,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_chartjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-chartjs */ "./node_modules/vue-chartjs/es/index.js");
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  "extends": vue_chartjs__WEBPACK_IMPORTED_MODULE_0__["Bar"],
+  "extends": vue_chartjs__WEBPACK_IMPORTED_MODULE_0__["HorizontalBar"],
   data: function data() {
     return {
       options: {
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        scales: {
+          xAxes: [{
+            stacked: true
+          }],
+          yAxes: [{
+            stacked: true
+          }]
+        }
       }
     };
   },
   mounted: function mounted() {
     this.renderChart({
-      labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+      labels: ["Parking availability"],
       datasets: [{
-        label: "Data One",
-        backgroundColor: "#f87979",
-        data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
+        label: "Occupied",
+        backgroundColor: "#e54d4233",
+        borderColor: "#b02d2355",
+        borderWidth: "3",
+        data: [8]
+      }, {
+        label: "Available",
+        backgroundColor: "#49b57133",
+        borderColor: "#2d8c5055",
+        borderWidth: "3",
+        data: [10]
       }]
     }, this.options);
   }
@@ -91860,7 +91876,12 @@ var render = function() {
               _c("div", { staticClass: "block-content" }, [
                 _c("h5", { staticClass: "block-title" }, [_vm._v("Result")]),
                 _vm._v(" "),
-                _c("div", { staticClass: "mt-4" }, [_c("ResultChart")], 1)
+                _c(
+                  "div",
+                  { staticClass: "mt-4" },
+                  [_c("ResultChart", { staticStyle: { height: "110px" } })],
+                  1
+                )
               ])
             ]
           ),

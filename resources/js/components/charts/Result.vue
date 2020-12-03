@@ -1,38 +1,45 @@
 <script>
-import { Bar } from "vue-chartjs";
+    import { HorizontalBar } from "vue-chartjs";
 
-export default {
-    extends: Bar,
-    data() {
-        return {
-            options: { responsive: true, maintainAspectRatio: false },
-        }
-    },
-    mounted() {
-        this.renderChart({
-            labels: [
-                "January",
-                "February",
-                "March",
-                "April",
-                "May",
-                "June",
-                "July",
-                "August",
-                "September",
-                "October",
-                "November",
-                "December"
-            ],
-            datasets: [
-                {
-                    label: "Data One",
-                    backgroundColor: "#f87979",
-                    data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
-                }
-            ]
+    export default {
+        extends: HorizontalBar,
+        data() {
+            return {
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        xAxes: [{
+                            stacked: true
+                        }],
+                        yAxes: [{
+                            stacked: true
+                        }]
+                    }
+                },
+            }
         },
-        this.options);
+        mounted() {
+            this.renderChart({
+                labels: ["Parking availability"],
+                datasets: [
+                    {
+                        label: "Occupied",
+                        backgroundColor: "#e54d4233",
+                        borderColor: "#b02d2355",
+                        borderWidth: "3",
+                        data: [8]
+                    },
+                    {
+                        label: "Available",
+                        backgroundColor: "#49b57133",
+                        borderColor: "#2d8c5055",
+                        borderWidth: "3",
+                        data: [10]
+                    }
+                ]},
+                this.options
+            );
+        }
     }
-}
 </script>

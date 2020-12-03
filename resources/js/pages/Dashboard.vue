@@ -94,7 +94,7 @@
                     <div class="block-content">
                         <h5 class="block-title">Result</h5>
                         <div class="mt-4">
-                            <ResultChart/>
+                            <ResultChart style="height: 110px;"/>
                         </div>
                     </div>
                 </div>
