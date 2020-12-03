@@ -59,7 +59,7 @@
                                     <span class="mdi mdi-timer-outline"></span> Duration
                                 </span>
                                 <span class="record-text flex-grow-1">
-                                    : {{ `${data.duration.hours} hour(s) ${data.duration.minutes} minute(s)` }}
+                                    : {{ `${data.duration.hours}h ${data.duration.minutes}m` }}
                                 </span>
                             </div>
                             <div class="d-flex">

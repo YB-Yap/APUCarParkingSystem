@@ -157,7 +157,7 @@ class ParkingController extends Controller
     {
         $user = Auth::user();
         $now = Carbon::now();
-        $parking = $user->parking()->latest('updated_at')->first();
+        $parking = $user->parking()->orderByDesc('id')->first();
 
         $calc = $this->feeCalculation($user, $parking, $now);
 

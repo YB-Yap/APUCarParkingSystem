@@ -92421,9 +92421,9 @@ var render = function() {
                                   "\n                                : " +
                                     _vm._s(
                                       data.duration.hours +
-                                        " hour(s) " +
+                                        "h " +
                                         data.duration.minutes +
-                                        " minute(s)"
+                                        "m"
                                     ) +
                                     "\n                            "
                                 )
