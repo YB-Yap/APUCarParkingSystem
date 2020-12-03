@@ -2226,9 +2226,9 @@ __webpack_require__.r(__webpack_exports__);
         if (_this6.subscription.has_subs) {
           var last_index = _this6.subscription.state.length - 1;
 
-          var _from = new Date(_this6.subscription.state[0].valid_at);
+          var _from = new Date(_this6.subscription.state[0].valid_at.replace(/-/g, '/'));
 
-          var _till = new Date(_this6.subscription.state[last_index].valid_till);
+          var _till = new Date(_this6.subscription.state[last_index].valid_till.replace(/-/g, '/'));
 
           _this6.subscription.valid_from = _this6.toDateString(_from);
           _this6.subscription.valid_till = _this6.toDateString(_till);
@@ -3034,7 +3034,7 @@ __webpack_require__.r(__webpack_exports__);
           if (_this.has_subscription) {
             var last_index = _this.subscription_state.length - 1;
 
-            var _date = new Date(_this.subscription_state[last_index].valid_till);
+            var _date = new Date(_this.subscription_state[last_index].valid_till.replace(/-/g, '/'));
 
             _date.setDate(_date.getDate() + 1);
 
@@ -3562,9 +3562,9 @@ __webpack_require__.r(__webpack_exports__);
         if (_this6.subscription.has_subs) {
           var last_index = _this6.subscription.state.length - 1;
 
-          var _from = new Date(_this6.subscription.state[0].valid_at);
+          var _from = new Date(_this6.subscription.state[0].valid_at.replace(/-/g, '/'));
 
-          var _till = new Date(_this6.subscription.state[last_index].valid_till);
+          var _till = new Date(_this6.subscription.state[last_index].valid_till.replace(/-/g, '/'));
 
           _this6.subscription.valid_from = _this6.toDateString(_from);
           _this6.subscription.valid_till = _this6.toDateString(_till);
@@ -3895,7 +3895,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/parking/records').then(function (result) {
         console.log(JSON.parse(JSON.stringify(result.data.data)));
         _this5.parking_records = _.groupBy(result.data.data, function (record) {
-          var _date = new Date(record.time_in);
+          var _date = new Date(record.time_in.replace(/-/g, '/'));
 
           return "".concat(_this5.toDateString(_date), ", ").concat(_this5.getWeekDay(_date));
         });
@@ -3911,8 +3911,8 @@ __webpack_require__.r(__webpack_exports__);
               hours: _hours,
               minutes: _minutes
             };
-            record.time_in = _this5.toTimeString(new Date(record.time_in));
-            record.time_out = record.time_out ? _this5.toTimeString(new Date(record.time_out)) : null;
+            record.time_in = _this5.toTimeString(new Date(record.time_in.replace(/-/g, '/')));
+            record.time_out = record.time_out ? _this5.toTimeString(new Date(record.time_out.replace(/-/g, '/'))) : null;
             return record;
           });
         }
@@ -4260,7 +4260,7 @@ __webpack_require__.r(__webpack_exports__);
         if (_this.has_subscription) {
           var last_index = _this.subscription_state.length - 1;
 
-          var _date = new Date(_this.subscription_state[last_index].valid_till);
+          var _date = new Date(_this.subscription_state[last_index].valid_till.replace(/-/g, '/'));
 
           _date.setDate(_date.getDate() + 1);
 
@@ -4452,7 +4452,7 @@ __webpack_require__.r(__webpack_exports__);
             record.style = 'danger';
           }
 
-          var _date = new Date(record.created_at);
+          var _date = new Date(record.created_at.replace(/-/g, '/'));
 
           record.created_at = {
             date: _this.toDateString(_date),

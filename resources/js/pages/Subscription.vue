@@ -117,7 +117,7 @@
 
                         if (this.has_subscription) {
                             let last_index = this.subscription_state.length - 1;
-                            let _date = new Date(this.subscription_state[last_index].valid_till);
+                            let _date = new Date(this.subscription_state[last_index].valid_till.replace(/-/g, '/'));
                             _date.setDate(_date.getDate() + 1);
                             this.valid_from = this.toDateString(_date);
                             _date.setDate(_date.getDate() + 30);

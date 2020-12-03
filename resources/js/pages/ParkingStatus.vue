@@ -162,7 +162,7 @@
                     .then((result) => {
                         console.log(JSON.parse(JSON.stringify(result.data.data)));
                         this.parking_records = _.groupBy(result.data.data, record => {
-                            let _date = new Date(record.time_in);
+                            let _date = new Date(record.time_in.replace(/-/g, '/'));
                             return `${this.toDateString(_date)}, ${this.getWeekDay(_date)}`;
                         });
                         console.log(this.parking_records);
@@ -174,8 +174,10 @@
                                     hours: _hours,
                                     minutes: _minutes
                                 };
-                                record.time_in = this.toTimeString(new Date(record.time_in));
-                                record.time_out = (record.time_out) ? this.toTimeString(new Date(record.time_out)) : null;
+                                record.time_in = this.toTimeString(new Date(record.time_in.replace(/-/g, '/')));
+                                record.time_out = (record.time_out)
+                                                ? this.toTimeString(new Date(record.time_out.replace(/-/g, '/')))
+                                                : null;
                                 return record;
                             });
                         };

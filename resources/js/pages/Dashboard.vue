@@ -254,8 +254,8 @@
 
                         if (this.subscription.has_subs) {
                             let last_index = this.subscription.state.length - 1;
-                            let _from = new Date(this.subscription.state[0].valid_at);
-                            let _till = new Date(this.subscription.state[last_index].valid_till);
+                            let _from = new Date(this.subscription.state[0].valid_at.replace(/-/g, '/'));
+                            let _till = new Date(this.subscription.state[last_index].valid_till.replace(/-/g, '/'));
                             this.subscription.valid_from = this.toDateString(_from);
                             this.subscription.valid_till = this.toDateString(_till);
                         }

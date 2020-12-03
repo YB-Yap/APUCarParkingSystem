@@ -64,7 +64,7 @@
                                 record.style = 'danger';
                             }
 
-                            let _date = new Date(record.created_at);
+                            let _date = new Date(record.created_at.replace(/-/g, '/'));
                             record.created_at = {
                                 date: this.toDateString(_date),
                                 weekday: this.getWeekDay(_date),

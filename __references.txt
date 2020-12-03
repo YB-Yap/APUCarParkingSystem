@@ -75,3 +75,6 @@ https://stackoverflow.com/questions/51525710/nginx-failed-to-start-a-high-perfor
 // Access denied for user 'root'@'localhost'
 Krunal Pathak
 https://askubuntu.com/a/1080013
+
+// fixed iOS datetime show NaN
+https://www.programmersought.com/article/2194675207/
