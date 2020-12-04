@@ -7,11 +7,13 @@
             <div class="center-container">
                 <h1>Subscription status</h1>
                 <div class="section-wrapper">
-                    {{
-                        has_subscription
-                        ? 'Your subscription is currently active.'
-                        : 'You don\'t have any subscription.'
-                    }}
+                    <span class="d-block w-100 text-center">
+                        {{
+                            has_subscription
+                            ? 'Your subscription is currently active.'
+                            : 'You don\'t have any subscription.'
+                        }}
+                    </span>
                     <router-link to="subscription-history">
                         <button class="btn btn-primary d-block mt-4 w-100">
                             <span class="mdi mdi-list-status"></span> View subscription history
@@ -26,27 +28,75 @@
                         :key="index"
                         :class="sub.is_active ? 'border-success' : 'border-info'"
                     >
-                        Valid from: {{ sub.valid_at }}<br>
-                        Valid till: {{ sub.valid_till }}<br>
-                        Status: {{ sub.is_active ? 'Active' : 'Inactive' }}<br>
+                        <div class="d-flex flex-wrap justify-content-start">
+                            <div class="subs-date text-center">
+                                <span class="secondary-txt">
+                                    <span class="mdi mdi-timer-outline"></span> Valid date:<br>
+                                </span>
+                                {{ sub.valid_at }} ~ {{ sub.valid_till }}
+                            </div>
+                            <div class="subs-date text-center">
+                                <span class="secondary-txt">
+                                    <span class="mdi mdi-credit-card-outline"></span> Status:<br>
+                                </span>
+                                <span :class="sub.is_active ? 'text-success' : 'text-primary'">
+                                    {{ sub.is_active ? 'Active' : 'Inactive' }}
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <h1>Season Parking Subscription</h1>
                 <div class="section-wrapper" v-if="!has_subscription">
-                    Availability: {{ subscription_availability }} of {{ subscription_size }}
+                    <h5 class="section-title text-center">
+                        <span class="mdi mdi-calendar-clock"></span>
+                        Subscription Availability
+                    </h5>
+                    <div class="mt-2 mb-2">
+                        <SubscriptionAvailabilityChart style="height: 130px;" />
+                    </div>
                 </div>
                 <div class="section-wrapper" v-if="subscription_availability == 0 && !has_subscription">
-                    <span>Sorry, there are no subscription available at the moment.</span><br>
-                    <span>Estimated restock date: {{ estimated_date }}</span>
+                    <span class="d-block w-100 text-center">
+                        Sorry, there are no subscription available at the moment.
+                    </span>
+                    <div class="d-flex flex-wrap justify-content-start mt-2">
+                        <div class="subs-restock text-center secondary-txt">
+                            Estimated restock date:
+                        </div>
+                        <div class="subs-restock text-center">
+                            {{ estimated_date }}
+                        </div>
+                    </div>
                 </div>
                 <div class="section-wrapper" v-else>
                     <h5 class="section-title">
                         {{ has_subscription ? 'Extend my subscription' : 'Purchase a subscription' }}
                     </h5>
-                    <span class="mdi mdi-credit-card-outline"> RM 60.00</span><br>
-                    <span class="mdi mdi-timer-outline"> {{ valid_from }} ~ {{ valid_till }}</span><br>
-                    <span class="mdi mdi-boom-gate-up-outline"> 1 Month</span>
+
+                    <div class="d-flex flex-wrap justify-content-start mt-2">
+                        <div class="subs-purchase text-center pt-2">
+                            <span class="secondary-txt">
+                                <span class="mdi mdi-credit-card-outline"></span> Price:<br>
+                            </span>
+                            RM 60.00
+                        </div>
+                        <div class="subs-purchase text-center pt-2">
+                            <span class="secondary-txt">
+                                <span class="mdi mdi-boom-gate-up-outline"></span> Validity:<br>
+                            </span>
+                            1 Month
+                        </div>
+                    </div>
+                    <div class="w-100">
+                        <div class="subs-purchase text-center pt-2">
+                            <span class="secondary-txt">
+                                <span class="mdi mdi-timer-outline"></span> Valid date:<br>
+                            </span>
+                            {{ valid_from }} ~ {{ valid_till }}
+                        </div>
+                    </div>
                     <div class="section-child-wrapper border" :class="!disclaimer_check ? 'border-danger' : 'border-success'">
                         <input type="checkbox" class="mr-2" v-model="disclaimer_check">
                         <label>By checking this, you understand that this subscription is not refundable.</label>
@@ -56,9 +106,11 @@
                     </button>
                 </div>
                 <hr>
-                <h5 class="text-danger text-center mt-4" v-if="has_subscription">** Danger **</h5>
+                <h5 class="text-danger text-center mt-4 overflow-hidden danger-title" v-if="has_subscription">
+                    <span>!! Danger !!</span>
+                </h5>
                 <div class="terminate-section section-wrapper border border-danger" v-if="has_subscription">
-                    <h5 class="section-title">Terminate my subscription</h5>
+                    <h5 class="section-title text-danger">Terminate my subscription</h5>
                     <p>
                         Before proceeding, we would like to inform you that this action is <strong>irreversible</strong>
                         and all your subscriptions will be terminated.
@@ -77,12 +129,17 @@
 </template>
 
 <script>
+import SubscriptionAvailabilityChart from "../components/charts/SubscriptionAvailability.vue";
+
     export default {
+        components: {
+            SubscriptionAvailabilityChart,
+        },
         data() {
             return {
                 has_subscription: false,
                 subscription_availability: 0,
-                subscription_size: 0,
+                // subscription_size: 0,
                 subscription_state: [],
                 estimated_date: '',
                 valid_from: '',
@@ -94,7 +151,7 @@
         mounted() {
             this.getSubscriptionState();
             this.getSubscriptionAvailability();
-            this.getSubscriptionSize();
+            // this.getSubscriptionSize();
         },
         methods: {
             toDateString(_date) {
@@ -147,13 +204,13 @@
                         }
                     });
             },
-            getSubscriptionSize() {
-                axios
-                    .get('/api/subscription/size')
-                    .then((result) => {
-                        this.subscription_size = result.data;
-                    });
-            },
+            // getSubscriptionSize() {
+            //     axios
+            //         .get('/api/subscription/size')
+            //         .then((result) => {
+            //             this.subscription_size = result.data;
+            //         });
+            // },
             purchaseSubs() {
                 let data = {
                     valid_at: this.valid_from,
@@ -225,6 +282,33 @@
 <style lang="scss">
     @import './resources/sass/_variables.scss';
 
+    .subs-date {
+        flex: 1 1 210px;
+    }
+    .subs-purchase {
+        flex: 1 1 110px;
+        font-size: 1.2em;
+    }
+    .danger-title {
+        &:before,
+        &:after {
+            background-color: $danger;
+            content: "";
+            display: inline-block;
+            height: 1px;
+            position: relative;
+            vertical-align: middle;
+            width: 50%;
+        }
+        &:before {
+            right: 0.5em;
+            margin-left: -50%;
+        }
+        &:after {
+            left: 0.5em;
+            margin-right: -50%;
+        }
+    }
     .terminate-section {
         background-color: $tertiary-bg !important;
     }

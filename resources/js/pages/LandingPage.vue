@@ -87,6 +87,11 @@
             &:hover {
                 color: $blue;
             }
+
+            @media only screen and (max-width: 768px) {
+                font-size: 10px;
+                padding: 0.5rem 0.7rem;
+            }
         }
 
         .btm-nav-active {

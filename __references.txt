@@ -78,3 +78,7 @@ https://askubuntu.com/a/1080013
 
 // fixed iOS datetime show NaN
 https://www.programmersought.com/article/2194675207/
+
+// css - line besides title
+Puigcerber
+https://stackoverflow.com/a/14731123

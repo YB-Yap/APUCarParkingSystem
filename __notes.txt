@@ -27,18 +27,16 @@ simulator page
     - use sweetalert as gate display
 
 dashboard
-    - improve car status (show how many are currently in parking area)
     - TBT - estimated fee (maybe also check if the apcard has enough balance)
     - TBT - latest record logic
-    - add dummy blocks from apspace
 
 parking status page
-    - improve ui
-        - maybe add bar chart for the parking zone availability
     - TBT - estimated fee
     - TBT - parking records
 
 subscription history
+    - add breadcrumb
+    - improve UI
     - TBT - list all history
 
 admin site

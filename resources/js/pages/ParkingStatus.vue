@@ -8,24 +8,70 @@
                 <h1>Your vehicle</h1>
                 <div class="section-wrapper">
                     <div v-if="is_in_parking">
-                        <span>Your car is currently parked in Zone {{ car_state.parking_zone }}.</span><br>
-                        <span>Enter time: {{ car_state.time_in }}</span><br>
-                        <span>Estimated parking fee: RM{{ estimated_fee }}</span>
+                        <span class="d-block w-100 text-center">
+                            Your car is currently parked in
+                            <span class="parking-zone">Zone {{ car_state.parking_zone }}</span>.
+                        </span>
+                        <div class="d-flex flex-wrap justify-content-start mt-2">
+                            <div class="parking-date text-center pt-2">
+                                <span class="secondary-txt">Enter time:</span><br>
+                                {{ car_state.time_in }}
+                            </div>
+                            <div class="parking-date text-center pt-2">
+                                <span class="secondary-txt">Estimated parking fee:</span><br>
+                                RM{{ estimated_fee }}
+                            </div>
+                        </div>
                     </div>
                     <div v-else>
-                        <span>Your car is not parked in any Zone.</span><br>
-                        Zone A: {{ parking_availability.zone_a }} of {{ parking_size.zone_a }}<br>
-                        Zone B: {{ parking_availability.zone_b }} of {{ parking_size.zone_b }}
+                        <span class="d-block w-100 text-center mt-4">
+                            Your car is not parked in any zone.
+                        </span>
+                    </div>
+                    <hr>
+                    <h5 class="mt-4 text-center section-title">
+                        <span class="mdi mdi-parking"></span> Availability
+                    </h5>
+                    <div class="mt-2 mb-2">
+                        <ParkingAvailabilityChart style="height: 150px;" />
                     </div>
                 </div>
 
                 <div v-if="has_parked_today" class="section-wrapper">
-                    <span class="mdi mdi-parking"></span> Previously, you have parked at ...<br>
-                    <span>Parking Zone: {{ latest_record.parking_zone }}</span><br>
-                    <span>Enter time: {{ latest_record.time_in }}</span><br>
-                    <span>Exit time: {{ latest_record.time_out }}</span><br>
-                    <span>Duration: {{ `${latest_record.hours} hour(s) ${latest_record.minutes} minute(s)` }}</span><br>
-                    <span>Parking fee: RM{{ (latest_record.fee / 100).toFixed(2) }}</span>
+                    <h5 class="section-title">
+                        <span class="mdi mdi-parking"></span> Previously, you have parked at ...<br>
+                    </h5>
+                    <table class="mt-4">
+                        <tbody>
+                            <tr>
+                                <td>Parking Zone</td>
+                                <td>&nbsp;:&nbsp;</td>
+                                <td>{{ latest_record.parking_zone }}</td>
+                            </tr>
+                            <tr>
+                                <td>Enter time</td>
+                                <td>&nbsp;:&nbsp;</td>
+                                <td>{{ latest_record.time_in }}</td>
+                            </tr>
+                            <tr>
+                                <td>Exit time</td>
+                                <td>&nbsp;:&nbsp;</td>
+                                <td>{{ latest_record.time_out }}</td>
+                            </tr>
+                            <tr>
+                                <td>Duration</td>
+                                <td>&nbsp;:&nbsp;</td>
+                                <td>
+                                    {{ `${latest_record.hours}h ${latest_record.minutes}m` }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Parking fee</td>
+                                <td>&nbsp;:&nbsp;</td>
+                                <td>RM{{ (latest_record.fee / 100).toFixed(2) }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
                 <h1>Parking history</h1>
@@ -34,41 +80,43 @@
                 </div>
                 <div class="section-wrapper" v-else>
                     <div v-for="(record, index) in parking_records" :key=index>
-                        <h5>{{ index }}</h5>
+                        <h5 class="section-title">{{ index }}</h5>
                         <div class="section-child-wrapper" v-for="(data, i) in record" :key=i>
-                            <div class="d-flex">
-                                <span class="record-label">
-                                    <span class="mdi mdi-boom-gate"></span> Parking zone
-                                </span>
-                                <span class="record-text flex-grow-1">: {{ data.parking_zone }}</span>
+                            <div class="w-100">
+                                <div class="parking-date text-center pt-2">
+                                    <span class="secondary-txt">
+                                        <span class="mdi mdi-boom-gate"></span> Parking zone:&nbsp;
+                                    </span>
+                                    {{ data.parking_zone }}
+                                </div>
                             </div>
-                            <div class="d-flex">
-                                <span class="record-label">
-                                    <span class="mdi mdi-location-enter"></span> Time in
-                                </span>
-                                <span class="record-text flex-grow-1">: {{ data.time_in }}</span>
+                            <div class="d-flex flex-wrap justify-content-start mt-2">
+                                <div class="parking-date text-center pt-2">
+                                    <span class="secondary-txt">
+                                        <span class="mdi mdi-location-enter"></span> Time in:<br>
+                                    </span>
+                                    {{ data.time_in }}
+                                </div>
+                                <div class="parking-date text-center pt-2">
+                                    <span class="secondary-txt">
+                                        <span class="mdi mdi-location-exit"></span> Time out:<br>
+                                    </span>
+                                    {{ data.time_out ? data.time_out : 'In car park' }}
+                                </div>
                             </div>
-                            <div class="d-flex">
-                                <span class="record-label">
-                                    <span class="mdi mdi-location-exit"></span> Time out
-                                </span>
-                                <span class="record-text flex-grow-1">: {{ data.time_out ? data.time_out : 'In car park' }}</span>
-                            </div>
-                            <div class="d-flex">
-                                <span class="record-label">
-                                    <span class="mdi mdi-timer-outline"></span> Duration
-                                </span>
-                                <span class="record-text flex-grow-1">
-                                    : {{ `${data.duration.hours}h ${data.duration.minutes}m` }}
-                                </span>
-                            </div>
-                            <div class="d-flex">
-                                <span class="record-label">
-                                    <span class="mdi mdi-credit-card"></span> Parking fee
-                                </span>
-                                <span class="record-text flex-grow-1">
-                                    : {{ `RM ${(data.fee / 100).toFixed(2)}` }}
-                                </span>
+                            <div class="d-flex flex-wrap justify-content-start mt-2">
+                                <div class="parking-date text-center pt-2">
+                                    <span class="secondary-txt">
+                                        <span class="mdi mdi-timer-outline"></span> Duration:<br>
+                                    </span>
+                                    {{ `${data.duration.hours}h ${data.duration.minutes}m` }}
+                                </div>
+                                <div class="parking-date text-center pt-2">
+                                    <span class="secondary-txt">
+                                        <span class="mdi mdi-credit-card"></span> Parking fee:<br>
+                                    </span>
+                                    {{ `RM ${(data.fee / 100).toFixed(2)}` }}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -79,14 +127,19 @@
 </template>
 
 <script>
+    import ParkingAvailabilityChart from "../components/charts/ParkingAvailability.vue";
+
     export default {
+        components: {
+            ParkingAvailabilityChart
+        },
         data() {
             return {
                 is_in_parking: false,
                 car_state: {},
                 estimated_fee: 0,
-                parking_availability: [],
-                parking_size: [],
+                // parking_availability: {},
+                // parking_size: {},
                 has_parked_today: false,
                 latest_record: {
                     hours: 0,
@@ -97,8 +150,8 @@
         },
         mounted() {
             this.getCarState();
-            this.getCarParkAvailability();
-            this.getCarParkSize();
+            // this.getCarParkAvailability();
+            // this.getCarParkSize();
             this.getParkingRecords();
         },
         methods: {
@@ -128,20 +181,20 @@
                         this.$forceUpdate();
                     });
             },
-            getCarParkAvailability() {
-                axios
-                    .get('/api/parking/availability')
-                    .then((result) => {
-                        this.parking_availability = result.data;
-                    });
-            },
-            getCarParkSize() {
-                axios
-                    .get('/api/parking/size')
-                    .then((result) => {
-                        this.parking_size = result.data;
-                    });
-            },
+            // getCarParkAvailability() {
+            //     axios
+            //         .get('/api/parking/availability')
+            //         .then((result) => {
+            //             this.parking_availability = result.data;
+            //         });
+            // },
+            // getCarParkSize() {
+            //     axios
+            //         .get('/api/parking/size')
+            //         .then((result) => {
+            //             this.parking_size = result.data;
+            //         });
+            // },
             toDateString(_date) {
                 return _date.getFullYear() + '-' +
                         ("0" + (_date.getMonth() + 1)).slice(-2) + '-' +
@@ -190,7 +243,28 @@
 <style lang="scss">
     @import './resources/sass/_variables.scss';
 
+    .parking-zone {
+        color: $blue;
+        font-size: 1.5rem;
+    }
+
+    .secondary-txt {
+        color: $secondary-txt;
+    }
+    .tertiary-txt {
+        color: $tertiary-txt;
+    }
+
+    .parking-date {
+        flex: 1 1 180px;
+        font-size: 1.2em;
+    }
+
     .record-label {
+        flex-basis: 130px;
+        width: 100%;
+    }
+    .record-text {
         flex-basis: 130px;
         width: 100%;
     }

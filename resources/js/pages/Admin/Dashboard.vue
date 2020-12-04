@@ -215,56 +215,6 @@
     // import variables.scss
     @import './resources/sass/_variables.scss';
 
-    .content-container {
-        width: 100%;
-        height: 100%;
-    }
-    .content {
-        width: 100%;
-        height: calc(100% - 58px);
-        background-color: $main-bg;
-        overflow-x: hidden;
-        overflow-y: auto;
-    }
-    .btm-navbar {
-        position: absolute;
-        z-index: 100;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 58px;
-        background-color: $main-bg;
-        color: $main-txt;
-        border-top: 1px solid #00000033;
-
-        .nav-icon {
-            display: block;
-            text-align: center;
-            font-size: 23px;
-            margin: -10px;
-            height: 38px;
-        }
-
-        .nav-link {
-            color: $secondary-txt;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
-            text-decoration: none;
-            flex-basis: 168px;
-            text-align: center;
-            cursor: pointer;
-
-            &:hover {
-                color: $blue;
-            }
-        }
-
-        .btm-nav-active {
-            color: $blue;
-        }
-    }
-
     .dashboard-block {
         padding: 20px;
         width: 100%;
@@ -298,10 +248,10 @@
             object-fit: cover;
             float: left;
             border-radius: 32px;
+            margin-right: 16px;
         }
         .text {
             display: inline-block;
-            padding-left: 16px;
         }
     }
     .profile-links {

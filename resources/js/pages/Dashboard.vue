@@ -23,58 +23,129 @@
                     <div class="block-content text-center">
                         <span class="block-icon mdi mdi-credit-card"></span><br>
                         <span>APCard Balance</span><br>
-                        <span>{{ "RM" + this.apcard_balance }}</span>
+                        <span class="card-balance">{{ "RM" + this.apcard_balance }}</span>
                     </div>
                 </div>
                 <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
-                    <div class="block-content" style="height: 200px;">
+                    <div class="block-content">
                         <h5 class="block-title">
                             <span class="mdi mdi-parking"></span>
                             Parking Status
                         </h5>
                         <div v-if="parking.is_in_parking">
-                            <span>Your car is currently parked in Zone {{ parking.car_state.parking_zone }}.</span><br>
-                            <span>Enter time: {{ parking.car_state.time_in }}</span><br>
-                            <span>Estimated parking fee: RM{{ parking.estimated_fee }}</span>
+                            <span class="d-block w-100 text-center">
+                                Your car is currently parked in Zone {{ parking.car_state.parking_zone }}.
+                            </span>
+                            <div class="d-flex flex-wrap justify-content-start mt-2">
+                                <div class="parking-date text-center pt-2">
+                                    <span class="secondary-txt">Enter time:</span><br>
+                                    {{ parking.car_state.time_in }}
+                                </div>
+                                <div class="parking-date text-center pt-2">
+                                    <span class="secondary-txt">Estimated parking fee:</span><br>
+                                    RM{{ parking.estimated_fee }}
+                                </div>
+                            </div>
                         </div>
                         <div v-else>
-                            <span>Your car is not parked in any Zone.</span><br>
-                            <span>Zone A: {{ parking.availability.zone_a }}</span><br>
-                            <span>Zone B: {{ parking.availability.zone_b }}</span>
+                            <span class="d-block w-100 text-center mt-4">
+                                Your car is not parked in any zone.
+                            </span>
+                        </div>
+                        <hr>
+                        <h5 class="block-title mt-4 text-center">
+                            <span class="mdi mdi-parking"></span> Availability
+                        </h5>
+                        <div class="mt-2 mb-2">
+                            <ParkingAvailabilityChart style="height: 150px;" />
                         </div>
                     </div>
                 </div>
                 <div v-if="parking.has_parked_today" v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
-                    <div class="block-content" style="height: 200px;">
+                    <div class="block-content">
                         <h5 class="block-title">
                             <span class="mdi mdi-parking"></span>
                             Previously, you have parked at ...
                         </h5>
-                        <span>Parking Zone: {{ parking.latest_record.parking_zone }}</span><br>
-                        <span>Enter time: {{ parking.latest_record.time_in }}</span><br>
-                        <span>Exit time: {{ parking.latest_record.time_out }}</span><br>
-                        <span>Duration: {{ `${parking.latest_record.hours} hour(s) ${parking.latest_record.minutes} minute(s)` }}</span><br>
-                        <span>Parking fee: RM{{ (parking.latest_record.fee / 100).toFixed(2) }}</span>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>Parking Zone</td>
+                                    <td>&nbsp;:&nbsp;</td>
+                                    <td>{{ parking.latest_record.parking_zone }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Enter time</td>
+                                    <td>&nbsp;:&nbsp;</td>
+                                    <td>{{ parking.latest_record.time_in }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Exit time</td>
+                                    <td>&nbsp;:&nbsp;</td>
+                                    <td>{{ parking.latest_record.time_out }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Duration</td>
+                                    <td>&nbsp;:&nbsp;</td>
+                                    <td>
+                                        {{ `${parking.latest_record.hours}h ${parking.latest_record.minutes}m` }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Parking fee</td>
+                                    <td>&nbsp;:&nbsp;</td>
+                                    <td>RM{{ (parking.latest_record.fee / 100).toFixed(2) }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
-                    <div class="block-content" style="height: 200px;">
+                    <div class="block-content">
                         <h5 class="block-title">
                             <span class="mdi mdi-calendar-clock"></span>
                             Subscription Status
                         </h5>
                         <div v-if="subscription.has_subs">
-                            Your subscription is currently active.<br>
-                            Valid from: {{ subscription.valid_from }}<br>
-                            Valid till: {{ subscription.valid_till }}
+                            <span class="d-block w-100 text-center mt-4">
+                                Your subscription is currently active.
+                            </span>
+                            <div class="d-flex flex-wrap justify-content-start mt-2">
+                                <div class="subs-date text-center pt-2">
+                                    <span class="secondary-txt">Valid from:</span><br>
+                                    {{ subscription.valid_from }}
+                                </div>
+                                <div class="subs-date text-center pt-2">
+                                    <span class="secondary-txt">Valid till:</span><br>
+                                    {{ subscription.valid_till }}
+                                </div>
+                            </div>
                         </div>
                         <div v-else>
-                            You don't have any subscription.<br>
-                            Availability: {{ subscription.availability }} of {{ subscription.size }}
+                            <span class="d-block w-100 text-center mt-4">
+                                You don't have any subscription.
+                            </span>
+
                             <div v-if="subscription.availability == 0">
-                                <span>Sorry, there are no subscription available at the moment.</span><br>
-                                <span>Estimated restock date: {{ subscription.estimated_date }}</span>
+                                <span class="d-block w-100 text-center">
+                                    Sorry, there are no subscription available at the moment.
+                                </span>
+                                <div class="d-flex flex-wrap justify-content-start mt-2">
+                                    <div class="subs-restock text-center secondary-txt">
+                                        Estimated restock date:
+                                    </div>
+                                    <div class="subs-restock text-center">
+                                        {{ subscription.estimated_date }}
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+                        <h5 class="block-title mt-4 text-center">
+                            <span class="mdi mdi-calendar-clock"></span>
+                            Subscription Availability
+                        </h5>
+                        <div class="mt-2 mb-2">
+                            <SubscriptionAvailabilityChart style="height: 130px;" />
                         </div>
                     </div>
                 </div><div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
@@ -87,14 +158,6 @@
                             * Timetable here is displayed for the intake grouping <b>()</b>.
                             You can change the grouping settings from the timetable page and then refreshing this page.<br>
                             **All times in this section are displayed in Malaysia Time Zone (GMT+8)
-                        </div>
-                    </div>
-                </div>
-                <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
-                    <div class="block-content">
-                        <h5 class="block-title">Result</h5>
-                        <div class="mt-4">
-                            <ResultChart style="height: 110px;"/>
                         </div>
                     </div>
                 </div>
@@ -127,11 +190,13 @@
 </template>
 
 <script>
-    import ResultChart from "../components/charts/Result.vue";
+    import ParkingAvailabilityChart from "../components/charts/ParkingAvailability.vue";
+    import SubscriptionAvailabilityChart from "../components/charts/SubscriptionAvailability.vue";
 
     export default {
         components: {
-            ResultChart,
+            ParkingAvailabilityChart,
+            SubscriptionAvailabilityChart,
         },
         data() {
             return {
@@ -165,11 +230,11 @@
         mounted() {
             this.getUserProfile();
             this.getAPCardBalance();
-            this.getCarParkAvailability();
+            // this.getCarParkAvailability();
             this.getCarState();
             this.getSubscriptionState();
             this.getSubscriptionAvailability();
-            this.getSubscriptionSize();
+            // this.getSubscriptionSize();
         },
         methods: {
             logout() {
@@ -200,13 +265,13 @@
                         this.apcard_balance = (result.data / 100).toFixed(2);
                     });
             },
-            getCarParkAvailability() {
-                axios
-                    .get('/api/parking/availability')
-                    .then((result) => {
-                        this.parking.availability = result.data;
-                    });
-            },
+            // getCarParkAvailability() {
+            //     axios
+            //         .get('/api/parking/availability')
+            //         .then((result) => {
+            //             this.parking.availability = result.data;
+            //         });
+            // },
             getCarState() {
                 axios
                     .get('/parking/state')
@@ -278,13 +343,13 @@
                         }
                     });
             },
-            getSubscriptionSize() {
-                axios
-                    .get('/api/subscription/size')
-                    .then((result) => {
-                        this.subscription.size = result.data;
-                    });
-            },
+            // getSubscriptionSize() {
+            //     axios
+            //         .get('/api/subscription/size')
+            //         .then((result) => {
+            //             this.subscription.size = result.data;
+            //         });
+            // },
         }
     }
 </script>
@@ -325,10 +390,10 @@
             object-fit: cover;
             float: left;
             border-radius: 32px;
+            margin-right: 16px;
         }
         .text {
             display: inline-block;
-            padding-left: 16px;
         }
     }
     .profile-links {
@@ -355,6 +420,26 @@
     }
     .block-icon {
         font-size: 24px;
+    }
+
+    .secondary-txt {
+        color: $secondary-txt;
+    }
+
+    .card-balance {
+        font-size: 1.5em;
+    }
+    .parking-date {
+        flex: 1 1 180px;
+        font-size: 1.2em;
+    }
+    .subs-date {
+        flex: 1 1 50%;
+        font-size: 1.2em;
+    }
+    .subs-restock {
+        flex: 1 1 180px;
+        font-size: 1.2em;
     }
 
     .happy {

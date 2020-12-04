@@ -42,8 +42,8 @@ if (!function_exists('getCarParkSize')) {
     function getCarParkSize()
     {
         return [
-            'zone_a' => Config::zoneASize()->value,
-            'zone_b' => Config::zoneBSize()->value,
+            'zone_a' => (int)Config::zoneASize()->value,
+            'zone_b' => (int)Config::zoneBSize()->value,
         ];
     }
 }

@@ -27,6 +27,9 @@ APU Car Parking System is able,
 - *TBT at server side* To automatically terminate expired subscriptions using time-based job scheduler.
 
 ## Change log
+######  4/12/2020
+- Added horizontal bar charts [`ParkingAvailability`, `SubscriptionAvailability`]
+- Updated UI [`Dashboard`, `ParkingStatus`, `Subscription`]
 ######  3/12/2020
 - Resolved `ParkingController->exitCarPark()` not getting last record
 - Resolved iOS datetime compatibility `new Date(date.replace(/-/g, '/'))`

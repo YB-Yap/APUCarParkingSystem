@@ -2001,10 +2001,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/charts/Result.vue?vue&type=script&lang=js&":
-/*!************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/charts/Result.vue?vue&type=script&lang=js& ***!
-  \************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/charts/ParkingAvailability.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/charts/ParkingAvailability.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2016,6 +2016,18 @@ __webpack_require__.r(__webpack_exports__);
   "extends": vue_chartjs__WEBPACK_IMPORTED_MODULE_0__["HorizontalBar"],
   data: function data() {
     return {
+      parking_availability: {
+        zone_a: 0,
+        zone_b: 0
+      },
+      parking_size: {
+        zone_a: 0,
+        zone_b: 0
+      },
+      temp: {
+        availability: false,
+        size: false
+      },
       options: {
         responsive: true,
         maintainAspectRatio: false,
@@ -2024,29 +2036,167 @@ __webpack_require__.r(__webpack_exports__);
             stacked: true
           }],
           yAxes: [{
-            stacked: true
+            stacked: true,
+            ticks: {
+              fontSize: 12
+            }
           }]
         }
       }
     };
   },
   mounted: function mounted() {
-    this.renderChart({
-      labels: ["Parking availability"],
-      datasets: [{
-        label: "Occupied",
-        backgroundColor: "#e54d4233",
-        borderColor: "#b02d2355",
-        borderWidth: "3",
-        data: [8]
-      }, {
-        label: "Available",
-        backgroundColor: "#49b57133",
-        borderColor: "#2d8c5055",
-        borderWidth: "3",
-        data: [10]
-      }]
-    }, this.options);
+    this.getCarParkAvailability();
+    this.getCarParkSize();
+  },
+  methods: {
+    render: function render() {
+      var occupied = [this.parking_size.zone_a - this.parking_availability.zone_a, this.parking_size.zone_b - this.parking_availability.zone_b];
+      var available = [this.parking_availability.zone_a, this.parking_availability.zone_b];
+      this.renderChart({
+        labels: ["A", "B"],
+        datasets: [{
+          label: "Occupied",
+          backgroundColor: "#e54d4233",
+          borderColor: "#b02d2355",
+          borderWidth: "3",
+          data: occupied
+        }, {
+          label: "Available",
+          backgroundColor: "#49b57133",
+          borderColor: "#2d8c5055",
+          borderWidth: "3",
+          data: available
+        }]
+      }, this.options);
+    },
+    getCarParkAvailability: function getCarParkAvailability() {
+      var _this = this;
+
+      axios.get('/api/parking/availability').then(function (result) {
+        _this.parking_availability = result.data;
+        _this.temp.availability = true;
+
+        if (_this.temp.availability && _this.temp.size) {
+          _this.render();
+        }
+      });
+    },
+    getCarParkSize: function getCarParkSize() {
+      var _this2 = this;
+
+      axios.get('/api/parking/size').then(function (result) {
+        _this2.parking_size = result.data;
+        _this2.temp.size = true;
+
+        if (_this2.temp.availability && _this2.temp.size) {
+          _this2.render();
+        }
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/charts/SubscriptionAvailability.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/charts/SubscriptionAvailability.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_chartjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-chartjs */ "./node_modules/vue-chartjs/es/index.js");
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  "extends": vue_chartjs__WEBPACK_IMPORTED_MODULE_0__["HorizontalBar"],
+  data: function data() {
+    return {
+      subscription_availability: 0,
+      subscription_size: 0,
+      temp: {
+        availability: false,
+        size: false
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          xAxes: [{
+            stacked: true
+          }],
+          yAxes: [{
+            stacked: true,
+            ticks: {
+              fontSize: 0
+            }
+          }]
+        }
+      }
+    };
+  },
+  mounted: function mounted() {
+    this.getSubscriptionAvailability();
+    this.getSubscriptionSize();
+  },
+  methods: {
+    render: function render() {
+      var sold = [this.subscription_size - this.subscription_availability];
+      var available = [this.subscription_availability];
+      this.renderChart({
+        labels: ["Season Parking Subscription"],
+        datasets: [{
+          label: "Occupied",
+          backgroundColor: "#e54d4233",
+          borderColor: "#b02d2355",
+          borderWidth: "3",
+          data: sold
+        }, {
+          label: "Available",
+          backgroundColor: "#49b57133",
+          borderColor: "#2d8c5055",
+          borderWidth: "3",
+          data: available
+        }]
+      }, this.options);
+    },
+    getSubscriptionAvailability: function getSubscriptionAvailability() {
+      var _this = this;
+
+      axios.get('/api/subscription/availability').then(function (result) {
+        _this.subscription_availability = result.data;
+        _this.temp.availability = true;
+
+        if (_this.temp.availability && _this.temp.size) {
+          _this.render();
+        }
+
+        if (_this.subscription_availability == 0) {
+          _this.estimateSubsRestockDate();
+        }
+      });
+    },
+    getSubscriptionSize: function getSubscriptionSize() {
+      var _this2 = this;
+
+      axios.get('/api/subscription/size').then(function (result) {
+        _this2.subscription_size = result.data;
+        _this2.temp.size = true;
+
+        if (_this2.temp.availability && _this2.temp.size) {
+          _this2.render();
+        }
+      });
+    },
+    estimateSubsRestockDate: function estimateSubsRestockDate() {
+      var _this3 = this;
+
+      axios.get('/api/subscription/estimate-restock-date').then(function (result) {
+        _this3.estimated_date = result.data.estimatedDate;
+      });
+    }
   }
 });
 
@@ -3316,7 +3466,71 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_charts_Result_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/charts/Result.vue */ "./resources/js/components/charts/Result.vue");
+/* harmony import */ var _components_charts_ParkingAvailability_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/charts/ParkingAvailability.vue */ "./resources/js/components/charts/ParkingAvailability.vue");
+/* harmony import */ var _components_charts_SubscriptionAvailability_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/charts/SubscriptionAvailability.vue */ "./resources/js/components/charts/SubscriptionAvailability.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3446,9 +3660,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    ResultChart: _components_charts_Result_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    ParkingAvailabilityChart: _components_charts_ParkingAvailability_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    SubscriptionAvailabilityChart: _components_charts_SubscriptionAvailability_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
@@ -3481,12 +3697,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.getUserProfile();
-    this.getAPCardBalance();
-    this.getCarParkAvailability();
+    this.getAPCardBalance(); // this.getCarParkAvailability();
+
     this.getCarState();
     this.getSubscriptionState();
-    this.getSubscriptionAvailability();
-    this.getSubscriptionSize();
+    this.getSubscriptionAvailability(); // this.getSubscriptionSize();
   },
   methods: {
     logout: function logout() {
@@ -3517,101 +3732,101 @@ __webpack_require__.r(__webpack_exports__);
         _this2.apcard_balance = (result.data / 100).toFixed(2);
       });
     },
-    getCarParkAvailability: function getCarParkAvailability() {
-      var _this3 = this;
-
-      axios.get('/api/parking/availability').then(function (result) {
-        _this3.parking.availability = result.data;
-      });
-    },
+    // getCarParkAvailability() {
+    //     axios
+    //         .get('/api/parking/availability')
+    //         .then((result) => {
+    //             this.parking.availability = result.data;
+    //         });
+    // },
     getCarState: function getCarState() {
-      var _this4 = this;
+      var _this3 = this;
 
       axios.get('/parking/state').then(function (result) {
         console.log(result.data);
 
         if (result.data.isInParking) {
-          _this4.parking.is_in_parking = true;
-          _this4.parking.car_state = result.data.data[0];
+          _this3.parking.is_in_parking = true;
+          _this3.parking.car_state = result.data.data[0];
 
-          _this4.estimateParkingFee();
+          _this3.estimateParkingFee();
         }
 
         if (result.data.hasParkedToday) {
-          _this4.parking.has_parked_today = true;
-          _this4.parking.latest_record = result.data.data[1];
-          _this4.parking.latest_record.hours = Math.floor(_this4.parking.latest_record.duration);
-          var minutes = (_this4.parking.latest_record.duration - _this4.parking.latest_record.hours) * 60;
-          _this4.parking.latest_record.minutes = Math.floor(minutes);
+          _this3.parking.has_parked_today = true;
+          _this3.parking.latest_record = result.data.data[1];
+          _this3.parking.latest_record.hours = Math.floor(_this3.parking.latest_record.duration);
+          var minutes = (_this3.parking.latest_record.duration - _this3.parking.latest_record.hours) * 60;
+          _this3.parking.latest_record.minutes = Math.floor(minutes);
         }
 
-        _this4.$forceUpdate();
+        _this3.$forceUpdate();
       });
     },
     estimateParkingFee: function estimateParkingFee() {
-      var _this5 = this;
+      var _this4 = this;
 
       axios.get('/parking/estimate-fee').then(function (result) {
         console.log(result.data);
-        _this5.parking.estimated_fee = (result.data / 100).toFixed(2);
+        _this4.parking.estimated_fee = (result.data / 100).toFixed(2);
 
-        _this5.$forceUpdate();
+        _this4.$forceUpdate();
       });
     },
     toDateString: function toDateString(_date) {
       return _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
     },
     getSubscriptionState: function getSubscriptionState() {
-      var _this6 = this;
+      var _this5 = this;
 
       axios.get('/subscription/state').then(function (result) {
         console.log(result.data);
 
         if (result.data.hasSubscription) {
-          _this6.subscription.has_subs = true;
-          _this6.subscription.state = result.data.data;
+          _this5.subscription.has_subs = true;
+          _this5.subscription.state = result.data.data;
         } else {
-          _this6.subscription.has_subs = false;
-          _this6.subscription.state = [];
+          _this5.subscription.has_subs = false;
+          _this5.subscription.state = [];
         }
 
-        if (_this6.subscription.has_subs) {
-          var last_index = _this6.subscription.state.length - 1;
+        if (_this5.subscription.has_subs) {
+          var last_index = _this5.subscription.state.length - 1;
 
-          var _from = new Date(_this6.subscription.state[0].valid_at.replace(/-/g, '/'));
+          var _from = new Date(_this5.subscription.state[0].valid_at.replace(/-/g, '/'));
 
-          var _till = new Date(_this6.subscription.state[last_index].valid_till.replace(/-/g, '/'));
+          var _till = new Date(_this5.subscription.state[last_index].valid_till.replace(/-/g, '/'));
 
-          _this6.subscription.valid_from = _this6.toDateString(_from);
-          _this6.subscription.valid_till = _this6.toDateString(_till);
+          _this5.subscription.valid_from = _this5.toDateString(_from);
+          _this5.subscription.valid_till = _this5.toDateString(_till);
         }
       });
     },
     estimateSubsRestockDate: function estimateSubsRestockDate() {
-      var _this7 = this;
+      var _this6 = this;
 
       axios.get('/api/subscription/estimate-restock-date').then(function (result) {
-        _this7.subscription.estimated_date = result.data.estimatedDate;
+        _this6.subscription.estimated_date = result.data.estimatedDate;
       });
     },
     getSubscriptionAvailability: function getSubscriptionAvailability() {
-      var _this8 = this;
+      var _this7 = this;
 
       axios.get('/api/subscription/availability').then(function (result) {
-        _this8.subscription.availability = result.data;
+        _this7.subscription.availability = result.data;
 
-        if (_this8.subscription.availability == 0) {
-          _this8.estimateSubsRestockDate();
+        if (_this7.subscription.availability == 0) {
+          _this7.estimateSubsRestockDate();
         }
       });
-    },
-    getSubscriptionSize: function getSubscriptionSize() {
-      var _this9 = this;
+    } // getSubscriptionSize() {
+    //     axios
+    //         .get('/api/subscription/size')
+    //         .then((result) => {
+    //             this.subscription.size = result.data;
+    //         });
+    // },
 
-      axios.get('/api/subscription/size').then(function (result) {
-        _this9.subscription.size = result.data;
-      });
-    }
   }
 });
 
@@ -3749,6 +3964,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_charts_ParkingAvailability_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/charts/ParkingAvailability.vue */ "./resources/js/components/charts/ParkingAvailability.vue");
 //
 //
 //
@@ -3829,14 +4045,66 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    ParkingAvailabilityChart: _components_charts_ParkingAvailability_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
       is_in_parking: false,
       car_state: {},
       estimated_fee: 0,
-      parking_availability: [],
-      parking_size: [],
+      // parking_availability: {},
+      // parking_size: {},
       has_parked_today: false,
       latest_record: {
         hours: 0,
@@ -3846,9 +4114,9 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    this.getCarState();
-    this.getCarParkAvailability();
-    this.getCarParkSize();
+    this.getCarState(); // this.getCarParkAvailability();
+    // this.getCarParkSize();
+
     this.getParkingRecords();
   },
   methods: {
@@ -3881,20 +4149,20 @@ __webpack_require__.r(__webpack_exports__);
         _this2.$forceUpdate();
       });
     },
-    getCarParkAvailability: function getCarParkAvailability() {
-      var _this3 = this;
-
-      axios.get('/api/parking/availability').then(function (result) {
-        _this3.parking_availability = result.data;
-      });
-    },
-    getCarParkSize: function getCarParkSize() {
-      var _this4 = this;
-
-      axios.get('/api/parking/size').then(function (result) {
-        _this4.parking_size = result.data;
-      });
-    },
+    // getCarParkAvailability() {
+    //     axios
+    //         .get('/api/parking/availability')
+    //         .then((result) => {
+    //             this.parking_availability = result.data;
+    //         });
+    // },
+    // getCarParkSize() {
+    //     axios
+    //         .get('/api/parking/size')
+    //         .then((result) => {
+    //             this.parking_size = result.data;
+    //         });
+    // },
     toDateString: function toDateString(_date) {
       return _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
     },
@@ -3906,19 +4174,19 @@ __webpack_require__.r(__webpack_exports__);
       return weekdays[_date.getDay()];
     },
     getParkingRecords: function getParkingRecords() {
-      var _this5 = this;
+      var _this3 = this;
 
       axios.get('/parking/records').then(function (result) {
         console.log(JSON.parse(JSON.stringify(result.data.data)));
-        _this5.parking_records = _.groupBy(result.data.data, function (record) {
+        _this3.parking_records = _.groupBy(result.data.data, function (record) {
           var _date = new Date(record.time_in.replace(/-/g, '/'));
 
-          return "".concat(_this5.toDateString(_date), ", ").concat(_this5.getWeekDay(_date));
+          return "".concat(_this3.toDateString(_date), ", ").concat(_this3.getWeekDay(_date));
         });
-        console.log(_this5.parking_records);
+        console.log(_this3.parking_records);
 
-        for (var group in _this5.parking_records) {
-          _.map(_this5.parking_records[group], function (record) {
+        for (var group in _this3.parking_records) {
+          _.map(_this3.parking_records[group], function (record) {
             var _hours = Math.floor(record.duration);
 
             var _minutes = Math.floor((record.duration - _hours) * 60);
@@ -3927,8 +4195,8 @@ __webpack_require__.r(__webpack_exports__);
               hours: _hours,
               minutes: _minutes
             };
-            record.time_in = _this5.toTimeString(new Date(record.time_in.replace(/-/g, '/')));
-            record.time_out = record.time_out ? _this5.toTimeString(new Date(record.time_out.replace(/-/g, '/'))) : null;
+            record.time_in = _this3.toTimeString(new Date(record.time_in.replace(/-/g, '/')));
+            record.time_out = record.time_out ? _this3.toTimeString(new Date(record.time_out.replace(/-/g, '/'))) : null;
             return record;
           });
         }
@@ -4158,6 +4426,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_charts_SubscriptionAvailability_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/charts/SubscriptionAvailability.vue */ "./resources/js/components/charts/SubscriptionAvailability.vue");
 //
 //
 //
@@ -4236,12 +4505,68 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    SubscriptionAvailabilityChart: _components_charts_SubscriptionAvailability_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
       has_subscription: false,
       subscription_availability: 0,
-      subscription_size: 0,
+      // subscription_size: 0,
       subscription_state: [],
       estimated_date: '',
       valid_from: '',
@@ -4252,8 +4577,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.getSubscriptionState();
-    this.getSubscriptionAvailability();
-    this.getSubscriptionSize();
+    this.getSubscriptionAvailability(); // this.getSubscriptionSize();
   },
   methods: {
     toDateString: function toDateString(_date) {
@@ -4314,15 +4638,15 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    getSubscriptionSize: function getSubscriptionSize() {
-      var _this4 = this;
-
-      axios.get('/api/subscription/size').then(function (result) {
-        _this4.subscription_size = result.data;
-      });
-    },
+    // getSubscriptionSize() {
+    //     axios
+    //         .get('/api/subscription/size')
+    //         .then((result) => {
+    //             this.subscription_size = result.data;
+    //         });
+    // },
     purchaseSubs: function purchaseSubs() {
-      var _this5 = this;
+      var _this4 = this;
 
       var data = {
         valid_at: this.valid_from,
@@ -4338,23 +4662,23 @@ __webpack_require__.r(__webpack_exports__);
       this.$swal.showLoading();
       axios.post('/subscription/purchase', data).then(function (result) {
         if (result.data.isSuccess) {
-          _this5.$swal.fire({
+          _this4.$swal.fire({
             title: 'Purchasing Subscription',
             text: 'Purchase successful',
             icon: 'success'
           });
 
-          _this5.getSubscriptionState();
+          _this4.getSubscriptionState();
 
-          _this5.getSubscriptionAvailability();
+          _this4.getSubscriptionAvailability();
 
-          _this5.getSubscriptionSize();
+          _this4.getSubscriptionSize();
 
-          _this5.disclaimer_check = false;
+          _this4.disclaimer_check = false;
 
-          _this5.$forceUpdate();
+          _this4.$forceUpdate();
         } else {
-          _this5.$swal.fire({
+          _this4.$swal.fire({
             title: result.data.message,
             text: "Please top up your APCard at least RM".concat((result.data.to_pay / 100).toFixed(2)),
             icon: 'error',
@@ -4364,7 +4688,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     terminateSubs: function terminateSubs() {
-      var _this6 = this;
+      var _this5 = this;
 
       this.$swal({
         title: 'Terminating subscription',
@@ -4375,21 +4699,21 @@ __webpack_require__.r(__webpack_exports__);
       this.$swal.showLoading();
       axios.post('/subscription/terminate').then(function (result) {
         if (result.status == 200) {
-          _this6.$swal.fire({
+          _this5.$swal.fire({
             title: 'Terminating Subscription',
             text: 'Teminate successful',
             icon: 'success'
           });
 
-          _this6.getSubscriptionState();
+          _this5.getSubscriptionState();
 
-          _this6.getSubscriptionAvailability();
+          _this5.getSubscriptionAvailability();
 
-          _this6.getSubscriptionSize();
+          _this5.getSubscriptionSize();
 
-          _this6.termination_check = false;
+          _this5.termination_check = false;
 
-          _this6.$forceUpdate();
+          _this5.$forceUpdate();
         }
       });
     }
@@ -25106,7 +25430,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".content-container {\n  width: 100%;\n  height: 100%;\n}\n.content {\n  width: 100%;\n  height: calc(100% - 58px);\n  background-color: #212121;\n  overflow-x: hidden;\n  overflow-y: auto;\n}\n.btm-navbar {\n  position: absolute;\n  z-index: 100;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  height: 58px;\n  background-color: #212121;\n  color: #e8e6e6;\n  border-top: 1px solid #00000033;\n}\n.btm-navbar .nav-icon {\n  display: block;\n  text-align: center;\n  font-size: 23px;\n  margin: -10px;\n  height: 38px;\n}\n.btm-navbar .nav-link {\n  color: #9e9e9e;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  overflow: hidden;\n  text-decoration: none;\n  flex-basis: 168px;\n  text-align: center;\n  cursor: pointer;\n}\n.btm-navbar .nav-link:hover {\n  color: #3490dc;\n}\n.btm-navbar .btm-nav-active {\n  color: #3490dc;\n}\n.dashboard-block {\n  padding: 20px;\n  width: 100%;\n}\n.dashboard-block .block-content {\n  padding: 15px;\n  background-color: #303030;\n  color: #e8e6e6;\n  width: 100%;\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n  border-radius: 6px;\n}\n.dashboard-block .block-content .block-title {\n  color: #3490dc;\n  font-weight: 700;\n}\n.dashboard-block .block-content .block-subtitle {\n  color: #9e9e9e;\n  font-weight: 400;\n}\n.profile {\n  display: block;\n  width: 100%;\n}\n.profile .profile-pic {\n  width: 64px;\n  height: 64px;\n  -o-object-fit: cover;\n     object-fit: cover;\n  float: left;\n  border-radius: 32px;\n}\n.profile .text {\n  display: inline-block;\n  padding-left: 16px;\n}\n.profile-links {\n  display: block;\n  width: 100%;\n  height: 64px;\n  position: relative;\n}\n.profile-links .link {\n  color: #9e9e9e;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  overflow: hidden;\n  text-decoration: none;\n  cursor: pointer;\n  position: absolute;\n  right: 0px;\n  bottom: 0px;\n}\n.profile-links .link:hover {\n  color: #3490dc;\n}\n.block-icon {\n  font-size: 24px;\n}", ""]);
+exports.push([module.i, ".dashboard-block {\n  padding: 20px;\n  width: 100%;\n}\n.dashboard-block .block-content {\n  padding: 15px;\n  background-color: #303030;\n  color: #e8e6e6;\n  width: 100%;\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n  border-radius: 6px;\n}\n.dashboard-block .block-content .block-title {\n  color: #3490dc;\n  font-weight: 700;\n}\n.dashboard-block .block-content .block-subtitle {\n  color: #9e9e9e;\n  font-weight: 400;\n}\n.profile {\n  display: block;\n  width: 100%;\n}\n.profile .profile-pic {\n  width: 64px;\n  height: 64px;\n  -o-object-fit: cover;\n     object-fit: cover;\n  float: left;\n  border-radius: 32px;\n  margin-right: 16px;\n}\n.profile .text {\n  display: inline-block;\n}\n.profile-links {\n  display: block;\n  width: 100%;\n  height: 64px;\n  position: relative;\n}\n.profile-links .link {\n  color: #9e9e9e;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  overflow: hidden;\n  text-decoration: none;\n  cursor: pointer;\n  position: absolute;\n  right: 0px;\n  bottom: 0px;\n}\n.profile-links .link:hover {\n  color: #3490dc;\n}\n.block-icon {\n  font-size: 24px;\n}", ""]);
 
 // exports
 
@@ -25125,7 +25449,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".content-container {\n  width: 100%;\n  height: 100%;\n}\n.content {\n  width: 100%;\n  height: calc(100% - 58px);\n  background-color: #212121;\n  overflow-x: hidden;\n  overflow-y: auto;\n}\n.btm-navbar {\n  position: absolute;\n  z-index: 100;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  height: 58px;\n  background-color: #212121;\n  color: #e8e6e6;\n  border-top: 1px solid #00000033;\n}\n.btm-navbar .nav-icon {\n  display: block;\n  text-align: center;\n  font-size: 23px;\n  margin: -10px;\n  height: 38px;\n}\n.btm-navbar .nav-link {\n  color: #9e9e9e;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  overflow: hidden;\n  text-decoration: none;\n  flex-basis: 168px;\n  text-align: center;\n  cursor: pointer;\n}\n.btm-navbar .nav-link:hover {\n  color: #3490dc;\n}\n.btm-navbar .btm-nav-active {\n  color: #3490dc;\n}", ""]);
+exports.push([module.i, ".content-container {\n  width: 100%;\n  height: 100%;\n}\n.content {\n  width: 100%;\n  height: calc(100% - 58px);\n  background-color: #212121;\n  overflow-x: hidden;\n  overflow-y: auto;\n}\n.btm-navbar {\n  position: absolute;\n  z-index: 100;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  height: 58px;\n  background-color: #212121;\n  color: #e8e6e6;\n  border-top: 1px solid #00000033;\n}\n.btm-navbar .nav-icon {\n  display: block;\n  text-align: center;\n  font-size: 23px;\n  margin: -10px;\n  height: 38px;\n}\n.btm-navbar .nav-link {\n  color: #9e9e9e;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  overflow: hidden;\n  text-decoration: none;\n  flex-basis: 168px;\n  text-align: center;\n  cursor: pointer;\n}\n.btm-navbar .nav-link:hover {\n  color: #3490dc;\n}\n@media only screen and (max-width: 768px) {\n.btm-navbar .nav-link {\n    font-size: 10px;\n    padding: 0.5rem 0.7rem;\n}\n}\n.btm-navbar .btm-nav-active {\n  color: #3490dc;\n}", ""]);
 
 // exports
 
@@ -25277,7 +25601,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".dashboard-block {\n  padding: 20px;\n  width: 100%;\n}\n.dashboard-block .block-content {\n  padding: 15px;\n  background-color: #303030;\n  color: #e8e6e6;\n  width: 100%;\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n  border-radius: 6px;\n}\n.dashboard-block .block-content .block-title {\n  color: #3490dc;\n  font-weight: 700;\n}\n.dashboard-block .block-content .block-subtitle {\n  color: #9e9e9e;\n  font-weight: 400;\n}\n.profile {\n  display: block;\n  width: 100%;\n}\n.profile .profile-pic {\n  width: 64px;\n  height: 64px;\n  -o-object-fit: cover;\n     object-fit: cover;\n  float: left;\n  border-radius: 32px;\n}\n.profile .text {\n  display: inline-block;\n  padding-left: 16px;\n}\n.profile-links {\n  display: block;\n  width: 100%;\n  height: 64px;\n  position: relative;\n}\n.profile-links .link {\n  color: #9e9e9e;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  overflow: hidden;\n  text-decoration: none;\n  cursor: pointer;\n  position: absolute;\n  right: 0px;\n  bottom: 0px;\n}\n.profile-links .link:hover {\n  color: #3490dc;\n}\n.block-icon {\n  font-size: 24px;\n}\n.happy {\n  width: 60%;\n  margin-left: auto;\n  margin-right: auto;\n  display: block;\n  height: auto;\n}", ""]);
+exports.push([module.i, ".dashboard-block {\n  padding: 20px;\n  width: 100%;\n}\n.dashboard-block .block-content {\n  padding: 15px;\n  background-color: #303030;\n  color: #e8e6e6;\n  width: 100%;\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n  border-radius: 6px;\n}\n.dashboard-block .block-content .block-title {\n  color: #3490dc;\n  font-weight: 700;\n}\n.dashboard-block .block-content .block-subtitle {\n  color: #9e9e9e;\n  font-weight: 400;\n}\n.profile {\n  display: block;\n  width: 100%;\n}\n.profile .profile-pic {\n  width: 64px;\n  height: 64px;\n  -o-object-fit: cover;\n     object-fit: cover;\n  float: left;\n  border-radius: 32px;\n  margin-right: 16px;\n}\n.profile .text {\n  display: inline-block;\n}\n.profile-links {\n  display: block;\n  width: 100%;\n  height: 64px;\n  position: relative;\n}\n.profile-links .link {\n  color: #9e9e9e;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  overflow: hidden;\n  text-decoration: none;\n  cursor: pointer;\n  position: absolute;\n  right: 0px;\n  bottom: 0px;\n}\n.profile-links .link:hover {\n  color: #3490dc;\n}\n.block-icon {\n  font-size: 24px;\n}\n.secondary-txt {\n  color: #9e9e9e;\n}\n.card-balance {\n  font-size: 1.5em;\n}\n.parking-date {\n  flex: 1 1 180px;\n  font-size: 1.2em;\n}\n.subs-date {\n  flex: 1 1 50%;\n  font-size: 1.2em;\n}\n.subs-restock {\n  flex: 1 1 180px;\n  font-size: 1.2em;\n}\n.happy {\n  width: 60%;\n  margin-left: auto;\n  margin-right: auto;\n  display: block;\n  height: auto;\n}", ""]);
 
 // exports
 
@@ -25296,7 +25620,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".content-container {\n  width: 100%;\n  height: 100%;\n}\n.content {\n  width: 100%;\n  height: calc(100% - 58px);\n  background-color: #212121;\n  overflow-x: hidden;\n  overflow-y: auto;\n}\n.btm-navbar {\n  position: absolute;\n  z-index: 100;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  height: 58px;\n  background-color: #212121;\n  color: #e8e6e6;\n  border-top: 1px solid #00000033;\n}\n.btm-navbar .nav-icon {\n  display: block;\n  text-align: center;\n  font-size: 23px;\n  margin: -10px;\n  height: 38px;\n}\n.btm-navbar .nav-link {\n  color: #9e9e9e;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  overflow: hidden;\n  text-decoration: none;\n  flex-basis: 168px;\n  text-align: center;\n  cursor: pointer;\n}\n.btm-navbar .nav-link:hover {\n  color: #3490dc;\n}\n.btm-navbar .btm-nav-active {\n  color: #3490dc;\n}", ""]);
+exports.push([module.i, ".content-container {\n  width: 100%;\n  height: 100%;\n}\n.content {\n  width: 100%;\n  height: calc(100% - 58px);\n  background-color: #212121;\n  overflow-x: hidden;\n  overflow-y: auto;\n}\n.btm-navbar {\n  position: absolute;\n  z-index: 100;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  height: 58px;\n  background-color: #212121;\n  color: #e8e6e6;\n  border-top: 1px solid #00000033;\n}\n.btm-navbar .nav-icon {\n  display: block;\n  text-align: center;\n  font-size: 23px;\n  margin: -10px;\n  height: 38px;\n}\n.btm-navbar .nav-link {\n  color: #9e9e9e;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  overflow: hidden;\n  text-decoration: none;\n  flex-basis: 168px;\n  text-align: center;\n  cursor: pointer;\n}\n.btm-navbar .nav-link:hover {\n  color: #3490dc;\n}\n@media only screen and (max-width: 768px) {\n.btm-navbar .nav-link {\n    font-size: 10px;\n    padding: 0.5rem 0.7rem;\n}\n}\n.btm-navbar .btm-nav-active {\n  color: #3490dc;\n}", ""]);
 
 // exports
 
@@ -25334,7 +25658,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".record-label {\n  flex-basis: 130px;\n  width: 100%;\n}", ""]);
+exports.push([module.i, ".parking-zone {\n  color: #3490dc;\n  font-size: 1.5rem;\n}\n.secondary-txt {\n  color: #9e9e9e;\n}\n.tertiary-txt {\n  color: #a19d9d;\n}\n.parking-date {\n  flex: 1 1 180px;\n  font-size: 1.2em;\n}\n.record-label {\n  flex-basis: 130px;\n  width: 100%;\n}\n.record-text {\n  flex-basis: 130px;\n  width: 100%;\n}", ""]);
 
 // exports
 
@@ -25372,7 +25696,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".terminate-section {\n  background-color: #424242 !important;\n}", ""]);
+exports.push([module.i, ".subs-date {\n  flex: 1 1 210px;\n}\n.subs-purchase {\n  flex: 1 1 110px;\n  font-size: 1.2em;\n}\n.danger-title:before, .danger-title:after {\n  background-color: #e54d42;\n  content: \"\";\n  display: inline-block;\n  height: 1px;\n  position: relative;\n  vertical-align: middle;\n  width: 50%;\n}\n.danger-title:before {\n  right: 0.5em;\n  margin-left: -50%;\n}\n.danger-title:after {\n  left: 0.5em;\n  margin-right: -50%;\n}\n.terminate-section {\n  background-color: #424242 !important;\n}", ""]);
 
 // exports
 
@@ -91649,7 +91973,9 @@ var render = function() {
                 _c("span", [_vm._v("APCard Balance")]),
                 _c("br"),
                 _vm._v(" "),
-                _c("span", [_vm._v(_vm._s("RM" + this.apcard_balance))])
+                _c("span", { staticClass: "card-balance" }, [
+                  _vm._v(_vm._s("RM" + this.apcard_balance))
+                ])
               ])
             ]
           ),
@@ -91661,62 +91987,87 @@ var render = function() {
               staticClass: "col-md-6 col-lg-4 dashboard-block"
             },
             [
-              _c(
-                "div",
-                {
-                  staticClass: "block-content",
-                  staticStyle: { height: "200px" }
-                },
-                [
-                  _vm._m(0),
-                  _vm._v(" "),
-                  _vm.parking.is_in_parking
-                    ? _c("div", [
-                        _c("span", [
-                          _vm._v(
-                            "Your car is currently parked in Zone " +
-                              _vm._s(_vm.parking.car_state.parking_zone) +
-                              "."
+              _c("div", { staticClass: "block-content" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _vm.parking.is_in_parking
+                  ? _c("div", [
+                      _c("span", { staticClass: "d-block w-100 text-center" }, [
+                        _vm._v(
+                          "\n                            Your car is currently parked in Zone " +
+                            _vm._s(_vm.parking.car_state.parking_zone) +
+                            ".\n                        "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "d-flex flex-wrap justify-content-start mt-2"
+                        },
+                        [
+                          _c(
+                            "div",
+                            { staticClass: "parking-date text-center pt-2" },
+                            [
+                              _c("span", { staticClass: "secondary-txt" }, [
+                                _vm._v("Enter time:")
+                              ]),
+                              _c("br"),
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(_vm.parking.car_state.time_in) +
+                                  "\n                            "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "parking-date text-center pt-2" },
+                            [
+                              _c("span", { staticClass: "secondary-txt" }, [
+                                _vm._v("Estimated parking fee:")
+                              ]),
+                              _c("br"),
+                              _vm._v(
+                                "\n                                RM" +
+                                  _vm._s(_vm.parking.estimated_fee) +
+                                  "\n                            "
+                              )
+                            ]
                           )
-                        ]),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c("span", [
+                        ]
+                      )
+                    ])
+                  : _c("div", [
+                      _c(
+                        "span",
+                        { staticClass: "d-block w-100 text-center mt-4" },
+                        [
                           _vm._v(
-                            "Enter time: " +
-                              _vm._s(_vm.parking.car_state.time_in)
+                            "\n                            Your car is not parked in any zone.\n                        "
                           )
-                        ]),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c("span", [
-                          _vm._v(
-                            "Estimated parking fee: RM" +
-                              _vm._s(_vm.parking.estimated_fee)
-                          )
-                        ])
-                      ])
-                    : _c("div", [
-                        _c("span", [
-                          _vm._v("Your car is not parked in any Zone.")
-                        ]),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c("span", [
-                          _vm._v(
-                            "Zone A: " + _vm._s(_vm.parking.availability.zone_a)
-                          )
-                        ]),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c("span", [
-                          _vm._v(
-                            "Zone B: " + _vm._s(_vm.parking.availability.zone_b)
-                          )
-                        ])
-                      ])
-                ]
-              )
+                        ]
+                      )
+                    ]),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "mt-2 mb-2" },
+                  [
+                    _c("ParkingAvailabilityChart", {
+                      staticStyle: { height: "150px" }
+                    })
+                  ],
+                  1
+                )
+              ])
             ]
           ),
           _vm._v(" "),
@@ -91730,62 +92081,81 @@ var render = function() {
                   staticClass: "col-md-6 col-lg-4 dashboard-block"
                 },
                 [
-                  _c(
-                    "div",
-                    {
-                      staticClass: "block-content",
-                      staticStyle: { height: "200px" }
-                    },
-                    [
-                      _vm._m(1),
-                      _vm._v(" "),
-                      _c("span", [
-                        _vm._v(
-                          "Parking Zone: " +
-                            _vm._s(_vm.parking.latest_record.parking_zone)
-                        )
-                      ]),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c("span", [
-                        _vm._v(
-                          "Enter time: " +
-                            _vm._s(_vm.parking.latest_record.time_in)
-                        )
-                      ]),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c("span", [
-                        _vm._v(
-                          "Exit time: " +
-                            _vm._s(_vm.parking.latest_record.time_out)
-                        )
-                      ]),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c("span", [
-                        _vm._v(
-                          "Duration: " +
-                            _vm._s(
-                              _vm.parking.latest_record.hours +
-                                " hour(s) " +
-                                _vm.parking.latest_record.minutes +
-                                " minute(s)"
+                  _c("div", { staticClass: "block-content" }, [
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _c("table", [
+                      _c("tbody", [
+                        _c("tr", [
+                          _c("td", [_vm._v("Parking Zone")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(" : ")]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              _vm._s(_vm.parking.latest_record.parking_zone)
                             )
-                        )
-                      ]),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c("span", [
-                        _vm._v(
-                          "Parking fee: RM" +
-                            _vm._s(
-                              (_vm.parking.latest_record.fee / 100).toFixed(2)
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", [_vm._v("Enter time")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(" : ")]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(_vm._s(_vm.parking.latest_record.time_in))
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", [_vm._v("Exit time")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(" : ")]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(_vm._s(_vm.parking.latest_record.time_out))
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", [_vm._v("Duration")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(" : ")]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(
+                                  _vm.parking.latest_record.hours +
+                                    "h " +
+                                    _vm.parking.latest_record.minutes +
+                                    "m"
+                                ) +
+                                "\n                                "
                             )
-                        )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", [_vm._v("Parking fee")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(" : ")]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              "RM" +
+                                _vm._s(
+                                  (_vm.parking.latest_record.fee / 100).toFixed(
+                                    2
+                                  )
+                                )
+                            )
+                          ])
+                        ])
                       ])
-                    ]
-                  )
+                    ])
+                  ])
                 ]
               )
             : _vm._e(),
@@ -91797,104 +92167,139 @@ var render = function() {
               staticClass: "col-md-6 col-lg-4 dashboard-block"
             },
             [
-              _c(
-                "div",
-                {
-                  staticClass: "block-content",
-                  staticStyle: { height: "200px" }
-                },
-                [
-                  _vm._m(2),
-                  _vm._v(" "),
-                  _vm.subscription.has_subs
-                    ? _c("div", [
-                        _vm._v(
-                          "\n                        Your subscription is currently active."
-                        ),
-                        _c("br"),
-                        _vm._v(
-                          "\n                        Valid from: " +
-                            _vm._s(_vm.subscription.valid_from)
-                        ),
-                        _c("br"),
-                        _vm._v(
-                          "\n                        Valid till: " +
-                            _vm._s(_vm.subscription.valid_till) +
-                            "\n                    "
-                        )
-                      ])
-                    : _c("div", [
-                        _vm._v(
-                          "\n                        You don't have any subscription."
-                        ),
-                        _c("br"),
-                        _vm._v(
-                          "\n                        Availability: " +
-                            _vm._s(_vm.subscription.availability) +
-                            " of " +
-                            _vm._s(_vm.subscription.size) +
-                            "\n                        "
-                        ),
-                        _vm.subscription.availability == 0
-                          ? _c("div", [
-                              _c("span", [
-                                _vm._v(
-                                  "Sorry, there are no subscription available at the moment."
-                                )
+              _c("div", { staticClass: "block-content" }, [
+                _vm._m(3),
+                _vm._v(" "),
+                _vm.subscription.has_subs
+                  ? _c("div", [
+                      _c(
+                        "span",
+                        { staticClass: "d-block w-100 text-center mt-4" },
+                        [
+                          _vm._v(
+                            "\n                            Your subscription is currently active.\n                        "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "d-flex flex-wrap justify-content-start mt-2"
+                        },
+                        [
+                          _c(
+                            "div",
+                            { staticClass: "subs-date text-center pt-2" },
+                            [
+                              _c("span", { staticClass: "secondary-txt" }, [
+                                _vm._v("Valid from:")
                               ]),
                               _c("br"),
-                              _vm._v(" "),
-                              _c("span", [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(_vm.subscription.valid_from) +
+                                  "\n                            "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "subs-date text-center pt-2" },
+                            [
+                              _c("span", { staticClass: "secondary-txt" }, [
+                                _vm._v("Valid till:")
+                              ]),
+                              _c("br"),
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(_vm.subscription.valid_till) +
+                                  "\n                            "
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    ])
+                  : _c("div", [
+                      _c(
+                        "span",
+                        { staticClass: "d-block w-100 text-center mt-4" },
+                        [
+                          _vm._v(
+                            "\n                            You don't have any subscription.\n                        "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _vm.subscription.availability == 0
+                        ? _c("div", [
+                            _c(
+                              "span",
+                              { staticClass: "d-block w-100 text-center" },
+                              [
                                 _vm._v(
-                                  "Estimated restock date: " +
-                                    _vm._s(_vm.subscription.estimated_date)
+                                  "\n                                Sorry, there are no subscription available at the moment.\n                            "
                                 )
-                              ])
-                            ])
-                          : _vm._e()
-                      ])
-                ]
-              )
-            ]
-          ),
-          _c(
-            "div",
-            {
-              directives: [{ name: "masonry-tile", rawName: "v-masonry-tile" }],
-              staticClass: "col-md-6 col-lg-4 dashboard-block"
-            },
-            [_vm._m(3)]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              directives: [{ name: "masonry-tile", rawName: "v-masonry-tile" }],
-              staticClass: "col-md-6 col-lg-4 dashboard-block"
-            },
-            [
-              _c("div", { staticClass: "block-content" }, [
-                _c("h5", { staticClass: "block-title" }, [_vm._v("Result")]),
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "d-flex flex-wrap justify-content-start mt-2"
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "subs-restock text-center secondary-txt"
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                    Estimated restock date:\n                                "
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "subs-restock text-center" },
+                                  [
+                                    _vm._v(
+                                      "\n                                    " +
+                                        _vm._s(
+                                          _vm.subscription.estimated_date
+                                        ) +
+                                        "\n                                "
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ])
+                        : _vm._e()
+                    ]),
+                _vm._v(" "),
+                _vm._m(4),
                 _vm._v(" "),
                 _c(
                   "div",
-                  { staticClass: "mt-4" },
-                  [_c("ResultChart", { staticStyle: { height: "110px" } })],
+                  { staticClass: "mt-2 mb-2" },
+                  [
+                    _c("SubscriptionAvailabilityChart", {
+                      staticStyle: { height: "130px" }
+                    })
+                  ],
                   1
                 )
               ])
             ]
           ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              directives: [{ name: "masonry-tile", rawName: "v-masonry-tile" }],
-              staticClass: "col-md-6 col-lg-4 dashboard-block"
-            },
-            [_vm._m(4)]
-          ),
-          _vm._v(" "),
           _c(
             "div",
             {
@@ -91902,6 +92307,24 @@ var render = function() {
               staticClass: "col-md-6 col-lg-4 dashboard-block"
             },
             [_vm._m(5)]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              directives: [{ name: "masonry-tile", rawName: "v-masonry-tile" }],
+              staticClass: "col-md-6 col-lg-4 dashboard-block"
+            },
+            [_vm._m(6)]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              directives: [{ name: "masonry-tile", rawName: "v-masonry-tile" }],
+              staticClass: "col-md-6 col-lg-4 dashboard-block"
+            },
+            [_vm._m(7)]
           )
         ]
       )
@@ -91916,6 +92339,15 @@ var staticRenderFns = [
     return _c("h5", { staticClass: "block-title" }, [
       _c("span", { staticClass: "mdi mdi-parking" }),
       _vm._v("\n                        Parking Status\n                    ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h5", { staticClass: "block-title mt-4 text-center" }, [
+      _c("span", { staticClass: "mdi mdi-parking" }),
+      _vm._v(" Availability\n                    ")
     ])
   },
   function() {
@@ -91937,6 +92369,17 @@ var staticRenderFns = [
       _c("span", { staticClass: "mdi mdi-calendar-clock" }),
       _vm._v(
         "\n                        Subscription Status\n                    "
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h5", { staticClass: "block-title mt-4 text-center" }, [
+      _c("span", { staticClass: "mdi mdi-calendar-clock" }),
+      _vm._v(
+        "\n                        Subscription Availability\n                    "
       )
     ])
   },
@@ -92286,87 +92729,141 @@ var render = function() {
         _c("div", { staticClass: "section-wrapper" }, [
           _vm.is_in_parking
             ? _c("div", [
-                _c("span", [
+                _c("span", { staticClass: "d-block w-100 text-center" }, [
                   _vm._v(
-                    "Your car is currently parked in Zone " +
-                      _vm._s(_vm.car_state.parking_zone) +
-                      "."
-                  )
+                    "\n                        Your car is currently parked in\n                        "
+                  ),
+                  _c("span", { staticClass: "parking-zone" }, [
+                    _vm._v("Zone " + _vm._s(_vm.car_state.parking_zone))
+                  ]),
+                  _vm._v(".\n                    ")
                 ]),
-                _c("br"),
                 _vm._v(" "),
-                _c("span", [
-                  _vm._v("Enter time: " + _vm._s(_vm.car_state.time_in))
-                ]),
-                _c("br"),
-                _vm._v(" "),
-                _c("span", [
-                  _vm._v(
-                    "Estimated parking fee: RM" + _vm._s(_vm.estimated_fee)
-                  )
-                ])
-              ])
-            : _c("div", [
-                _c("span", [_vm._v("Your car is not parked in any Zone.")]),
-                _c("br"),
-                _vm._v(
-                  "\n                    Zone A: " +
-                    _vm._s(_vm.parking_availability.zone_a) +
-                    " of " +
-                    _vm._s(_vm.parking_size.zone_a)
-                ),
-                _c("br"),
-                _vm._v(
-                  "\n                    Zone B: " +
-                    _vm._s(_vm.parking_availability.zone_b) +
-                    " of " +
-                    _vm._s(_vm.parking_size.zone_b) +
-                    "\n                "
+                _c(
+                  "div",
+                  {
+                    staticClass: "d-flex flex-wrap justify-content-start mt-2"
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "parking-date text-center pt-2" },
+                      [
+                        _c("span", { staticClass: "secondary-txt" }, [
+                          _vm._v("Enter time:")
+                        ]),
+                        _c("br"),
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(_vm.car_state.time_in) +
+                            "\n                        "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "parking-date text-center pt-2" },
+                      [
+                        _c("span", { staticClass: "secondary-txt" }, [
+                          _vm._v("Estimated parking fee:")
+                        ]),
+                        _c("br"),
+                        _vm._v(
+                          "\n                            RM" +
+                            _vm._s(_vm.estimated_fee) +
+                            "\n                        "
+                        )
+                      ]
+                    )
+                  ]
                 )
               ])
+            : _c("div", [
+                _c("span", { staticClass: "d-block w-100 text-center mt-4" }, [
+                  _vm._v(
+                    "\n                        Your car is not parked in any zone.\n                    "
+                  )
+                ])
+              ]),
+          _vm._v(" "),
+          _c("hr"),
+          _vm._v(" "),
+          _vm._m(1),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "mt-2 mb-2" },
+            [
+              _c("ParkingAvailabilityChart", {
+                staticStyle: { height: "150px" }
+              })
+            ],
+            1
+          )
         ]),
         _vm._v(" "),
         _vm.has_parked_today
           ? _c("div", { staticClass: "section-wrapper" }, [
-              _c("span", { staticClass: "mdi mdi-parking" }),
-              _vm._v(" Previously, you have parked at ..."),
-              _c("br"),
+              _vm._m(2),
               _vm._v(" "),
-              _c("span", [
-                _vm._v(
-                  "Parking Zone: " + _vm._s(_vm.latest_record.parking_zone)
-                )
-              ]),
-              _c("br"),
-              _vm._v(" "),
-              _c("span", [
-                _vm._v("Enter time: " + _vm._s(_vm.latest_record.time_in))
-              ]),
-              _c("br"),
-              _vm._v(" "),
-              _c("span", [
-                _vm._v("Exit time: " + _vm._s(_vm.latest_record.time_out))
-              ]),
-              _c("br"),
-              _vm._v(" "),
-              _c("span", [
-                _vm._v(
-                  "Duration: " +
-                    _vm._s(
-                      _vm.latest_record.hours +
-                        " hour(s) " +
-                        _vm.latest_record.minutes +
-                        " minute(s)"
-                    )
-                )
-              ]),
-              _c("br"),
-              _vm._v(" "),
-              _c("span", [
-                _vm._v(
-                  "Parking fee: RM" +
-                    _vm._s((_vm.latest_record.fee / 100).toFixed(2))
-                )
+              _c("table", { staticClass: "mt-4" }, [
+                _c("tbody", [
+                  _c("tr", [
+                    _c("td", [_vm._v("Parking Zone")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(" : ")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(_vm.latest_record.parking_zone))])
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c("td", [_vm._v("Enter time")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(" : ")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(_vm.latest_record.time_in))])
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c("td", [_vm._v("Exit time")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(" : ")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(_vm.latest_record.time_out))])
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c("td", [_vm._v("Duration")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(" : ")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        "\n                                " +
+                          _vm._s(
+                            _vm.latest_record.hours +
+                              "h " +
+                              _vm.latest_record.minutes +
+                              "m"
+                          ) +
+                          "\n                            "
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c("td", [_vm._v("Parking fee")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(" : ")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        "RM" + _vm._s((_vm.latest_record.fee / 100).toFixed(2))
+                      )
+                    ])
+                  ])
+                ])
               ])
             ])
           : _vm._e(),
@@ -92385,90 +92882,118 @@ var render = function() {
                   "div",
                   { key: index },
                   [
-                    _c("h5", [_vm._v(_vm._s(index))]),
+                    _c("h5", { staticClass: "section-title" }, [
+                      _vm._v(_vm._s(index))
+                    ]),
                     _vm._v(" "),
                     _vm._l(record, function(data, i) {
                       return _c(
                         "div",
                         { key: i, staticClass: "section-child-wrapper" },
                         [
-                          _c("div", { staticClass: "d-flex" }, [
-                            _vm._m(1, true),
-                            _vm._v(" "),
+                          _c("div", { staticClass: "w-100" }, [
                             _c(
-                              "span",
-                              { staticClass: "record-text flex-grow-1" },
-                              [_vm._v(": " + _vm._s(data.parking_zone))]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "d-flex" }, [
-                            _vm._m(2, true),
-                            _vm._v(" "),
-                            _c(
-                              "span",
-                              { staticClass: "record-text flex-grow-1" },
-                              [_vm._v(": " + _vm._s(data.time_in))]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "d-flex" }, [
-                            _vm._m(3, true),
-                            _vm._v(" "),
-                            _c(
-                              "span",
-                              { staticClass: "record-text flex-grow-1" },
+                              "div",
+                              { staticClass: "parking-date text-center pt-2" },
                               [
+                                _vm._m(3, true),
                                 _vm._v(
-                                  ": " +
-                                    _vm._s(
-                                      data.time_out
-                                        ? data.time_out
-                                        : "In car park"
-                                    )
-                                )
-                              ]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "d-flex" }, [
-                            _vm._m(4, true),
-                            _vm._v(" "),
-                            _c(
-                              "span",
-                              { staticClass: "record-text flex-grow-1" },
-                              [
-                                _vm._v(
-                                  "\n                                : " +
-                                    _vm._s(
-                                      data.duration.hours +
-                                        "h " +
-                                        data.duration.minutes +
-                                        "m"
-                                    ) +
+                                  "\n                                " +
+                                    _vm._s(data.parking_zone) +
                                     "\n                            "
                                 )
                               ]
                             )
                           ]),
                           _vm._v(" "),
-                          _c("div", { staticClass: "d-flex" }, [
-                            _vm._m(5, true),
-                            _vm._v(" "),
-                            _c(
-                              "span",
-                              { staticClass: "record-text flex-grow-1" },
-                              [
-                                _vm._v(
-                                  "\n                                : " +
-                                    _vm._s(
-                                      "RM " + (data.fee / 100).toFixed(2)
-                                    ) +
-                                    "\n                            "
-                                )
-                              ]
-                            )
-                          ])
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "d-flex flex-wrap justify-content-start mt-2"
+                            },
+                            [
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "parking-date text-center pt-2"
+                                },
+                                [
+                                  _vm._m(4, true),
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(data.time_in) +
+                                      "\n                            "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "parking-date text-center pt-2"
+                                },
+                                [
+                                  _vm._m(5, true),
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(
+                                        data.time_out
+                                          ? data.time_out
+                                          : "In car park"
+                                      ) +
+                                      "\n                            "
+                                  )
+                                ]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "d-flex flex-wrap justify-content-start mt-2"
+                            },
+                            [
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "parking-date text-center pt-2"
+                                },
+                                [
+                                  _vm._m(6, true),
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(
+                                        data.duration.hours +
+                                          "h " +
+                                          data.duration.minutes +
+                                          "m"
+                                      ) +
+                                      "\n                            "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "parking-date text-center pt-2"
+                                },
+                                [
+                                  _vm._m(7, true),
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(
+                                        "RM " + (data.fee / 100).toFixed(2)
+                                      ) +
+                                      "\n                            "
+                                  )
+                                ]
+                              )
+                            ]
+                          )
                         ]
                       )
                     })
@@ -92495,45 +93020,68 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "record-label" }, [
+    return _c("h5", { staticClass: "mt-4 text-center section-title" }, [
+      _c("span", { staticClass: "mdi mdi-parking" }),
+      _vm._v(" Availability\n                ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h5", { staticClass: "section-title" }, [
+      _c("span", { staticClass: "mdi mdi-parking" }),
+      _vm._v(" Previously, you have parked at ..."),
+      _c("br")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "secondary-txt" }, [
       _c("span", { staticClass: "mdi mdi-boom-gate" }),
-      _vm._v(" Parking zone\n                            ")
+      _vm._v(" Parking zone: \n                                ")
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "record-label" }, [
+    return _c("span", { staticClass: "secondary-txt" }, [
       _c("span", { staticClass: "mdi mdi-location-enter" }),
-      _vm._v(" Time in\n                            ")
+      _vm._v(" Time in:"),
+      _c("br")
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "record-label" }, [
+    return _c("span", { staticClass: "secondary-txt" }, [
       _c("span", { staticClass: "mdi mdi-location-exit" }),
-      _vm._v(" Time out\n                            ")
+      _vm._v(" Time out:"),
+      _c("br")
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "record-label" }, [
+    return _c("span", { staticClass: "secondary-txt" }, [
       _c("span", { staticClass: "mdi mdi-timer-outline" }),
-      _vm._v(" Duration\n                            ")
+      _vm._v(" Duration:"),
+      _c("br")
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "record-label" }, [
+    return _c("span", { staticClass: "secondary-txt" }, [
       _c("span", { staticClass: "mdi mdi-credit-card" }),
-      _vm._v(" Parking fee\n                            ")
+      _vm._v(" Parking fee:"),
+      _c("br")
     ])
   }
 ]
@@ -92769,15 +93317,18 @@ var render = function() {
           "div",
           { staticClass: "section-wrapper" },
           [
-            _vm._v(
-              "\n                " +
-                _vm._s(
-                  _vm.has_subscription
-                    ? "Your subscription is currently active."
-                    : "You don't have any subscription."
-                ) +
-                "\n                "
-            ),
+            _c("span", { staticClass: "d-block w-100 text-center" }, [
+              _vm._v(
+                "\n                    " +
+                  _vm._s(
+                    _vm.has_subscription
+                      ? "Your subscription is currently active."
+                      : "You don't have any subscription."
+                  ) +
+                  "\n                "
+              )
+            ]),
+            _vm._v(" "),
             _c("router-link", { attrs: { to: "subscription-history" } }, [
               _c(
                 "button",
@@ -92809,21 +93360,44 @@ var render = function() {
                     class: sub.is_active ? "border-success" : "border-info"
                   },
                   [
-                    _vm._v(
-                      "\n                    Valid from: " +
-                        _vm._s(sub.valid_at)
-                    ),
-                    _c("br"),
-                    _vm._v(
-                      "\n                    Valid till: " +
-                        _vm._s(sub.valid_till)
-                    ),
-                    _c("br"),
-                    _vm._v(
-                      "\n                    Status: " +
-                        _vm._s(sub.is_active ? "Active" : "Inactive")
-                    ),
-                    _c("br")
+                    _c(
+                      "div",
+                      { staticClass: "d-flex flex-wrap justify-content-start" },
+                      [
+                        _c("div", { staticClass: "subs-date text-center" }, [
+                          _vm._m(1, true),
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(sub.valid_at) +
+                              " ~ " +
+                              _vm._s(sub.valid_till) +
+                              "\n                        "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "subs-date text-center" }, [
+                          _vm._m(2, true),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            {
+                              class: sub.is_active
+                                ? "text-success"
+                                : "text-primary"
+                            },
+                            [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(
+                                    sub.is_active ? "Active" : "Inactive"
+                                  ) +
+                                  "\n                            "
+                              )
+                            ]
+                          )
+                        ])
+                      ]
+                    )
                   ]
                 )
               }),
@@ -92835,28 +93409,52 @@ var render = function() {
         _vm._v(" "),
         !_vm.has_subscription
           ? _c("div", { staticClass: "section-wrapper" }, [
-              _vm._v(
-                "\n                Availability: " +
-                  _vm._s(_vm.subscription_availability) +
-                  " of " +
-                  _vm._s(_vm.subscription_size) +
-                  "\n            "
+              _vm._m(3),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "mt-2 mb-2" },
+                [
+                  _c("SubscriptionAvailabilityChart", {
+                    staticStyle: { height: "130px" }
+                  })
+                ],
+                1
               )
             ])
           : _vm._e(),
         _vm._v(" "),
         _vm.subscription_availability == 0 && !_vm.has_subscription
           ? _c("div", { staticClass: "section-wrapper" }, [
-              _c("span", [
+              _c("span", { staticClass: "d-block w-100 text-center" }, [
                 _vm._v(
-                  "Sorry, there are no subscription available at the moment."
+                  "\n                    Sorry, there are no subscription available at the moment.\n                "
                 )
               ]),
-              _c("br"),
               _vm._v(" "),
-              _c("span", [
-                _vm._v("Estimated restock date: " + _vm._s(_vm.estimated_date))
-              ])
+              _c(
+                "div",
+                { staticClass: "d-flex flex-wrap justify-content-start mt-2" },
+                [
+                  _c(
+                    "div",
+                    { staticClass: "subs-restock text-center secondary-txt" },
+                    [
+                      _vm._v(
+                        "\n                        Estimated restock date:\n                    "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "subs-restock text-center" }, [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(_vm.estimated_date) +
+                        "\n                    "
+                    )
+                  ])
+                ]
+              )
             ])
           : _c("div", { staticClass: "section-wrapper" }, [
               _c("h5", { staticClass: "section-title" }, [
@@ -92871,20 +93469,19 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("span", { staticClass: "mdi mdi-credit-card-outline" }, [
-                _vm._v(" RM 60.00")
-              ]),
-              _c("br"),
+              _vm._m(4),
               _vm._v(" "),
-              _c("span", { staticClass: "mdi mdi-timer-outline" }, [
-                _vm._v(
-                  " " + _vm._s(_vm.valid_from) + " ~ " + _vm._s(_vm.valid_till)
-                )
-              ]),
-              _c("br"),
-              _vm._v(" "),
-              _c("span", { staticClass: "mdi mdi-boom-gate-up-outline" }, [
-                _vm._v(" 1 Month")
+              _c("div", { staticClass: "w-100" }, [
+                _c("div", { staticClass: "subs-purchase text-center pt-2" }, [
+                  _vm._m(5),
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(_vm.valid_from) +
+                      " ~ " +
+                      _vm._s(_vm.valid_till) +
+                      "\n                    "
+                  )
+                ])
               ]),
               _vm._v(" "),
               _c(
@@ -92972,9 +93569,14 @@ var render = function() {
         _c("hr"),
         _vm._v(" "),
         _vm.has_subscription
-          ? _c("h5", { staticClass: "text-danger text-center mt-4" }, [
-              _vm._v("** Danger **")
-            ])
+          ? _c(
+              "h5",
+              {
+                staticClass:
+                  "text-danger text-center mt-4 overflow-hidden danger-title"
+              },
+              [_c("span", [_vm._v("!! Danger !!")])]
+            )
           : _vm._e(),
         _vm._v(" "),
         _vm.has_subscription
@@ -92985,11 +93587,11 @@ var render = function() {
                   "terminate-section section-wrapper border border-danger"
               },
               [
-                _c("h5", { staticClass: "section-title" }, [
+                _c("h5", { staticClass: "section-title text-danger" }, [
                   _vm._v("Terminate my subscription")
                 ]),
                 _vm._v(" "),
-                _vm._m(1),
+                _vm._m(6),
                 _vm._v(" "),
                 _c(
                   "div",
@@ -93077,6 +93679,75 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "page-header" }, [
       _c("h1", { staticClass: "page-title" }, [_vm._v("Subscription")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "secondary-txt" }, [
+      _c("span", { staticClass: "mdi mdi-timer-outline" }),
+      _vm._v(" Valid date:"),
+      _c("br")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "secondary-txt" }, [
+      _c("span", { staticClass: "mdi mdi-credit-card-outline" }),
+      _vm._v(" Status:"),
+      _c("br")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h5", { staticClass: "section-title text-center" }, [
+      _c("span", { staticClass: "mdi mdi-calendar-clock" }),
+      _vm._v(
+        "\n                    Subscription Availability\n                "
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "d-flex flex-wrap justify-content-start mt-2" },
+      [
+        _c("div", { staticClass: "subs-purchase text-center pt-2" }, [
+          _c("span", { staticClass: "secondary-txt" }, [
+            _c("span", { staticClass: "mdi mdi-credit-card-outline" }),
+            _vm._v(" Price:"),
+            _c("br")
+          ]),
+          _vm._v("\n                        RM 60.00\n                    ")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "subs-purchase text-center pt-2" }, [
+          _c("span", { staticClass: "secondary-txt" }, [
+            _c("span", { staticClass: "mdi mdi-boom-gate-up-outline" }),
+            _vm._v(" Validity:"),
+            _c("br")
+          ]),
+          _vm._v("\n                        1 Month\n                    ")
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "secondary-txt" }, [
+      _c("span", { staticClass: "mdi mdi-timer-outline" }),
+      _vm._v(" Valid date:"),
+      _c("br")
     ])
   },
   function() {
@@ -108744,16 +109415,16 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
 
-/***/ "./resources/js/components/charts/Result.vue":
-/*!***************************************************!*\
-  !*** ./resources/js/components/charts/Result.vue ***!
-  \***************************************************/
+/***/ "./resources/js/components/charts/ParkingAvailability.vue":
+/*!****************************************************************!*\
+  !*** ./resources/js/components/charts/ParkingAvailability.vue ***!
+  \****************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Result_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Result.vue?vue&type=script&lang=js& */ "./resources/js/components/charts/Result.vue?vue&type=script&lang=js&");
+/* harmony import */ var _ParkingAvailability_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ParkingAvailability.vue?vue&type=script&lang=js& */ "./resources/js/components/charts/ParkingAvailability.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 var render, staticRenderFns
 
@@ -108763,7 +109434,7 @@ var render, staticRenderFns
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
-  _Result_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"],
+  _ParkingAvailability_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"],
   render,
   staticRenderFns,
   false,
@@ -108775,22 +109446,72 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/charts/Result.vue"
+component.options.__file = "resources/js/components/charts/ParkingAvailability.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/charts/Result.vue?vue&type=script&lang=js&":
-/*!****************************************************************************!*\
-  !*** ./resources/js/components/charts/Result.vue?vue&type=script&lang=js& ***!
-  \****************************************************************************/
+/***/ "./resources/js/components/charts/ParkingAvailability.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/charts/ParkingAvailability.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Result_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./Result.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/charts/Result.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Result_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ParkingAvailability_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ParkingAvailability.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/charts/ParkingAvailability.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ParkingAvailability_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/charts/SubscriptionAvailability.vue":
+/*!*********************************************************************!*\
+  !*** ./resources/js/components/charts/SubscriptionAvailability.vue ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _SubscriptionAvailability_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SubscriptionAvailability.vue?vue&type=script&lang=js& */ "./resources/js/components/charts/SubscriptionAvailability.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+var render, staticRenderFns
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
+  _SubscriptionAvailability_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"],
+  render,
+  staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/charts/SubscriptionAvailability.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/charts/SubscriptionAvailability.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/components/charts/SubscriptionAvailability.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SubscriptionAvailability_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./SubscriptionAvailability.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/charts/SubscriptionAvailability.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SubscriptionAvailability_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
