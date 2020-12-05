@@ -31,6 +31,7 @@ APU Car Parking System is able,
 - Updated `SubscriptionController->purchaseSubs()`
 - Resolved `ParkingController` not getting correct `is_car_park_full`
 - Added `SweetAlert` as gate display for `Simulator`
+- Replaced package `autonumeric` with `vue-numeric`
 ######  4/12/2020
 - Added horizontal bar charts [`ParkingAvailability`, `SubscriptionAvailability`]
 - Updated UI [`Dashboard`, `ParkingStatus`, `Subscription`]
@@ -38,7 +39,7 @@ APU Car Parking System is able,
 - Resolved `ParkingController->exitCarPark()` not getting last record
 - Resolved iOS datetime compatibility `new Date(date.replace(/-/g, '/'))`
 ######  2/12/2020
-- Changed `vue-autonumeric` to `autonumeric` due to Linux build error
+- Replaced package `vue-autonumeric` with `autonumeric` due to Linux build error
 - `Server side` Finished setup Ubuntu 20.04, Nginx 1.18.0, PHP 7.4.3, MySql 8, Composer 2.0.7, npm 6.14.4
 - `Server side` Finished setup APUCarParkingSystem
 - Resolved `app\helpers.php` namespace `App\Models\Config`

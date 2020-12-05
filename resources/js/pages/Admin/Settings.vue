@@ -8,17 +8,24 @@
                 <h1>Subscription config</h1>
                 <div class="section-wrapper">
                     <div class="form-group">
-                        <label for="subsPrice">Price *</label>
+                        <label class="config-label" for="subsPrice">Price *</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
                             <div class="input-group-text">RM</div>
                             </div>
-                            <input
+                            <vue-numeric
+                                v-model="config.subscription_price"
+                                :min="0.00" :max="100000.00" :precision="2"
+                                class="form-control" id="subsPrice"
+                                placeholder="60.00" aria-describedby="subsPriceHelp"
+                            ></vue-numeric>
+                                <!-- :class="(config.subscription_price == '') ? 'border border-danger input-error' : null" -->
+                            <!-- <input
                                 v-model="config.subscription_price"
                                 class="form-control" id="subsPrice"
                                 placeholder="60.00" aria-describedby="subsPriceHelp"
                                 :class="(config.subscription_price == null) ? 'border border-danger input-error' : null"
-                            />
+                            /> -->
                         </div>
                         <small id="subsPriceHelp" class="form-text text-muted">
                             Subscription price must only contain numbers and 2 decimal places.<br>
@@ -26,13 +33,20 @@
                         </small>
                     </div>
                     <div class="form-group">
-                        <label for="subsCapacity">Capacity *</label>
-                        <input
+                        <label class="config-label" for="subsCapacity">Capacity *</label>
+                        <vue-numeric
+                            v-model="config.subscription_quantity"
+                            :min="0" :max="100000" :precision="0"
+                            class="form-control" id="subsCapacity"
+                            placeholder="10" aria-describedby="subsCapacityHelp"
+                        ></vue-numeric>
+                            <!-- :class="(config.subscription_quantity == '') ? 'border border-danger input-error' : null" -->
+                        <!-- <input
                             v-model="config.subscription_quantity"
                             class="form-control" id="subsCapacity"
                             placeholder="10" aria-describedby="subsCapacityHelp"
                             :class="(config.subscription_quantity == null) ? 'border border-danger input-error' : null"
-                        />
+                        /> -->
                         <small id="subsCapacityHelp" class="form-text text-muted">
                             Subscription capacity is the total amount of subscription that can be purchased.<br>
                             The value should between 0 ~ 100,000
@@ -44,26 +58,40 @@
                 <h1>** Simulator config **</h1>
                 <div class="section-wrapper">
                     <div class="form-group">
-                        <label for="zoneASize">Car Park Zone A Size *</label>
-                        <input
+                        <label class="config-label" for="zoneASize">Car Park Zone A Size *</label>
+                        <vue-numeric
+                            v-model="config.zone_a_size"
+                            :min="0" :max="100000" :precision="0"
+                            class="form-control" id="zoneASize"
+                            placeholder="10" aria-describedby="zoneASizeHelp"
+                        ></vue-numeric>
+                            <!-- :class="(config.zone_a_size == '') ? 'border border-danger input-error' : null" -->
+                        <!-- <input
                             v-model="config.zone_a_size"
                             class="form-control" id="zoneASize"
                             placeholder="10" aria-describedby="zoneASizeHelp"
                             :class="(config.zone_a_size == null) ? 'border border-danger input-error' : null"
-                        />
+                        /> -->
                         <small id="zoneASizeHelp" class="form-text text-muted">
                             Car park size is the total amount of car park space available.<br>
                             The value should between 0 ~ 100,000
                         </small>
                     </div>
                     <div class="form-group">
-                        <label for="zoneBSize">Car Park Zone B Size *</label>
-                        <input
+                        <label class="config-label" for="zoneBSize">Car Park Zone B Size *</label>
+                        <vue-numeric
+                            v-model="config.zone_b_size"
+                            :min="0" :max="100000" :precision="0"
+                            class="form-control" id="zoneBSize"
+                            placeholder="10" aria-describedby="zoneBSizeHelp"
+                        ></vue-numeric>
+                            <!-- :class="(config.zone_b_size == '') ? 'border border-danger input-error' : null" -->
+                        <!-- <input
                             v-model="config.zone_b_size"
                             class="form-control" id="zoneBSize"
                             placeholder="10" aria-describedby="zoneBSizeHelp"
                             :class="(config.zone_b_size == null) ? 'border border-danger input-error' : null"
-                        />
+                        /> -->
                         <small id="zoneBSizeHelp" class="form-text text-muted">
                             Car park size is the total amount of car park space available.<br>
                             The value should between 0 ~ 100,000
@@ -72,9 +100,9 @@
                     <hr>
                     <span class="text-muted">* Required</span>
                 </div>
+                    <!-- :disabled="invalid_form" -->
                 <button
                     class="btn btn-primary mt-4 w-100"
-                    :disabled="invalid_form"
                     @click="updateConfig()"
                 >Update</button>
             </div>
@@ -83,7 +111,8 @@
 </template>
 
 <script>
-    import AutoNumeric from 'autonumeric';
+    import VueNumeric from 'vue-numeric';
+    // import AutoNumeric from 'autonumeric';
     // import VueAutonumeric from 'vue-autonumeric';
 
     export default {
@@ -97,43 +126,48 @@
                 },
             }
         },
-        // components: {
+        components: {
         //     // AutoNumeric,
         //     // VueAutonumeric,
-        // },
-        computed: {
-            invalid_form: function() {
-                return ((this.config.subscription_price != null) &&
-                    (this.config.subscription_quantity != null) &&
-                    (this.config.zone_a_size != null) &&
-                    (this.config.zone_b_size != null)) ? false : true;
-            }
+            VueNumeric
         },
+        // computed: {
+        //     invalid_form: function() {
+        //         return ((this.config.subscription_price != '') &&
+        //             (this.config.subscription_quantity != '') &&
+        //             (this.config.zone_a_size != '') &&
+        //             (this.config.zone_b_size != '')) ? false : true;
+        //     }
+        // },
         mounted() {
             this.getConfig();
-            new AutoNumeric('#subsPrice', {
-                                    minimumValue: '0',
-                                    maximumValue: '100000',
-                                    emptyInputBehavior: 'null'
-                                });
-            new AutoNumeric('#subsCapacity', {
-                                    minimumValue: '0',
-                                    maximumValue: '100000',
-                                    decimalPlaces: '0',
-                                    emptyInputBehavior: 'null'
-                                });
-            new AutoNumeric('#zoneASize', {
-                                    minimumValue: '0',
-                                    maximumValue: '100000',
-                                    decimalPlaces: '0',
-                                    emptyInputBehavior: 'null'
-                                });
-            new AutoNumeric('#zoneBSize', {
-                                    minimumValue: '0',
-                                    maximumValue: '100000',
-                                    decimalPlaces: '0',
-                                    emptyInputBehavior: 'null'
-                                });
+            // new AutoNumeric('#subsPrice', {
+            //                         minimumValue: '0',
+            //                         maximumValue: '100000',
+            //                         unformatOnSubmit: true,
+            //                         emptyInputBehavior: 'null'
+            //                     });
+            // new AutoNumeric('#subsCapacity', {
+            //                         minimumValue: '0',
+            //                         maximumValue: '100000',
+            //                         unformatOnSubmit: true,
+            //                         decimalPlaces: '0',
+            //                         emptyInputBehavior: 'null'
+            //                     });
+            // new AutoNumeric('#zoneASize', {
+            //                         minimumValue: '0',
+            //                         maximumValue: '100000',
+            //                         unformatOnSubmit: true,
+            //                         decimalPlaces: '0',
+            //                         emptyInputBehavior: 'null'
+            //                     });
+            // new AutoNumeric('#zoneBSize', {
+            //                         minimumValue: '0',
+            //                         maximumValue: '100000',
+            //                         unformatOnSubmit: true,
+            //                         decimalPlaces: '0',
+            //                         emptyInputBehavior: 'null'
+            //                     });
         },
         methods: {
             getConfig() {
@@ -148,10 +182,10 @@
                                 this.config[config_value.key] = config_value.value;
                             }
                         });
-                        AutoNumeric.set('#subsPrice', this.config.subscription_price)
-                        AutoNumeric.set('#subsCapacity', this.config.subscription_quantity)
-                        AutoNumeric.set('#zoneASize', this.config.zone_a_size)
-                        AutoNumeric.set('#zoneBSize', this.config.zone_b_size)
+                        // AutoNumeric.set('#subsPrice', this.config.subscription_price)
+                        // AutoNumeric.set('#subsCapacity', this.config.subscription_quantity)
+                        // AutoNumeric.set('#zoneASize', this.config.zone_a_size)
+                        // AutoNumeric.set('#zoneBSize', this.config.zone_b_size)
                     });
             },
             updateConfig() {
@@ -182,19 +216,24 @@
     @import './resources/sass/_variables.scss';
 
     .form-control::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-        color: $secondary-txt;
+        color: $main-txt;
     }
     .form-control::-moz-placeholder { /* Firefox 19+ */
-        color: $secondary-txt;
+        color: $main-txt;
     }
     .form-control:-ms-input-placeholder { /* IE 10+ */
-        color: $secondary-txt;
+        color: $main-txt;
     }
     .form-control:-moz-placeholder { /* Firefox 18- */
-        color: $secondary-txt;
+        color: $main-txt;
     }
     .form-control {
         transition: 0.3s;
+        font-size: 1.2em;
+    }
+
+    .config-label {
+        font-size: 1.2em;
     }
 
     .input-error {
