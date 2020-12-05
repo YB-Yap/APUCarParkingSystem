@@ -21,8 +21,8 @@ if (!function_exists('getParkingAvailability')) {
         ];
 
         // get car park size
-        $zone_a_size = Config::zoneASize()->value;
-        $zone_b_size = Config::zoneBSize()->value;
+        $zone_a_size = (int)Config::zoneASize()->value;
+        $zone_b_size = (int)Config::zoneBSize()->value;
 
         // car park is not full
         $parked_amount = Parking::parkedAmountZoneA();
@@ -34,7 +34,7 @@ if (!function_exists('getParkingAvailability')) {
             $availability['zone_b'] = $zone_b_size - $parked_amount;
         }
 
-        return $availability;
+        return toJson($availability);
     }
 }
 

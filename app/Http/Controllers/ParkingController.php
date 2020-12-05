@@ -141,7 +141,10 @@ class ParkingController extends Controller
         $now = Carbon::now();
         $user = Auth::user();
         $parking_zone = $request->parking_zone;
-        $is_car_park_full = (getParkingAvailability() == 0);
+        $parking_availability = getParkingAvailability();
+        $is_car_park_full = ($parking_zone == "A")
+                            ? ($parking_availability->zone_a == 0)
+                            : ($parking_availability->zone_b == 0);
 
         $parking = new Parking();
         $parking->user_id = $user->id;
@@ -209,7 +212,6 @@ class ParkingController extends Controller
         $previous_paid = 0;
         $previous_duration = 0;
         $total_duration = 0;
-        // $is_car_park_full = (getParkingAvailability() == 0);
         $has_subscription = ($_user->subscription()->activeSubsCount() == 1);
 
         $data = toJson([

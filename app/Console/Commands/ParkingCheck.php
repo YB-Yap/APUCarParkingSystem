@@ -108,7 +108,6 @@ class ParkingCheck extends Command
         $previous_paid = 0;
         $previous_duration = 0;
         $total_duration = 0;
-        // $is_car_park_full = (getParkingAvailability() == 0);
         $has_subscription = ($_user->subscription()->activeSubsCount() == 1);
 
         $data = toJson([

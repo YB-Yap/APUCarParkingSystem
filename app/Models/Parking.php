@@ -21,14 +21,14 @@ class Parking extends Model
     {
         $today = Carbon::now()->toDateString();
 
-        return $query->whereDate('time_in', $today)->where('time_out', NULL)->where('parking_zone', 'A')->count();
+        return $query->whereDate('time_in', $today)->whereNull('time_out')->where('parking_zone', 'A')->count();
     }
 
     public function scopeParkedAmountZoneB($query)
     {
         $today = Carbon::now()->toDateString();
 
-        return $query->whereDate('time_in', $today)->where('time_out', NULL)->where('parking_zone', 'B')->count();
+        return $query->whereDate('time_in', $today)->whereNull('time_out')->where('parking_zone', 'B')->count();
     }
 
     public function scopeParkedVehicles($query)
