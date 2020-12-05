@@ -14,7 +14,13 @@
 
                 <h1>Season Parking Subscription</h1>
                 <div class="section-wrapper">
-                    Availability: {{ subscription_availability }} of {{ subscription_size }}
+                    <h5 class="section-title text-center">
+                        <span class="mdi mdi-calendar-clock"></span>
+                        Subscription Availability
+                    </h5>
+                    <div class="my-2">
+                        <SubscriptionAvailabilityChart style="height: 130px;" />
+                    </div>
                 </div>
                 <h1>Active Subscription</h1>
                 <div class="section-wrapper" v-if="subscription_availability != 0">
@@ -22,9 +28,20 @@
                     <div v-for="(subs, index) in subscription_state" :key="index">
                         <h5>{{ `${subs[0].user.fullname}, ${subs[0].user.tp_number}` }}</h5>
                         <div class="section-child-wrapper">
-                            Valid from: {{ subs[0].valid_at }}<br>
-                            Valid till: {{ subs[subs.length -1].valid_till }}<br>
-                            Duration: {{ subs.length }} month(s)
+                            <div class="d-flex flex-wrap justify-content-start">
+                                <div class="subs-date text-center my-1">
+                                    <span class="secondary-txt">
+                                        <span class="mdi mdi-timer-outline"></span> Valid date:<br>
+                                    </span>
+                                    {{ subs[0].valid_at }} ~ {{ subs[subs.length -1].valid_till }}
+                                </div>
+                                <div class="subs-date text-center my-1">
+                                    <span class="secondary-txt">
+                                        <span class="mdi mdi-timer"></span> Duration:<br>
+                                    </span>
+                                    {{ subs.length }} month(s)
+                                </div>
+                            </div>
                         </div>
                         <hr>
                     </div>
@@ -38,7 +55,12 @@
 </template>
 
 <script>
+    import SubscriptionAvailabilityChart from "../../components/charts/SubscriptionAvailability.vue";
+
     export default {
+        components: {
+            SubscriptionAvailabilityChart,
+        },
         data() {
             return {
                 subscription_availability: 0,

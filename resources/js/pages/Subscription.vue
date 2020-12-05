@@ -29,13 +29,13 @@
                         :class="sub.is_active ? 'border-success' : 'border-info'"
                     >
                         <div class="d-flex flex-wrap justify-content-start">
-                            <div class="subs-date text-center">
+                            <div class="subs-date text-center my-1">
                                 <span class="secondary-txt">
                                     <span class="mdi mdi-timer-outline"></span> Valid date:<br>
                                 </span>
                                 {{ sub.valid_at }} ~ {{ sub.valid_till }}
                             </div>
-                            <div class="subs-date text-center">
+                            <div class="subs-date text-center my-1">
                                 <span class="secondary-txt">
                                     <span class="mdi mdi-credit-card-outline"></span> Status:<br>
                                 </span>
@@ -53,7 +53,7 @@
                         <span class="mdi mdi-calendar-clock"></span>
                         Subscription Availability
                     </h5>
-                    <div class="mt-2 mb-2">
+                    <div class="my-2">
                         <SubscriptionAvailabilityChart style="height: 130px;" />
                     </div>
                 </div>
@@ -74,7 +74,6 @@
                     <h5 class="section-title">
                         {{ has_subscription ? 'Extend my subscription' : 'Purchase a subscription' }}
                     </h5>
-
                     <div class="d-flex flex-wrap justify-content-start mt-2">
                         <div class="subs-purchase text-center pt-2">
                             <span class="secondary-txt">
@@ -98,8 +97,10 @@
                         </div>
                     </div>
                     <div class="section-child-wrapper border" :class="!disclaimer_check ? 'border-danger' : 'border-success'">
-                        <input type="checkbox" class="mr-2" v-model="disclaimer_check">
-                        <label>By checking this, you understand that this subscription is not refundable.</label>
+                        <div class="d-flex">
+                            <input type="checkbox" class="mt-1 mr-2" v-model="disclaimer_check">
+                            <label>By checking this, you understand that this subscription is not refundable.</label>
+                        </div>
                     </div>
                     <button class="btn btn-primary d-block w-100 mt-3" :disabled="!disclaimer_check" @click="purchaseSubs()">
                         {{ has_subscription ? 'Extend subscription' : 'Purchase subscription' }}
@@ -116,8 +117,10 @@
                         and all your subscriptions will be terminated.
                     </p>
                     <div class="section-child-wrapper border" :class="!termination_check ? 'border-danger' : 'border-success'">
-                        <input type="checkbox" class="mr-2" v-model="termination_check">
-                        <label>Yes, terminate all my subscriptions.</label>
+                        <div class="d-flex">
+                            <input type="checkbox" class="mt-1 mr-2" v-model="termination_check">
+                            <label>Yes, terminate all my subscriptions.</label>
+                        </div>
                     </div>
                     <button class="btn btn-danger d-block w-100 mt-3" :disabled="!termination_check" @click="terminateSubs()">
                         Terminate subscription
@@ -129,7 +132,7 @@
 </template>
 
 <script>
-import SubscriptionAvailabilityChart from "../components/charts/SubscriptionAvailability.vue";
+    import SubscriptionAvailabilityChart from "../components/charts/SubscriptionAvailability.vue";
 
     export default {
         components: {

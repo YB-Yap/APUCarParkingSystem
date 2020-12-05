@@ -32,6 +32,7 @@ APU Car Parking System is able,
 - Resolved `ParkingController` not getting correct `is_car_park_full`
 - Added `SweetAlert` as gate display for `Simulator`
 - Replaced package `autonumeric` with `vue-numeric`
+- Updated UI [`Dashboard`, `ParkingStatus`, `Subscription`, `SubcriptionHistory`, `Admin/Dashboard`, `Admin/Subscription`, `Admin/ViewActiveSubs`]
 ######  4/12/2020
 - Added horizontal bar charts [`ParkingAvailability`, `SubscriptionAvailability`]
 - Updated UI [`Dashboard`, `ParkingStatus`, `Subscription`]

@@ -7,7 +7,13 @@
             <div class="center-container">
                 <h1>Season Parking Subscription</h1>
                 <div class="section-wrapper">
-                    Availability: {{ subscription_availability }} of {{ subscription_size }}
+                    <h5 class="section-title text-center">
+                        <span class="mdi mdi-calendar-clock"></span>
+                        Subscription Availability
+                    </h5>
+                    <div class="my-2">
+                        <SubscriptionAvailabilityChart style="height: 130px;" />
+                    </div>
                     <router-link to="/admin/subscription/active">
                         <button class="btn btn-primary d-block mt-4 w-100">
                             <span class="mdi mdi-list-status"></span> View active subscription
@@ -33,16 +39,44 @@
                 </div>
 
                 <div class="section-wrapper" v-if="has_profile && subscription_availability == 0 && !has_subscription">
-                    <span>Sorry, there are no subscription available at the moment.</span><br>
-                    <span>Estimated restock date: {{ estimated_date }}</span>
+                    <span class="d-block w-100 text-center">
+                        Sorry, there are no subscription available at the moment.
+                    </span>
+                    <div class="d-flex flex-wrap justify-content-start mt-2">
+                        <div class="subs-restock text-center secondary-txt">
+                            Estimated restock date:
+                        </div>
+                        <div class="subs-restock text-center">
+                            {{ estimated_date }}
+                        </div>
+                    </div>
                 </div>
                 <div class="section-wrapper" v-if="has_profile && (subscription_availability > 0 || has_subscription)">
                     <h5 class="section-title">
                         {{ has_subscription ? 'Extend subscription' : 'Purchase subscription' }}
                     </h5>
-                    <span class="mdi mdi-credit-card-outline"> RM 60.00</span><br>
-                    <span class="mdi mdi-timer-outline"> {{ valid_from }} ~ {{ valid_till }}</span><br>
-                    <span class="mdi mdi-boom-gate-up-outline"> 1 Month</span>
+                    <div class="d-flex flex-wrap justify-content-start mt-2">
+                        <div class="subs-purchase text-center pt-2">
+                            <span class="secondary-txt">
+                                <span class="mdi mdi-credit-card-outline"></span> Price:<br>
+                            </span>
+                            RM 60.00
+                        </div>
+                        <div class="subs-purchase text-center pt-2">
+                            <span class="secondary-txt">
+                                <span class="mdi mdi-boom-gate-up-outline"></span> Validity:<br>
+                            </span>
+                            1 Month
+                        </div>
+                    </div>
+                    <div class="w-100">
+                        <div class="subs-purchase text-center pt-2">
+                            <span class="secondary-txt">
+                                <span class="mdi mdi-timer-outline"></span> Valid date:<br>
+                            </span>
+                            {{ valid_from }} ~ {{ valid_till }}
+                        </div>
+                    </div>
                     <div class="section-child-wrapper border" :class="!disclaimer_check ? 'border-danger' : 'border-success'">
                         <input type="checkbox" class="mr-2" v-model="disclaimer_check">
                         <label>By checking this, you understand that this subscription is not refundable.</label>
@@ -52,9 +86,11 @@
                     </button>
                 </div>
                 <hr>
-                <h5 class="text-danger text-center mt-4" v-if="has_subscription">** Danger **</h5>
+                <h5 class="text-danger text-center mt-4 overflow-hidden danger-title" v-if="has_subscription">
+                    <span>!! Danger !!</span>
+                </h5>
                 <div class="terminate-section section-wrapper border border-danger" v-if="has_subscription">
-                    <h5 class="section-title">Terminate subscription</h5>
+                    <h5 class="section-title text-danger">Terminate subscription</h5>
                     <p>
                         Before proceeding, we would like to inform you that this action is <strong>irreversible</strong>
                         and all the student's subscriptions will be terminated.
@@ -67,7 +103,7 @@
                         Terminate subscription
                     </button>
                 </div>
-
+                <hr>
                 <h3>Owned subscription</h3>
                 <div class="section-wrapper" v-if="!has_profile">
                     Please load subscirption data by submitting student's TP number.
@@ -86,9 +122,22 @@
                         :key="index"
                         :class="sub.is_active ? 'border-success' : 'border-info'"
                     >
-                        Valid from: {{ sub.valid_at }}<br>
-                        Valid till: {{ sub.valid_till }}<br>
-                        Status: {{ sub.is_active ? 'Active' : 'Inactive' }}<br>
+                        <div class="d-flex flex-wrap justify-content-start">
+                            <div class="subs-date text-center my-1">
+                                <span class="secondary-txt">
+                                    <span class="mdi mdi-timer-outline"></span> Valid date:<br>
+                                </span>
+                                {{ sub.valid_at }} ~ {{ sub.valid_till }}
+                            </div>
+                            <div class="subs-date text-center">
+                                <span class="secondary-txt my-1">
+                                    <span class="mdi mdi-credit-card-outline"></span> Status:<br>
+                                </span>
+                                <span :class="sub.is_active ? 'text-success' : 'text-primary'">
+                                    {{ sub.is_active ? 'Active' : 'Inactive' }}
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -97,7 +146,12 @@
 </template>
 
 <script>
+    import SubscriptionAvailabilityChart from "../../components/charts/SubscriptionAvailability.vue";
+
     export default {
+        components: {
+            SubscriptionAvailabilityChart,
+        },
         data() {
             return {
                 student_id: '',

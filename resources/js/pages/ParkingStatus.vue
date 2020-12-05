@@ -32,7 +32,7 @@
                     <h5 class="mt-4 text-center section-title">
                         <span class="mdi mdi-parking"></span> Availability
                     </h5>
-                    <div class="mt-2 mb-2">
+                    <div class="my-2">
                         <ParkingAvailabilityChart style="height: 150px;" />
                     </div>
                 </div>

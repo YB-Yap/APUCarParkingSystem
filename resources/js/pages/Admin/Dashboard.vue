@@ -22,12 +22,10 @@
                 <div v-masonry-tile class="col-md-6 col-lg-4 dashboard-block">
                     <div class="block-content">
                         <h5 class="block-title">
-                            <span class="mdi mdi-parking"></span>
-                            Parking Status
+                            <span class="mdi mdi-parking"></span> Parking Availability
                         </h5>
-                        <div>
-                            <span>Zone A: {{ parking.availability.zone_a }}</span><br>
-                            <span>Zone B: {{ parking.availability.zone_b }}</span>
+                        <div class="my-2">
+                            <ParkingAvailabilityChart style="height: 150px;" />
                         </div>
                     </div>
                 </div>
@@ -35,14 +33,16 @@
                     <div class="block-content">
                         <h5 class="block-title">
                             <span class="mdi mdi-calendar-clock"></span>
-                            Subscription Status
+                            Subscription Availability
                         </h5>
-                        <div>
-                            Availability: {{ subscription.availability }} of {{ subscription.size }}
-                            <div v-if="subscription.availability == 0">
-                                <span>Estimated restock date: {{ subscription.estimated_date }}</span>
-                            </div>
+                        <div class="my-2">
+                            <SubscriptionAvailabilityChart style="height: 130px;" />
                         </div>
+                        <router-link to="/admin/subscription/active">
+                            <button class="btn btn-primary d-block mt-4 w-100">
+                                <span class="mdi mdi-list-status"></span> View active subscription
+                            </button>
+                        </router-link>
                     </div>
                 </div>
             </div>
@@ -51,7 +51,14 @@
 </template>
 
 <script>
+    import ParkingAvailabilityChart from "../../components/charts/ParkingAvailability.vue";
+    import SubscriptionAvailabilityChart from "../../components/charts/SubscriptionAvailability.vue";
+
     export default {
+        components: {
+            ParkingAvailabilityChart,
+            SubscriptionAvailabilityChart,
+        },
         data() {
             return {
                 user: {

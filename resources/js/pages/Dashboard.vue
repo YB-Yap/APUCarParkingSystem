@@ -56,7 +56,7 @@
                         <h5 class="block-title mt-4 text-center">
                             <span class="mdi mdi-parking"></span> Availability
                         </h5>
-                        <div class="mt-2 mb-2">
+                        <div class="my-2">
                             <ParkingAvailabilityChart style="height: 150px;" />
                         </div>
                     </div>
@@ -144,7 +144,7 @@
                             <span class="mdi mdi-calendar-clock"></span>
                             Subscription Availability
                         </h5>
-                        <div class="mt-2 mb-2">
+                        <div class="my-2">
                             <SubscriptionAvailabilityChart style="height: 130px;" />
                         </div>
                     </div>
