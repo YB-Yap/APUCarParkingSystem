@@ -152,7 +152,11 @@ class SubscriptionController extends Controller
         // check if enough balance
         if (!$viaAdmin) {
             if ($user->apcard_balance < $subs_price) {
-                return response()->json(['message' => 'Insufficient fund.', 'to_pay' => $subs_price, 'isSuccess' => false]);
+                return response()->json([
+                    'message' => 'Insufficient fund.',
+                    'to_pay' => abs($user->apcard_balance - $subs_price),
+                    'isSuccess' => false
+                ]);
             }
             $user->apcard_balance = $user->apcard_balance - $subs_price;
             $user->update();
