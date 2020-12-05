@@ -3348,37 +3348,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
- // import AutoNumeric from 'autonumeric';
-// import VueAutonumeric from 'vue-autonumeric';
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -3392,46 +3361,10 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   components: {
-    //     // AutoNumeric,
-    //     // VueAutonumeric,
     VueNumeric: vue_numeric__WEBPACK_IMPORTED_MODULE_0___default.a
   },
-  // computed: {
-  //     invalid_form: function() {
-  //         return ((this.config.subscription_price != '') &&
-  //             (this.config.subscription_quantity != '') &&
-  //             (this.config.zone_a_size != '') &&
-  //             (this.config.zone_b_size != '')) ? false : true;
-  //     }
-  // },
   mounted: function mounted() {
-    this.getConfig(); // new AutoNumeric('#subsPrice', {
-    //                         minimumValue: '0',
-    //                         maximumValue: '100000',
-    //                         unformatOnSubmit: true,
-    //                         emptyInputBehavior: 'null'
-    //                     });
-    // new AutoNumeric('#subsCapacity', {
-    //                         minimumValue: '0',
-    //                         maximumValue: '100000',
-    //                         unformatOnSubmit: true,
-    //                         decimalPlaces: '0',
-    //                         emptyInputBehavior: 'null'
-    //                     });
-    // new AutoNumeric('#zoneASize', {
-    //                         minimumValue: '0',
-    //                         maximumValue: '100000',
-    //                         unformatOnSubmit: true,
-    //                         decimalPlaces: '0',
-    //                         emptyInputBehavior: 'null'
-    //                     });
-    // new AutoNumeric('#zoneBSize', {
-    //                         minimumValue: '0',
-    //                         maximumValue: '100000',
-    //                         unformatOnSubmit: true,
-    //                         decimalPlaces: '0',
-    //                         emptyInputBehavior: 'null'
-    //                     });
+    this.getConfig();
   },
   methods: {
     getConfig: function getConfig() {
@@ -3445,10 +3378,7 @@ __webpack_require__.r(__webpack_exports__);
           } else {
             _this.config[config_value.key] = config_value.value;
           }
-        }); // AutoNumeric.set('#subsPrice', this.config.subscription_price)
-        // AutoNumeric.set('#subsCapacity', this.config.subscription_quantity)
-        // AutoNumeric.set('#zoneASize', this.config.zone_a_size)
-        // AutoNumeric.set('#zoneBSize', this.config.zone_b_size)
+        });
       });
     },
     updateConfig: function updateConfig() {
@@ -4862,7 +4792,7 @@ __webpack_require__.r(__webpack_exports__);
 
               _this3.$forceUpdate();
 
-              var msg = _this3.car_state.is_car_park_full ? 'The car park is full. You will not be charged if you exit within 15 minutes.' : "You have entered Parking Zone ".concat(_this3.selected_parking_zone, ".");
+              var msg = _this3.car_state.is_car_park_full == 1 ? 'The car park is full. You will not be charged if you exit within 15 minutes.' : "You have entered Parking Zone ".concat(_this3.selected_parking_zone, ".");
 
               _this3.$swal.fire({
                 title: 'Welcome',

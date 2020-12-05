@@ -113,7 +113,7 @@
                                 if (res.status == 200) {
                                     this.getCarState();
                                     this.$forceUpdate();
-                                    var msg = (this.car_state.is_car_park_full)
+                                    var msg = (this.car_state.is_car_park_full == 1)
                                         ? 'The car park is full. You will not be charged if you exit within 15 minutes.'
                                         : `You have entered Parking Zone ${this.selected_parking_zone}.`;
                                     this.$swal.fire({
