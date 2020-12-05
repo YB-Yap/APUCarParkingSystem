@@ -24,7 +24,6 @@ simulator page
     - improve ui
     - (maybe) flexible exit (exit at different time)
         - add parameter for exitCarPark(), null if not given
-    - use sweetalert as gate display
 
 dashboard
     - TBT - estimated fee (maybe also check if the apcard has enough balance)
@@ -35,7 +34,6 @@ parking status page
     - TBT - parking records
 
 subscription history
-    - add breadcrumb
     - improve UI
     - TBT - list all history
 

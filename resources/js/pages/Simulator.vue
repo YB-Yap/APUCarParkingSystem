@@ -113,15 +113,15 @@
                                 if (res.status == 200) {
                                     this.getCarState();
                                     this.$forceUpdate();
-                                    // SweetAlert as parking gate display
-                                    // this.$swal.fire({
-                                    //     title: 'Entering Car Park',
-                                    //     text: `You are entering Parking Zone ${this.selected_parking_zone}?`,
-                                    //     icon: 'info',
-                                    //     showCancelButton: true,
-                                    //     confirmButtonText: 'Enter',
-                                    //     cancelButtonText: 'Cancel'
-                                    // })
+                                    var msg = (this.car_state.is_car_park_full)
+                                        ? 'The car park is full. You will not be charged if you exit within 15 minutes.'
+                                        : `You have entered Parking Zone ${this.selected_parking_zone}.`;
+                                    this.$swal.fire({
+                                        title: 'Welcome',
+                                        text: msg,
+                                        icon: 'info',
+                                        confirmButtonText: 'OK'
+                                    })
                                 }
                             })
                     }
