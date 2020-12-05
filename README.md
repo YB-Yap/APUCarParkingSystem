@@ -34,6 +34,7 @@ APU Car Parking System is able,
 - Replaced package `autonumeric` with `vue-numeric`
 - Updated UI [`Dashboard`, `ParkingStatus`, `Subscription`, `SubcriptionHistory`, `Admin/Dashboard`, `Admin/Subscription`, `Admin/ViewActiveSubs`]
 - Resolved `Simulator` `SweetAlert`
+- Resolved iOS Safari can't scroll to bottom, unable to click navbar
 ######  4/12/2020
 - Added horizontal bar charts [`ParkingAvailability`, `SubscriptionAvailability`]
 - Updated UI [`Dashboard`, `ParkingStatus`, `Subscription`]
