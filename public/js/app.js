@@ -2740,106 +2740,97 @@ __webpack_require__.r(__webpack_exports__);
         _this.user = result.data;
       });
     },
-    getAPCardBalance: function getAPCardBalance() {
+    // getAPCardBalance() {
+    //     axios
+    //         .get('/apcard/balance')
+    //         .then((result) => {
+    //             this.apcard_balance = (result.data / 100).toFixed(2);
+    //         });
+    // },
+    getCarParkAvailability: function getCarParkAvailability() {
       var _this2 = this;
 
-      axios.get('/apcard/balance').then(function (result) {
-        _this2.apcard_balance = (result.data / 100).toFixed(2);
-      });
-    },
-    getCarParkAvailability: function getCarParkAvailability() {
-      var _this3 = this;
-
       axios.get('/api/parking/availability').then(function (result) {
-        _this3.parking.availability = result.data;
+        _this2.parking.availability = result.data;
       });
     },
-    getCarState: function getCarState() {
-      var _this4 = this;
-
-      axios.get('/parking/state').then(function (result) {
-        console.log(result.data);
-
-        if (result.data.isInParking) {
-          _this4.parking.is_in_parking = true;
-          _this4.parking.car_state = result.data.data[0];
-
-          _this4.estimateParkingFee();
-        }
-
-        if (result.data.hasParkedToday) {
-          _this4.parking.has_parked_today = true;
-          _this4.parking.latest_record = result.data.data[1];
-          _this4.parking.latest_record.hours = Math.floor(_this4.parking.latest_record.duration);
-          var minutes = (_this4.parking.latest_record.duration - _this4.parking.latest_record.hours) * 60;
-          _this4.parking.latest_record.minutes = Math.floor(minutes);
-        }
-
-        _this4.$forceUpdate();
-      });
-    },
+    // getCarState() {
+    //     axios
+    //         .get('/parking/state')
+    //         .then((result) => {
+    //             console.log(result.data)
+    //             if (result.data.isInParking) {
+    //                 this.parking.is_in_parking = true;
+    //                 this.parking.car_state = result.data.data[0];
+    //                 this.estimateParkingFee();
+    //             }
+    //             if (result.data.hasParkedToday) {
+    //                 this.parking.has_parked_today = true;
+    //                 this.parking.latest_record = result.data.data[1];
+    //                 this.parking.latest_record.hours = Math.floor(this.parking.latest_record.duration);
+    //                 let minutes = (this.parking.latest_record.duration - this.parking.latest_record.hours) * 60;
+    //                 this.parking.latest_record.minutes = Math.floor(minutes);
+    //             }
+    //             this.$forceUpdate();
+    //         });
+    // },
     estimateParkingFee: function estimateParkingFee() {
-      var _this5 = this;
+      var _this3 = this;
 
       axios.get('/parking/estimate-fee').then(function (result) {
         console.log(result.data);
-        _this5.parking.estimated_fee = (result.data / 100).toFixed(2);
+        _this3.parking.estimated_fee = (result.data / 100).toFixed(2);
 
-        _this5.$forceUpdate();
+        _this3.$forceUpdate();
       });
     },
     toDateString: function toDateString(_date) {
       return _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
     },
-    getSubscriptionState: function getSubscriptionState() {
-      var _this6 = this;
-
-      axios.get('/subscription/state').then(function (result) {
-        console.log(result.data);
-
-        if (result.data.hasSubscription) {
-          _this6.subscription.has_subs = true;
-          _this6.subscription.state = result.data.data;
-        } else {
-          _this6.subscription.has_subs = false;
-          _this6.subscription.state = [];
-        }
-
-        if (_this6.subscription.has_subs) {
-          var last_index = _this6.subscription.state.length - 1;
-
-          var _from = new Date(_this6.subscription.state[0].valid_at.replace(/-/g, '/'));
-
-          var _till = new Date(_this6.subscription.state[last_index].valid_till.replace(/-/g, '/'));
-
-          _this6.subscription.valid_from = _this6.toDateString(_from);
-          _this6.subscription.valid_till = _this6.toDateString(_till);
-        }
-      });
-    },
+    // getSubscriptionState() {
+    //     axios
+    //         .get('/subscription/state')
+    //         .then((result) => {
+    //             console.log(result.data)
+    //             if (result.data.hasSubscription) {
+    //                 this.subscription.has_subs = true;
+    //                 this.subscription.state = result.data.data;
+    //             } else {
+    //                 this.subscription.has_subs = false;
+    //                 this.subscription.state = [];
+    //             }
+    //             if (this.subscription.has_subs) {
+    //                 let last_index = this.subscription.state.length - 1;
+    //                 let _from = new Date(this.subscription.state[0].valid_at.replace(/-/g, '/'));
+    //                 let _till = new Date(this.subscription.state[last_index].valid_till.replace(/-/g, '/'));
+    //                 this.subscription.valid_from = this.toDateString(_from);
+    //                 this.subscription.valid_till = this.toDateString(_till);
+    //             }
+    //         });
+    // },
     estimateSubsRestockDate: function estimateSubsRestockDate() {
-      var _this7 = this;
+      var _this4 = this;
 
       axios.get('/api/subscription/estimate-restock-date').then(function (result) {
-        _this7.subscription.estimated_date = result.data.estimatedDate;
+        _this4.subscription.estimated_date = result.data.estimatedDate;
       });
     },
     getSubscriptionAvailability: function getSubscriptionAvailability() {
-      var _this8 = this;
+      var _this5 = this;
 
       axios.get('/api/subscription/availability').then(function (result) {
-        _this8.subscription.availability = result.data;
+        _this5.subscription.availability = result.data;
 
-        if (_this8.subscription.availability == 0) {
-          _this8.estimateSubsRestockDate();
+        if (_this5.subscription.availability == 0) {
+          _this5.estimateSubsRestockDate();
         }
       });
     },
     getSubscriptionSize: function getSubscriptionSize() {
-      var _this9 = this;
+      var _this6 = this;
 
       axios.get('/api/subscription/size').then(function (result) {
-        _this9.subscription.size = result.data;
+        _this6.subscription.size = result.data;
       });
     },
     isDashboard: function isDashboard() {
@@ -4596,7 +4587,13 @@ __webpack_require__.r(__webpack_exports__);
 
         if (result.data.hasParkedToday) {
           _this.has_parked_today = true;
-          _this.latest_record = result.data.data[1];
+
+          if (result.data.isInParking) {
+            _this.latest_record = result.data.data[1];
+          } else {
+            _this.latest_record = result.data.data[0];
+          }
+
           _this.latest_record.hours = Math.floor(_this.latest_record.duration);
           var minutes = (_this.latest_record.duration - _this.latest_record.hours) * 60;
           _this.latest_record.minutes = Math.floor(minutes);

@@ -28,7 +28,7 @@ APU Car Parking System is able,
 
 ## Change log
 ######  7/12/2020
-- Resolved `Dashboard->latest_record` not getting the correct record
+- Resolved `Dashboard->latest_record`, `ParkingStatus->latest_record` not getting the correct record
 ######  4/12/2020
 - Updated `SubscriptionController->purchaseSubs()`
 - Resolved `ParkingController` not getting correct `is_car_park_full`

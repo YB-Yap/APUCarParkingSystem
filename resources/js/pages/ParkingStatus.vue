@@ -166,7 +166,11 @@
                         }
                         if (result.data.hasParkedToday) {
                             this.has_parked_today = true;
-                            this.latest_record = result.data.data[1];
+                            if (result.data.isInParking) {
+                                this.latest_record = result.data.data[1];
+                            } else {
+                                this.latest_record = result.data.data[0];
+                            }
                             this.latest_record.hours = Math.floor(this.latest_record.duration);
                             let minutes = (this.latest_record.duration - this.latest_record.hours) * 60;
                             this.latest_record.minutes = Math.floor(minutes);
