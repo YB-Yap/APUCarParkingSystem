@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <h1>Active Subscription</h1>
-                <div class="section-wrapper" v-if="subscription_availability != 0">
+                <div class="section-wrapper" v-if="Object.keys(subscription_state).length > 0">
                     <hr>
                     <div v-for="(subs, index) in subscription_state" :key="index">
                         <h5>{{ `${subs[0].user.fullname}, ${subs[0].user.tp_number}` }}</h5>

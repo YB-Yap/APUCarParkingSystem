@@ -30,6 +30,7 @@ APU Car Parking System is able,
 ######  7/12/2020
 - Resolved `Dashboard->latest_record`, `ParkingStatus->latest_record` not getting the correct record
 - Changed `Estimated Restock Date` to show under bar chart without admin submitting student's subscription
+- Resolved `Admin/ViewActiveSubs` not showing subscriptions when availability is 0
 ######  4/12/2020
 - Updated `SubscriptionController->purchaseSubs()`
 - Resolved `ParkingController` not getting correct `is_car_park_full`
