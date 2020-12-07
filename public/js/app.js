@@ -3550,10 +3550,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -91843,6 +91839,38 @@ var render = function() {
               1
             ),
             _vm._v(" "),
+            _vm.subscription_availability == 0
+              ? _c("div", { staticClass: "my-2" }, [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "d-flex flex-wrap justify-content-start mt-2"
+                    },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass: "subs-restock text-center secondary-txt"
+                        },
+                        [
+                          _vm._v(
+                            "\n                            Estimated restock date:\n                        "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "subs-restock text-center" }, [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(_vm.estimated_date) +
+                            "\n                        "
+                        )
+                      ])
+                    ]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
             _c("router-link", { attrs: { to: "/admin/subscription/active" } }, [
               _c(
                 "button",
@@ -91917,42 +91945,6 @@ var render = function() {
             ]
           )
         ]),
-        _vm._v(" "),
-        _vm.has_profile &&
-        _vm.subscription_availability == 0 &&
-        !_vm.has_subscription
-          ? _c("div", { staticClass: "section-wrapper" }, [
-              _c("span", { staticClass: "d-block w-100 text-center" }, [
-                _vm._v(
-                  "\n                    Sorry, there are no subscription available at the moment.\n                "
-                )
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "d-flex flex-wrap justify-content-start mt-2" },
-                [
-                  _c(
-                    "div",
-                    { staticClass: "subs-restock text-center secondary-txt" },
-                    [
-                      _vm._v(
-                        "\n                        Estimated restock date:\n                    "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "subs-restock text-center" }, [
-                    _vm._v(
-                      "\n                        " +
-                        _vm._s(_vm.estimated_date) +
-                        "\n                    "
-                    )
-                  ])
-                ]
-              )
-            ])
-          : _vm._e(),
         _vm._v(" "),
         _vm.has_profile &&
         (_vm.subscription_availability > 0 || _vm.has_subscription)

@@ -14,6 +14,16 @@
                     <div class="my-2">
                         <SubscriptionAvailabilityChart style="height: 130px;" />
                     </div>
+                    <div class="my-2" v-if="subscription_availability == 0">
+                        <div class="d-flex flex-wrap justify-content-start mt-2">
+                            <div class="subs-restock text-center secondary-txt">
+                                Estimated restock date:
+                            </div>
+                            <div class="subs-restock text-center">
+                                {{ estimated_date }}
+                            </div>
+                        </div>
+                    </div>
                     <router-link to="/admin/subscription/active">
                         <button class="btn btn-primary d-block mt-4 w-100">
                             <span class="mdi mdi-list-status"></span> View active subscription
@@ -36,20 +46,6 @@
                     :disabled="student_id.length != 8 || invalid_id" @click="getStudentSubs()">
                         <span class="mdi mdi-list-status"></span> Submit
                     </button>
-                </div>
-
-                <div class="section-wrapper" v-if="has_profile && subscription_availability == 0 && !has_subscription">
-                    <span class="d-block w-100 text-center">
-                        Sorry, there are no subscription available at the moment.
-                    </span>
-                    <div class="d-flex flex-wrap justify-content-start mt-2">
-                        <div class="subs-restock text-center secondary-txt">
-                            Estimated restock date:
-                        </div>
-                        <div class="subs-restock text-center">
-                            {{ estimated_date }}
-                        </div>
-                    </div>
                 </div>
                 <div class="section-wrapper" v-if="has_profile && (subscription_availability > 0 || has_subscription)">
                     <h5 class="section-title">
