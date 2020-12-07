@@ -4211,7 +4211,13 @@ __webpack_require__.r(__webpack_exports__);
 
         if (result.data.hasParkedToday) {
           _this3.parking.has_parked_today = true;
-          _this3.parking.latest_record = result.data.data[1];
+
+          if (result.data.isInParking) {
+            _this3.parking.latest_record = result.data.data[1];
+          } else {
+            _this3.parking.latest_record = result.data.data[0];
+          }
+
           _this3.parking.latest_record.hours = Math.floor(_this3.parking.latest_record.duration);
           var minutes = (_this3.parking.latest_record.duration - _this3.parking.latest_record.hours) * 60;
           _this3.parking.latest_record.minutes = Math.floor(minutes);

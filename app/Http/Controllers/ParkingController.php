@@ -121,10 +121,12 @@ class ParkingController extends Controller
         $user_car = $user->parking()->whereDate('time_in', $today)->latest('updated_at')->get();
 
         if (!$user_car->isEmpty()) {
+            if (count($user_car) > 1) {
+                $has_parked_today = true;
+            }
             if (!isset($user_car[0]->time_out)) {
                 $is_in_parking = true;
-            }
-            if (count($user_car) > 1) {
+            } else {
                 $has_parked_today = true;
             }
         }

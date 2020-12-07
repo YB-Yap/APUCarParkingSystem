@@ -284,7 +284,11 @@
                         }
                         if (result.data.hasParkedToday) {
                             this.parking.has_parked_today = true;
-                            this.parking.latest_record = result.data.data[1];
+                            if (result.data.isInParking) {
+                                this.parking.latest_record = result.data.data[1];
+                            } else {
+                                this.parking.latest_record = result.data.data[0];
+                            }
                             this.parking.latest_record.hours = Math.floor(this.parking.latest_record.duration);
                             let minutes = (this.parking.latest_record.duration - this.parking.latest_record.hours) * 60;
                             this.parking.latest_record.minutes = Math.floor(minutes);
