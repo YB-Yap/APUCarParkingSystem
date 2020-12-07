@@ -185,9 +185,9 @@
                         ("0" + _date.getDate()).slice(-2);
             },
             getStudentSubs(refresh = false) {
-                let student_id = (this.stored_id == '') ? this.student_id : this.stored_id
+                // let student_id = (this.stored_id == '') ? this.student_id : this.stored_id
                 axios
-                    .post('/subscription/state', {tp_number: student_id})
+                    .post('/subscription/state', {tp_number: this.student_id})
                     .then((result) => {
                         if (result.data.isSuccess) {
                             if (!refresh) {
@@ -198,7 +198,7 @@
                                 })
                             }
                             this.has_profile = true;
-                            this.stored_id = JSON.parse(JSON.stringify(student_id));
+                            // this.stored_id = JSON.parse(JSON.stringify(student_id));
 
                             if (result.data.hasSubscription) {
                                 this.has_subscription = true;

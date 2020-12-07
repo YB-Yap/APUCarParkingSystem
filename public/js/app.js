@@ -3595,9 +3595,9 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var refresh = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-      var student_id = this.stored_id == '' ? this.student_id : this.stored_id;
+      // let student_id = (this.stored_id == '') ? this.student_id : this.stored_id
       axios.post('/subscription/state', {
-        tp_number: student_id
+        tp_number: this.student_id
       }).then(function (result) {
         if (result.data.isSuccess) {
           if (!refresh) {
@@ -3608,8 +3608,7 @@ __webpack_require__.r(__webpack_exports__);
             });
           }
 
-          _this.has_profile = true;
-          _this.stored_id = JSON.parse(JSON.stringify(student_id));
+          _this.has_profile = true; // this.stored_id = JSON.parse(JSON.stringify(student_id));
 
           if (result.data.hasSubscription) {
             _this.has_subscription = true;
@@ -92414,7 +92413,7 @@ var render = function() {
         _vm._v(" "),
         _c("h1", [_vm._v("Active Subscription")]),
         _vm._v(" "),
-        _vm.subscription_availability != 0
+        Object.keys(_vm.subscription_state).length > 0
           ? _c(
               "div",
               { staticClass: "section-wrapper" },
