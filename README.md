@@ -30,6 +30,8 @@ APU Car Parking System is able,
 ######  8/12/2020
 - Added back `Admin/Subscription` `stored_id` for purchasing and terminating
 - Resolved `Admin/Subscription` bar chart not refreshing after purchase or terminate
+- Added disclaimer messages for `Admin/Settings`
+- Changed `small` to `span` for  `Admin/Settings` input
 ######  7/12/2020
 - Resolved `Dashboard->latest_record`, `ParkingStatus->latest_record` not getting the correct record
 - Changed `Estimated Restock Date` to show under bar chart without admin submitting student's subscription

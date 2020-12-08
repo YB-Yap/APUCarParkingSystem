@@ -3339,6 +3339,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -91572,6 +91588,14 @@ var render = function() {
               1
             ),
             _vm._v(" "),
+            _vm.config.subscription_price == 0
+              ? _c("span", { staticClass: "text-danger" }, [
+                  _vm._v(
+                    "\n                        You acknowledge that this field will be set to zero.\n                        If you do not want this field to be zero, please input valid value.\n                    "
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
             _vm._m(2)
           ]),
           _vm._v(" "),
@@ -91603,6 +91627,14 @@ var render = function() {
                   expression: "config.subscription_quantity"
                 }
               }),
+              _vm._v(" "),
+              _vm.config.subscription_quantity == 0
+                ? _c("span", { staticClass: "text-danger" }, [
+                    _vm._v(
+                      "\n                        You acknowledge that this field will be set to zero.\n                        If you do not want this field to be zero, please input valid value.\n                    "
+                    )
+                  ])
+                : _vm._e(),
               _vm._v(" "),
               _vm._m(3)
             ],
@@ -91646,6 +91678,14 @@ var render = function() {
                 }
               }),
               _vm._v(" "),
+              _vm.config.zone_a_size == 0
+                ? _c("span", { staticClass: "text-danger" }, [
+                    _vm._v(
+                      "\n                        You acknowledge that this field will be set to zero.\n                        If you do not want this field to be zero, please input valid value.\n                    "
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
               _vm._m(4)
             ],
             1
@@ -91679,6 +91719,14 @@ var render = function() {
                   expression: "config.zone_b_size"
                 }
               }),
+              _vm._v(" "),
+              _vm.config.zone_b_size == 0
+                ? _c("span", { staticClass: "text-danger" }, [
+                    _vm._v(
+                      "\n                        You acknowledge that this field will be set to zero.\n                        If you do not want this field to be zero, please input valid value.\n                    "
+                    )
+                  ])
+                : _vm._e(),
               _vm._v(" "),
               _vm._m(5)
             ],
@@ -91728,7 +91776,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c(
-      "small",
+      "span",
       { staticClass: "form-text text-muted", attrs: { id: "subsPriceHelp" } },
       [
         _vm._v(
@@ -91746,7 +91794,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c(
-      "small",
+      "span",
       {
         staticClass: "form-text text-muted",
         attrs: { id: "subsCapacityHelp" }
@@ -91767,7 +91815,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c(
-      "small",
+      "span",
       { staticClass: "form-text text-muted", attrs: { id: "zoneASizeHelp" } },
       [
         _vm._v(
@@ -91785,7 +91833,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c(
-      "small",
+      "span",
       { staticClass: "form-text text-muted", attrs: { id: "zoneBSizeHelp" } },
       [
         _vm._v(

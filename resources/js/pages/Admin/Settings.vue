@@ -20,10 +20,14 @@
                                 placeholder="60.00" aria-describedby="subsPriceHelp"
                             ></vue-numeric>
                         </div>
-                        <small id="subsPriceHelp" class="form-text text-muted">
+                        <span class="text-danger" v-if="config.subscription_price == 0">
+                            You acknowledge that this field will be set to zero.
+                            If you do not want this field to be zero, please input valid value.
+                        </span>
+                        <span id="subsPriceHelp" class="form-text text-muted">
                             Subscription price must only contain numbers and 2 decimal places.<br>
                             The value should between 0.00 ~ 100,000.00
-                        </small>
+                        </span>
                     </div>
                     <div class="form-group">
                         <label class="config-label" for="subsCapacity">Capacity *</label>
@@ -33,10 +37,14 @@
                             class="form-control" id="subsCapacity"
                             placeholder="10" aria-describedby="subsCapacityHelp"
                         ></vue-numeric>
-                        <small id="subsCapacityHelp" class="form-text text-muted">
+                        <span class="text-danger" v-if="config.subscription_quantity == 0">
+                            You acknowledge that this field will be set to zero.
+                            If you do not want this field to be zero, please input valid value.
+                        </span>
+                        <span id="subsCapacityHelp" class="form-text text-muted">
                             Subscription capacity is the total amount of subscription that can be purchased.<br>
                             The value should between 0 ~ 100,000
-                        </small>
+                        </span>
                     </div>
                     <hr>
                     <span class="text-muted">* Required</span>
@@ -51,10 +59,14 @@
                             class="form-control" id="zoneASize"
                             placeholder="10" aria-describedby="zoneASizeHelp"
                         ></vue-numeric>
-                        <small id="zoneASizeHelp" class="form-text text-muted">
+                        <span class="text-danger" v-if="config.zone_a_size == 0">
+                            You acknowledge that this field will be set to zero.
+                            If you do not want this field to be zero, please input valid value.
+                        </span>
+                        <span id="zoneASizeHelp" class="form-text text-muted">
                             Car park size is the total amount of car park space available.<br>
                             The value should between 0 ~ 100,000
-                        </small>
+                        </span>
                     </div>
                     <div class="form-group">
                         <label class="config-label" for="zoneBSize">Car Park Zone B Size *</label>
@@ -64,10 +76,14 @@
                             class="form-control" id="zoneBSize"
                             placeholder="10" aria-describedby="zoneBSizeHelp"
                         ></vue-numeric>
-                        <small id="zoneBSizeHelp" class="form-text text-muted">
+                        <span class="text-danger" v-if="config.zone_b_size == 0">
+                            You acknowledge that this field will be set to zero.
+                            If you do not want this field to be zero, please input valid value.
+                        </span>
+                        <span id="zoneBSizeHelp" class="form-text text-muted">
                             Car park size is the total amount of car park space available.<br>
                             The value should between 0 ~ 100,000
-                        </small>
+                        </span>
                     </div>
                     <hr>
                     <span class="text-muted">* Required</span>
