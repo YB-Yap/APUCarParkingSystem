@@ -198,7 +198,7 @@
                                 })
                             }
                             this.has_profile = true;
-                            // this.stored_id = JSON.parse(JSON.stringify(student_id));
+                            this.stored_id = JSON.parse(JSON.stringify(this.student_id));
 
                             if (result.data.hasSubscription) {
                                 this.has_subscription = true;

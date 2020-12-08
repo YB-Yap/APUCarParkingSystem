@@ -3608,7 +3608,8 @@ __webpack_require__.r(__webpack_exports__);
             });
           }
 
-          _this.has_profile = true; // this.stored_id = JSON.parse(JSON.stringify(student_id));
+          _this.has_profile = true;
+          _this.stored_id = JSON.parse(JSON.stringify(_this.student_id));
 
           if (result.data.hasSubscription) {
             _this.has_subscription = true;
