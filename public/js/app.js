@@ -3569,7 +3569,8 @@ __webpack_require__.r(__webpack_exports__);
       valid_from: '',
       valid_till: '',
       disclaimer_check: false,
-      termination_check: false
+      termination_check: false,
+      chartKey: 0
     };
   },
   computed: {
@@ -3706,6 +3707,8 @@ __webpack_require__.r(__webpack_exports__);
             _this5.disclaimer_check = false;
 
             _this5.$forceUpdate();
+
+            _this5.chartKey = !_this5.chartKey;
           });
         } else {
           _this5.$swal.fire({
@@ -3745,6 +3748,8 @@ __webpack_require__.r(__webpack_exports__);
             _this6.termination_check = false;
 
             _this6.$forceUpdate();
+
+            _this6.chartKey = !_this6.chartKey;
           });
         } else {
           _this6.$swal.fire({
@@ -91833,6 +91838,7 @@ var render = function() {
               { staticClass: "my-2" },
               [
                 _c("SubscriptionAvailabilityChart", {
+                  key: _vm.chartKey,
                   staticStyle: { height: "130px" }
                 })
               ],
@@ -92169,7 +92175,7 @@ var render = function() {
         !_vm.has_profile
           ? _c("div", { staticClass: "section-wrapper" }, [
               _vm._v(
-                "\n                Please load subscirption data by submitting student's TP number.\n            "
+                "\n                Please load subscription data by submitting student's TP number.\n            "
               )
             ])
           : _c("div", { staticClass: "section-wrapper" }, [

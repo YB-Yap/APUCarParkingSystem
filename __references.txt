@@ -82,3 +82,6 @@ https://www.programmersought.com/article/2194675207/
 // css - line besides title
 Puigcerber
 https://stackoverflow.com/a/14731123
+
+// "re-mount" component
+https://stackoverflow.com/questions/47459837/how-to-re-mount-a-component-in-vuejs

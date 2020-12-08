@@ -12,7 +12,7 @@
                         Subscription Availability
                     </h5>
                     <div class="my-2">
-                        <SubscriptionAvailabilityChart style="height: 130px;" />
+                        <SubscriptionAvailabilityChart :key="chartKey" style="height: 130px;" />
                     </div>
                     <div class="my-2" v-if="subscription_availability == 0">
                         <div class="d-flex flex-wrap justify-content-start mt-2">
@@ -102,7 +102,7 @@
                 <hr>
                 <h3>Owned subscription</h3>
                 <div class="section-wrapper" v-if="!has_profile">
-                    Please load subscirption data by submitting student's TP number.
+                    Please load subscription data by submitting student's TP number.
                 </div>
                 <div class="section-wrapper" v-else>
                     {{
@@ -162,6 +162,7 @@
                 valid_till: '',
                 disclaimer_check: false,
                 termination_check: false,
+                chartKey: 0,
             }
         },
         computed: {
@@ -284,6 +285,7 @@
                                 this.getSubscriptionSize();
                                 this.disclaimer_check = false;
                                 this.$forceUpdate();
+                                this.chartKey = !this.chartKey;
                             })
                         } else {
                             this.$swal.fire({
@@ -319,6 +321,7 @@
                                 this.getSubscriptionSize();
                                 this.termination_check = false;
                                 this.$forceUpdate();
+                                this.chartKey = !this.chartKey;
                             })
                         } else {
                             this.$swal.fire({
