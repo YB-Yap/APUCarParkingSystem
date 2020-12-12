@@ -40,7 +40,7 @@
                         </div>
                         <router-link to="/admin/subscription/active">
                             <button class="btn btn-primary d-block mt-4 w-100">
-                                <span class="mdi mdi-list-status"></span> View active subscription
+                                <span class="mdi mdi-list-status"></span> View active subscriptions
                             </button>
                         </router-link>
                     </div>

@@ -1,14 +1,14 @@
 <template>
     <div class="page">
         <div class="page-header">
-            <h1 class="page-title">View Subscription Log</h1>
+            <h1 class="page-title">View Subscription Logs</h1>
         </div>
         <div class="page-content">
             <div class="container">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><span @click="goTo()">View Logs</span></li>
-                        <li class="breadcrumb-item active" aria-current="page">Subscription Log</li>
+                        <li class="breadcrumb-item active" aria-current="page">Subscription Logs</li>
                     </ol>
                 </nav>
                 <pagination :data="subscription_logs" :show-disabled="true" align="right" @pagination-change-page="getSubscriptionLog">

@@ -27,6 +27,8 @@ APU Car Parking System is able,
 - *TBT at server side* To automatically terminate expired subscriptions using time-based job scheduler.
 
 ## Change log
+######  12/12/2020
+- Updated UI
 ######  8/12/2020
 - Added back `Admin/Subscription` `stored_id` for purchasing and terminating
 - Resolved `Admin/Subscription` bar chart not refreshing after purchase or terminate

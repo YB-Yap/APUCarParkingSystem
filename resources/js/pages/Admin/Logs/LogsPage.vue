@@ -8,12 +8,12 @@
                 <div class="row">
                     <div class="col-md-6 col-lg-4 log-block">
                         <div class="block-content" @click="redirect('parking')">
-                            Parking log
+                            Parking logs
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4 log-block">
                         <div class="block-content" @click="redirect('subscription')">
-                            Subscription log
+                            Subscription logs
                         </div>
                     </div>
                 </div>

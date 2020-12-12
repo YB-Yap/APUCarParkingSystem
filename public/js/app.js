@@ -90691,7 +90691,7 @@ var render = function() {
                         [
                           _c("span", { staticClass: "mdi mdi-list-status" }),
                           _vm._v(
-                            " View active subscription\n                        "
+                            " View active subscriptions\n                        "
                           )
                         ]
                       )
@@ -90856,7 +90856,7 @@ var render = function() {
               },
               [
                 _vm._v(
-                  "\n                        Parking log\n                    "
+                  "\n                        Parking logs\n                    "
                 )
               ]
             )
@@ -90875,7 +90875,7 @@ var render = function() {
               },
               [
                 _vm._v(
-                  "\n                        Subscription log\n                    "
+                  "\n                        Subscription logs\n                    "
                 )
               ]
             )
@@ -90946,7 +90946,7 @@ var render = function() {
                   staticClass: "breadcrumb-item active",
                   attrs: { "aria-current": "page" }
                 },
-                [_vm._v("Parking Log")]
+                [_vm._v("Parking Logs")]
               )
             ])
           ]),
@@ -91080,7 +91080,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "page-header" }, [
-      _c("h1", { staticClass: "page-title" }, [_vm._v("View Parking Log")])
+      _c("h1", { staticClass: "page-title" }, [_vm._v("View Parking Logs")])
     ])
   },
   function() {
@@ -91189,7 +91189,7 @@ var render = function() {
                   staticClass: "breadcrumb-item active",
                   attrs: { "aria-current": "page" }
                 },
-                [_vm._v("Subscription Log")]
+                [_vm._v("Subscription Logs")]
               )
             ])
           ]),
@@ -91303,7 +91303,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "page-header" }, [
-      _c("h1", { staticClass: "page-title" }, [_vm._v("View Subscription Log")])
+      _c("h1", { staticClass: "page-title" }, [
+        _vm._v("View Subscription Logs")
+      ])
     ])
   },
   function() {
@@ -91404,7 +91406,7 @@ var render = function() {
               },
               [
                 _c("span", { staticClass: "more-icon mdi mdi-list-status" }, [
-                  _vm._v(" View active subscription")
+                  _vm._v(" View Active Subscriptions")
                 ])
               ]
             )
@@ -91445,7 +91447,7 @@ var render = function() {
                 _c(
                   "span",
                   { staticClass: "more-icon mdi mdi-format-list-numbered" },
-                  [_vm._v(" View Parking Log")]
+                  [_vm._v(" View Parking Logs")]
                 )
               ]
             )
@@ -91467,7 +91469,7 @@ var render = function() {
                 _c(
                   "span",
                   { staticClass: "more-icon mdi mdi-format-list-numbered" },
-                  [_vm._v(" View Subscription Log")]
+                  [_vm._v(" View Subscription Logs")]
                 )
               ]
             )
@@ -91931,7 +91933,7 @@ var render = function() {
                 { staticClass: "btn btn-primary d-block mt-4 w-100" },
                 [
                   _c("span", { staticClass: "mdi mdi-list-status" }),
-                  _vm._v(" View active subscription\n                    ")
+                  _vm._v(" View active subscriptions\n                    ")
                 ]
               )
             ])
@@ -92444,7 +92446,7 @@ var render = function() {
                 staticClass: "breadcrumb-item active",
                 attrs: { "aria-current": "page" }
               },
-              [_vm._v("Active Subscription")]
+              [_vm._v("Active Subscriptions")]
             )
           ])
         ]),
@@ -92466,7 +92468,7 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _c("h1", [_vm._v("Active Subscription")]),
+        _c("h1", [_vm._v("Active Subscriptions")]),
         _vm._v(" "),
         Object.keys(_vm.subscription_state).length > 0
           ? _c(
@@ -92545,7 +92547,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "page-header" }, [
       _c("h1", { staticClass: "page-title" }, [
-        _vm._v("View Active Subscription")
+        _vm._v("View Active Subscriptions")
       ])
     ])
   },

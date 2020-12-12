@@ -17,7 +17,7 @@
                 </li>
                 <li class="list-group-item">
                     <router-link to="/admin/subscription/active" class="more-link">
-                        <span class="more-icon mdi mdi-list-status"> View active subscription</span>
+                        <span class="more-icon mdi mdi-list-status"> View Active Subscriptions</span>
                     </router-link>
                 </li>
                 <li class="list-group-item">
@@ -27,12 +27,12 @@
                 </li>
                 <li class="list-group-item">
                     <router-link to="/admin/logs/parking" class="more-link">
-                        <span class="more-icon mdi mdi-format-list-numbered"> View Parking Log</span>
+                        <span class="more-icon mdi mdi-format-list-numbered"> View Parking Logs</span>
                     </router-link>
                 </li>
                 <li class="list-group-item">
                     <router-link to="/admin/logs/subscription" class="more-link">
-                        <span class="more-icon mdi mdi-format-list-numbered"> View Subscription Log</span>
+                        <span class="more-icon mdi mdi-format-list-numbered"> View Subscription Logs</span>
                     </router-link>
                 </li>
                 <li class="list-group-item">

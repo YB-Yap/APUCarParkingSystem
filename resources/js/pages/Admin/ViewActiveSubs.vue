@@ -1,14 +1,14 @@
 <template>
     <div class="page">
         <div class="page-header">
-            <h1 class="page-title">View Active Subscription</h1>
+            <h1 class="page-title">View Active Subscriptions</h1>
         </div>
         <div class="page-content">
             <div class="center-container">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><span @click="goTo()">Subscription</span></li>
-                        <li class="breadcrumb-item active" aria-current="page">Active Subscription</li>
+                        <li class="breadcrumb-item active" aria-current="page">Active Subscriptions</li>
                     </ol>
                 </nav>
 
@@ -22,7 +22,7 @@
                         <SubscriptionAvailabilityChart style="height: 130px;" />
                     </div>
                 </div>
-                <h1>Active Subscription</h1>
+                <h1>Active Subscriptions</h1>
                 <div class="section-wrapper" v-if="Object.keys(subscription_state).length > 0">
                     <hr>
                     <div v-for="(subs, index) in subscription_state" :key="index">
