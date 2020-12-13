@@ -51,6 +51,7 @@
                     <h5 class="section-title">
                         {{ has_subscription ? 'Extend subscription' : 'Purchase subscription' }}
                     </h5>
+                    <p>Season Parking Subscription is only for parking zone <strong>B</strong>.</p>
                     <div class="d-flex flex-wrap justify-content-start mt-2">
                         <div class="subs-purchase text-center pt-2">
                             <span class="secondary-txt">

@@ -3566,6 +3566,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -4904,6 +4905,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_charts_SubscriptionAvailability_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/charts/SubscriptionAvailability.vue */ "./resources/js/components/charts/SubscriptionAvailability.vue");
+//
 //
 //
 //
@@ -92019,9 +92021,11 @@ var render = function() {
               _vm._v(" "),
               _vm._m(2),
               _vm._v(" "),
+              _vm._m(3),
+              _vm._v(" "),
               _c("div", { staticClass: "w-100" }, [
                 _c("div", { staticClass: "subs-purchase text-center pt-2" }, [
-                  _vm._m(3),
+                  _vm._m(4),
                   _vm._v(
                     "\n                        " +
                       _vm._s(_vm.valid_from) +
@@ -92140,7 +92144,7 @@ var render = function() {
                   _vm._v("Terminate subscription")
                 ]),
                 _vm._v(" "),
-                _vm._m(4),
+                _vm._m(5),
                 _vm._v(" "),
                 _c(
                   "div",
@@ -92261,7 +92265,7 @@ var render = function() {
                           "div",
                           { staticClass: "subs-date text-center my-1" },
                           [
-                            _vm._m(5, true),
+                            _vm._m(6, true),
                             _vm._v(
                               "\n                            " +
                                 _vm._s(sub.valid_at) +
@@ -92273,7 +92277,7 @@ var render = function() {
                         ),
                         _vm._v(" "),
                         _c("div", { staticClass: "subs-date text-center" }, [
-                          _vm._m(6, true),
+                          _vm._m(7, true),
                           _vm._v(" "),
                           _c(
                             "span",
@@ -92323,6 +92327,16 @@ var staticRenderFns = [
       _vm._v(
         "\n                    Subscription Availability\n                "
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v("Season Parking Subscription is only for parking zone "),
+      _c("strong", [_vm._v("B")]),
+      _vm._v(".")
     ])
   },
   function() {
@@ -94186,9 +94200,11 @@ var render = function() {
               _vm._v(" "),
               _vm._m(4),
               _vm._v(" "),
+              _vm._m(5),
+              _vm._v(" "),
               _c("div", { staticClass: "w-100" }, [
                 _c("div", { staticClass: "subs-purchase text-center pt-2" }, [
-                  _vm._m(5),
+                  _vm._m(6),
                   _vm._v(
                     "\n                        " +
                       _vm._s(_vm.valid_from) +
@@ -94308,7 +94324,7 @@ var render = function() {
                   _vm._v("Terminate my subscription")
                 ]),
                 _vm._v(" "),
-                _vm._m(6),
+                _vm._m(7),
                 _vm._v(" "),
                 _c(
                   "div",
@@ -94429,6 +94445,16 @@ var staticRenderFns = [
       _vm._v(
         "\n                    Subscription Availability\n                "
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v("Season Parking Subscription is only for parking zone "),
+      _c("strong", [_vm._v("B")]),
+      _vm._v(".")
     ])
   },
   function() {

@@ -60,6 +60,7 @@ php artisan migrate --seed
 ## Change log
 ######  13/12/2020
 - Added tester accounts
+- Updated UI
 ######  12/12/2020
 - Updated UI
 ######  8/12/2020
