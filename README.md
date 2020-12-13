@@ -5,28 +5,30 @@ FYP iS fUn
 ## Deliverables
 APU Car Parking System allows **students**,
 - **DONE** To login and logout from the system.
-- *TBT* To check the availability of car parking areas.
-- *TBT* To check the time of entry and exit of the day.
-- *TBT* To check the estimated parking fee of the day.
-- *TBT* To check old records.
-- *TBT* To check the availability of season parking subscription.
-- *TBT* To subscribe for a monthly season parking.
-- *TBT* To check the subscription date and expiry date of subscribed season parking.
-- *TBT* To terminate season parking subscription.
-- *TBT* To search for empty parking space before charging when the parking area is full for 15 minutes.
+- **DONE** To check the availability of car parking areas.
+- **DONE** To check the time of entry and exit of the day.
+- **DONE** To check the estimated parking fee of the day.
+- **DONE** To check old records.
+- **DONE** To check the availability of season parking subscription.
+- **DONE** To subscribe for a monthly season parking.
+- **DONE** To check the subscription date and expiry date of subscribed season parking.
+- **DONE** To terminate season parking subscription.
+- **DONE** To search for empty parking space before charging when the parking area is full for 15 minutes.
   
 APU Car Parking System allows **admin**,
 - **DONE** To login and logout from the system.
-- *TBT* To check the availability of car parking areas.
-- *TBT* To check all records.
-- *TBT* To check all subscription.
-- *TBT* To modify overall subscription capacity.
-- *TBT* To terminate season parking subscription.
+- **DONE** To check the availability of car parking areas.
+- **DONE** To check all records.
+- **DONE** To check all subscription.
+- **DONE** To modify overall subscription capacity.
+- **DONE** To terminate season parking subscription.
   
 APU Car Parking System is able,
-- *TBT at server side* To automatically terminate expired subscriptions using time-based job scheduler.
+- **DONE** at server side* To automatically terminate expired subscriptions using time-based job scheduler.
 
 ## Change log
+######  13/12/2020
+- Added tester accounts
 ######  12/12/2020
 - Updated UI
 ######  8/12/2020

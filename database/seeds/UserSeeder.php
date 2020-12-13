@@ -13,6 +13,10 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        if (User::where('fullname', 'admin')->exists()) {
+            return;
+        }
+
         // insert Admin
         User::create([
             'fullname' => 'admin',

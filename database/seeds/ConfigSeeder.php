@@ -12,6 +12,10 @@ class ConfigSeeder extends Seeder
      */
     public function run()
     {
+        if (Config::where('key', 'subscription_price')->exists()) {
+            return;
+        }
+
         // insert Config
         $configs = array(
             [

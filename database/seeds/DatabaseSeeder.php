@@ -13,5 +13,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(UserSeeder::class);
         $this->call(ConfigSeeder::class);
+        $this->call(UserSeeder_add_2020_12_13::class);
     }
 }
