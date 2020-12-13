@@ -7,11 +7,15 @@
             <div class="container">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><span @click="goTo()">View Logs</span></li>
+                        <li class="breadcrumb-item">
+                            <span @click="goTo()">
+                                <span class="mdi mdi-arrow-left"></span> View Logs
+                            </span>
+                        </li>
                         <li class="breadcrumb-item active" aria-current="page">Parking Logs</li>
                     </ol>
                 </nav>
-                <pagination :data="parking_logs" :show-disabled=true align="right" @pagination-change-page="getParkingLog">
+                <pagination :data="parking_logs" :show-disabled=true align="right" @pagination-change-page="getParkingLogs">
                     <span slot="prev-nav"><span class="mdi mdi-chevron-left"></span></span>
 	                <span slot="next-nav"><span class="mdi mdi-chevron-right"></span></span>
                 </pagination>
@@ -41,13 +45,15 @@
                                 <td>{{ log.user.fullname }}</td>
                                 <td class="text-center">{{ log.parking_zone }}</td>
                                 <td>{{ log.time_in }}</td>
-                                <td>{{ (log.time_out) ? log.time_out : 'In car park' }}</td>
+                                <td :class="(!log.time_out) ? 'text-warning font-italic' : ''">
+                                    {{ (log.time_out) ? log.time_out : 'In car park' }}
+                                </td>
                                 <td>{{ `${log.duration.hours}h ${log.duration.minutes}m` }}</td>
                                 <td>{{ (log.fee / 100).toFixed(2) }}</td>
                                 <td class="text-center">
                                     <span class="mdi"
                                         :class="log.is_car_park_full
-                                        ? 'mdi-minus-circle text-warning'
+                                        ? 'mdi-minus-circle-outline text-danger'
                                         : 'mdi-check-circle-outline text-success'">
                                     </span>
                                 </td>
@@ -55,13 +61,13 @@
                         </tbody>
                     </table>
                 </div>
-                <pagination :data="parking_logs" :show-disabled="true" align="right" @pagination-change-page="getParkingLog">
+                <pagination :data="parking_logs" :show-disabled="true" align="right" @pagination-change-page="getParkingLogs">
                     <span slot="prev-nav"><span class="mdi mdi-chevron-left"></span></span>
 	                <span slot="next-nav"><span class="mdi mdi-chevron-right"></span></span>
                 </pagination>
                 <div class="section-wrapper">
-                    Legends: <br>
-                    <span class="mdi mdi-minus-circle text-warning"></span> - Car park is full<br>
+                    Legend: <br>
+                    <span class="mdi mdi-minus-circle-outline text-danger"></span> - Car park is full<br>
                     <span class="mdi mdi-check-circle-outline text-success"></span> - Car park is not full
                 </div>
             </div>
@@ -77,7 +83,7 @@
             }
         },
         mounted() {
-            this.getParkingLog();
+            this.getParkingLogs();
         },
         methods: {
             goTo() {
@@ -88,7 +94,7 @@
                         ("0" + _date.getMinutes()).slice(-2) + ':' +
                         ("0" + _date.getSeconds()).slice(-2);
             },
-            getParkingLog(page = 1) {
+            getParkingLogs(page = 1) {
                 axios
                     .get(`/api/admin/parking?page=${page}`)
                     .then((result) => {
