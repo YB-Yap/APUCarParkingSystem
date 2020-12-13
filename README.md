@@ -1,30 +1,61 @@
 # APU Car Parking System Using Cloud-Based Service
 
-FYP iS fUn
+## Aims
+The aim of proposed system is to enhance the existing car parking system in APU by implementing the system into cloud-based service.
+
+## Objectives
+- To visualise the status of car parking lot for user to check the availability of the car parking lot on the current cloud system.
+- To reduce the workload of Bursary Department by implementing season parking subscription process on cloud.
+- To improve the movement of entering and leaving the car parking area by visualising car parking status on cloud.
+- To improve user experience of finding available car parking space without the fear of getting charged by not finding available parking space.
 
 ## Deliverables
 APU Car Parking System allows **students**,
-- **DONE** To login and logout from the system.
-- **DONE** To check the availability of car parking areas.
-- **DONE** To check the time of entry and exit of the day.
-- **DONE** To check the estimated parking fee of the day.
-- **DONE** To check old records.
-- **DONE** To check the availability of season parking subscription.
-- **DONE** To subscribe for a monthly season parking.
-- **DONE** To check the subscription date and expiry date of subscribed season parking.
-- **DONE** To terminate season parking subscription.
-- **DONE** To search for empty parking space before charging when the parking area is full for 15 minutes.
+- To login and logout from the system.
+- To check the availability of car parking areas.
+- To check the time of entry and exit of the day.
+- To check the estimated parking fee of the day.
+- To check old records.
+- To check the availability of season parking subscription.
+- To subscribe for a monthly season parking.
+- To check the subscription date and expiry date of subscribed season parking.
+- To terminate season parking subscription.
+- To search for empty parking space before charging when the parking area is full for 15 minutes.
   
 APU Car Parking System allows **admin**,
-- **DONE** To login and logout from the system.
-- **DONE** To check the availability of car parking areas.
-- **DONE** To check all records.
-- **DONE** To check all subscription.
-- **DONE** To modify overall subscription capacity.
-- **DONE** To terminate season parking subscription.
+- To login and logout from the system.
+- To check the availability of car parking areas.
+- To check all records.
+- To check all subscription.
+- To modify overall subscription capacity.
+- To terminate season parking subscription.
   
 APU Car Parking System is able,
-- **DONE** at server side* To automatically terminate expired subscriptions using time-based job scheduler.
+- To automatically terminate expired subscriptions using time-based job scheduler.
+
+## Installation
+0. Prerequisite
+```
+PHP, MySQL, Node.js, Composer - https://getcomposer.org/download/
+```
+1. Git Clone
+```
+git clone https://github.com/YB-Yap/APUCarParkingSystem.git
+```
+2. Run normal laravel installation
+```
+composer install
+```
+3. Generate key for the app
+```
+php artisan key:generate
+```
+4. Create DB on MySQL
+5. Create and seed tables
+```
+php artisan migrate --seed
+```
+6. DONE
 
 ## Change log
 ######  13/12/2020
