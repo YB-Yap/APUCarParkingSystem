@@ -45,13 +45,6 @@
                         <button class="btn btn-primary topup-btn" @click="topup(5000)">RM50.00</button>
                         <button class="btn btn-primary topup-btn" @click="topup(10000)">RM100.00</button>
                     </div>
-
-                    <!-- <span>Enter how much you want to topup below</span><br>
-                    <input type="number" class="form-control" v-model="topup_amount" @input="checkTopup()" placeholder="0.00">
-                    <div v-if="invalid_topup" class="alert alert-danger" role="alert">
-                        Invalid amount
-                    </div>
-                    <button class="btn btn-primary" :disabled="invalid_topup">Topup</button> -->
                 </div>
             </div>
         </div>
@@ -86,7 +79,6 @@
                 axios
                     .get('/parking/state')
                     .then((result) => {
-                        console.log(result.data)
                         if (result.data.isInParking) {
                             this.is_in_parking = true;
                             this.car_state = result.data.data[0];
@@ -95,7 +87,6 @@
                     });
             },
             enterCarPark() {
-                console.log(`entering ${this.selected_parking_zone}`);
                 this.$swal.fire({
                     title: 'Entering Car Park',
                     text: `You are about to enter Parking Zone ${this.selected_parking_zone}?`,
@@ -128,7 +119,6 @@
                 })
             },
             exitCarPark() {
-                console.log(`exiting ${this.selected_parking_zone}`);
                 this.$swal.fire({
                     title: 'Exiting Car Park',
                     text: `You are about to exit Parking Zone ${this.selected_parking_zone}?`,
@@ -162,7 +152,6 @@
                 })
             },
             topup(_amount) {
-                console.log(`topup ${_amount}`);
                 this.$swal({
                     title: 'Topup',
                     text: `Please wait while the system is adding RM${(_amount/100).toFixed(2)} to your APCard`,

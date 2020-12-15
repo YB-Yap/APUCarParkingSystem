@@ -58,6 +58,8 @@ php artisan migrate --seed
 6. DONE
 
 ## Change log
+######  15/12/2020
+- Code cleanup
 ######  13/12/2020
 - Added tester accounts
 - Updated UI

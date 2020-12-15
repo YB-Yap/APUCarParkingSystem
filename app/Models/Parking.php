@@ -1,5 +1,9 @@
 <?php
 
+/*
+| Description: Used for defining relationship between models and other methods
+*/
+
 namespace App\Models;
 
 use Carbon\Carbon;

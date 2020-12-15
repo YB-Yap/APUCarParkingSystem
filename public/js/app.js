@@ -2686,35 +2686,19 @@ __webpack_require__.r(__webpack_exports__);
         profile_pic_path: '',
         fullname: ''
       },
-      // apcard_balance: 0,
       parking: {
         availability: {},
-        // is_in_parking: false,
-        car_state: {} // estimated_fee: 0,
-        // has_parked_today: false,
-        // latest_record: {
-        //     hours: 0,
-        //     minutes: 0,
-        // },
-
+        car_state: {}
       },
       subscription: {
         availability: 0,
-        size: 0,
-        //     has_subs: false,
-        //     state: [],
-        //     valid_from: '',
-        //     valid_till: '',
-        estimated_date: ''
+        size: 0
       }
     };
   },
   mounted: function mounted() {
-    this.getUserProfile(); // this.getAPCardBalance();
-
-    this.getCarParkAvailability(); // this.getCarState();
-    // this.getSubscriptionState();
-
+    this.getUserProfile();
+    this.getCarParkAvailability();
     this.getSubscriptionAvailability();
     this.getSubscriptionSize();
   },
@@ -2740,13 +2724,6 @@ __webpack_require__.r(__webpack_exports__);
         _this.user = result.data;
       });
     },
-    // getAPCardBalance() {
-    //     axios
-    //         .get('/apcard/balance')
-    //         .then((result) => {
-    //             this.apcard_balance = (result.data / 100).toFixed(2);
-    //         });
-    // },
     getCarParkAvailability: function getCarParkAvailability() {
       var _this2 = this;
 
@@ -2754,83 +2731,21 @@ __webpack_require__.r(__webpack_exports__);
         _this2.parking.availability = result.data;
       });
     },
-    // getCarState() {
-    //     axios
-    //         .get('/parking/state')
-    //         .then((result) => {
-    //             console.log(result.data)
-    //             if (result.data.isInParking) {
-    //                 this.parking.is_in_parking = true;
-    //                 this.parking.car_state = result.data.data[0];
-    //                 this.estimateParkingFee();
-    //             }
-    //             if (result.data.hasParkedToday) {
-    //                 this.parking.has_parked_today = true;
-    //                 this.parking.latest_record = result.data.data[1];
-    //                 this.parking.latest_record.hours = Math.floor(this.parking.latest_record.duration);
-    //                 let minutes = (this.parking.latest_record.duration - this.parking.latest_record.hours) * 60;
-    //                 this.parking.latest_record.minutes = Math.floor(minutes);
-    //             }
-    //             this.$forceUpdate();
-    //         });
-    // },
-    estimateParkingFee: function estimateParkingFee() {
-      var _this3 = this;
-
-      axios.get('/parking/estimate-fee').then(function (result) {
-        console.log(result.data);
-        _this3.parking.estimated_fee = (result.data / 100).toFixed(2);
-
-        _this3.$forceUpdate();
-      });
-    },
     toDateString: function toDateString(_date) {
       return _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
     },
-    // getSubscriptionState() {
-    //     axios
-    //         .get('/subscription/state')
-    //         .then((result) => {
-    //             console.log(result.data)
-    //             if (result.data.hasSubscription) {
-    //                 this.subscription.has_subs = true;
-    //                 this.subscription.state = result.data.data;
-    //             } else {
-    //                 this.subscription.has_subs = false;
-    //                 this.subscription.state = [];
-    //             }
-    //             if (this.subscription.has_subs) {
-    //                 let last_index = this.subscription.state.length - 1;
-    //                 let _from = new Date(this.subscription.state[0].valid_at.replace(/-/g, '/'));
-    //                 let _till = new Date(this.subscription.state[last_index].valid_till.replace(/-/g, '/'));
-    //                 this.subscription.valid_from = this.toDateString(_from);
-    //                 this.subscription.valid_till = this.toDateString(_till);
-    //             }
-    //         });
-    // },
-    estimateSubsRestockDate: function estimateSubsRestockDate() {
-      var _this4 = this;
-
-      axios.get('/api/subscription/estimate-restock-date').then(function (result) {
-        _this4.subscription.estimated_date = result.data.estimatedDate;
-      });
-    },
     getSubscriptionAvailability: function getSubscriptionAvailability() {
-      var _this5 = this;
+      var _this3 = this;
 
       axios.get('/api/subscription/availability').then(function (result) {
-        _this5.subscription.availability = result.data;
-
-        if (_this5.subscription.availability == 0) {
-          _this5.estimateSubsRestockDate();
-        }
+        _this3.subscription.availability = result.data;
       });
     },
     getSubscriptionSize: function getSubscriptionSize() {
-      var _this6 = this;
+      var _this4 = this;
 
       axios.get('/api/subscription/size').then(function (result) {
-        _this6.subscription.size = result.data;
+        _this4.subscription.size = result.data;
       });
     },
     isDashboard: function isDashboard() {
@@ -3046,7 +2961,6 @@ __webpack_require__.r(__webpack_exports__);
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       axios.get("/api/admin/parking?page=".concat(page)).then(function (result) {
-        // console.log(result.data);
         _this.parking_logs = result.data;
 
         _.map(_this.parking_logs.data, function (_log) {
@@ -3152,7 +3066,6 @@ __webpack_require__.r(__webpack_exports__);
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       axios.get("/api/admin/subscription?page=".concat(page)).then(function (result) {
-        // console.log(result.data);
         _this.subscription_logs = result.data;
 
         _.map(_this.subscription_logs.data, function (record) {
@@ -3388,7 +3301,6 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get('/api/admin/config').then(function (result) {
-        console.log(result.data);
         $.each(result.data, function (config_key, config_value) {
           if (config_value.key == 'subscription_price') {
             _this.config[config_value.key] = (config_value.value / 100).toFixed(2);
@@ -3623,7 +3535,6 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var refresh = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-      // let student_id = (this.stored_id == '') ? this.student_id : this.stored_id
       axios.post('/subscription/state', {
         tp_number: this.student_id
       }).then(function (result) {
@@ -3636,7 +3547,8 @@ __webpack_require__.r(__webpack_exports__);
             });
           }
 
-          _this.has_profile = true;
+          _this.has_profile = true; // json stringify then parse is to remove bind and reactivity from student_id
+
           _this.stored_id = JSON.parse(JSON.stringify(_this.student_id));
 
           if (result.data.hasSubscription) {
@@ -3895,12 +3807,11 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.$swal.showLoading();
       axios.get('/admin/subscription/all-active').then(function (result) {
-        _this.$swal.close(); // console.log(result.data);
-
+        _this.$swal.close();
 
         _this.subscription_state = _.groupBy(result.data, function (record) {
           return record.user_id;
-        }); // console.log(this.subscription_state);
+        });
       });
     },
     estimateSubsRestockDate: function estimateSubsRestockDate() {
@@ -4173,11 +4084,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.getUserProfile();
-    this.getAPCardBalance(); // this.getCarParkAvailability();
-
+    this.getAPCardBalance();
     this.getCarState();
     this.getSubscriptionState();
-    this.getSubscriptionAvailability(); // this.getSubscriptionSize();
+    this.getSubscriptionAvailability();
   },
   methods: {
     logout: function logout() {
@@ -4208,19 +4118,10 @@ __webpack_require__.r(__webpack_exports__);
         _this2.apcard_balance = (result.data / 100).toFixed(2);
       });
     },
-    // getCarParkAvailability() {
-    //     axios
-    //         .get('/api/parking/availability')
-    //         .then((result) => {
-    //             this.parking.availability = result.data;
-    //         });
-    // },
     getCarState: function getCarState() {
       var _this3 = this;
 
       axios.get('/parking/state').then(function (result) {
-        console.log(result.data);
-
         if (result.data.isInParking) {
           _this3.parking.is_in_parking = true;
           _this3.parking.car_state = result.data.data[0];
@@ -4240,7 +4141,9 @@ __webpack_require__.r(__webpack_exports__);
           _this3.parking.latest_record.hours = Math.floor(_this3.parking.latest_record.duration);
           var minutes = (_this3.parking.latest_record.duration - _this3.parking.latest_record.hours) * 60;
           _this3.parking.latest_record.minutes = Math.floor(minutes);
-        }
+        } // $forceUpdate() is Vue built-in functions to force rerender components
+        // when data has changed and the page does not redender by itself
+
 
         _this3.$forceUpdate();
       });
@@ -4249,7 +4152,6 @@ __webpack_require__.r(__webpack_exports__);
       var _this4 = this;
 
       axios.get('/parking/estimate-fee').then(function (result) {
-        console.log(result.data);
         _this4.parking.estimated_fee = (result.data / 100).toFixed(2);
 
         _this4.$forceUpdate();
@@ -4262,8 +4164,6 @@ __webpack_require__.r(__webpack_exports__);
       var _this5 = this;
 
       axios.get('/subscription/state').then(function (result) {
-        console.log(result.data);
-
         if (result.data.hasSubscription) {
           _this5.subscription.has_subs = true;
           _this5.subscription.state = result.data.data;
@@ -4301,14 +4201,7 @@ __webpack_require__.r(__webpack_exports__);
           _this7.estimateSubsRestockDate();
         }
       });
-    } // getSubscriptionSize() {
-    //     axios
-    //         .get('/api/subscription/size')
-    //         .then((result) => {
-    //             this.subscription.size = result.data;
-    //         });
-    // },
-
+    }
   }
 });
 
@@ -4323,6 +4216,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -4585,8 +4482,6 @@ __webpack_require__.r(__webpack_exports__);
       is_in_parking: false,
       car_state: {},
       estimated_fee: 0,
-      // parking_availability: {},
-      // parking_size: {},
       has_parked_today: false,
       latest_record: {
         hours: 0,
@@ -4596,9 +4491,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    this.getCarState(); // this.getCarParkAvailability();
-    // this.getCarParkSize();
-
+    this.getCarState();
     this.getParkingRecords();
   },
   methods: {
@@ -4637,20 +4530,6 @@ __webpack_require__.r(__webpack_exports__);
         _this2.$forceUpdate();
       });
     },
-    // getCarParkAvailability() {
-    //     axios
-    //         .get('/api/parking/availability')
-    //         .then((result) => {
-    //             this.parking_availability = result.data;
-    //         });
-    // },
-    // getCarParkSize() {
-    //     axios
-    //         .get('/api/parking/size')
-    //         .then((result) => {
-    //             this.parking_size = result.data;
-    //         });
-    // },
     toDateString: function toDateString(_date) {
       return _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
     },
@@ -4665,13 +4544,11 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       axios.get('/parking/records').then(function (result) {
-        console.log(JSON.parse(JSON.stringify(result.data.data)));
         _this3.parking_records = _.groupBy(result.data.data, function (record) {
           var _date = new Date(record.time_in.replace(/-/g, '/'));
 
           return "".concat(_this3.toDateString(_date), ", ").concat(_this3.getWeekDay(_date));
         });
-        console.log(_this3.parking_records);
 
         for (var group in _this3.parking_records) {
           _.map(_this3.parking_records[group], function (record) {
@@ -4759,13 +4636,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4793,8 +4663,6 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       axios.get('/parking/state').then(function (result) {
-        console.log(result.data);
-
         if (result.data.isInParking) {
           _this2.is_in_parking = true;
           _this2.car_state = result.data.data[0];
@@ -4805,7 +4673,6 @@ __webpack_require__.r(__webpack_exports__);
     enterCarPark: function enterCarPark() {
       var _this3 = this;
 
-      console.log("entering ".concat(this.selected_parking_zone));
       this.$swal.fire({
         title: 'Entering Car Park',
         text: "You are about to enter Parking Zone ".concat(this.selected_parking_zone, "?"),
@@ -4839,7 +4706,6 @@ __webpack_require__.r(__webpack_exports__);
     exitCarPark: function exitCarPark() {
       var _this4 = this;
 
-      console.log("exiting ".concat(this.selected_parking_zone));
       this.$swal.fire({
         title: 'Exiting Car Park',
         text: "You are about to exit Parking Zone ".concat(this.selected_parking_zone, "?"),
@@ -4876,7 +4742,6 @@ __webpack_require__.r(__webpack_exports__);
     topup: function topup(_amount) {
       var _this5 = this;
 
-      console.log("topup ".concat(_amount));
       this.$swal({
         title: 'Topup',
         text: "Please wait while the system is adding RM".concat((_amount / 100).toFixed(2), " to your APCard"),
@@ -5058,7 +4923,6 @@ __webpack_require__.r(__webpack_exports__);
     return {
       has_subscription: false,
       subscription_availability: 0,
-      // subscription_size: 0,
       subscription_state: [],
       estimated_date: '',
       valid_from: '',
@@ -5069,7 +4933,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.getSubscriptionState();
-    this.getSubscriptionAvailability(); // this.getSubscriptionSize();
+    this.getSubscriptionAvailability();
   },
   methods: {
     toDateString: function toDateString(_date) {
@@ -5079,8 +4943,6 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get('/subscription/state').then(function (result) {
-        console.log(result.data);
-
         if (result.data.hasSubscription) {
           _this.has_subscription = true;
           _this.subscription_state = result.data.data;
@@ -5130,13 +4992,6 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    // getSubscriptionSize() {
-    //     axios
-    //         .get('/api/subscription/size')
-    //         .then((result) => {
-    //             this.subscription_size = result.data;
-    //         });
-    // },
     purchaseSubs: function purchaseSubs() {
       var _this4 = this;
 
@@ -5296,8 +5151,6 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get('/transaction/subscription-records').then(function (result) {
-        // console.log(result.data.data);
-        // this.subscription_records = result.data.data;
         _this.subscription_records = _.map(result.data.data, function (record) {
           if (record.description.toLowerCase().includes('purchase')) {
             record.style = 'success';
@@ -110198,7 +110051,8 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); // packag
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_sweetalert2__WEBPACK_IMPORTED_MODULE_5__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_masonry__WEBPACK_IMPORTED_MODULE_8__["VueMasonryPlugin"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('pagination', __webpack_require__(/*! laravel-vue-pagination */ "./node_modules/laravel-vue-pagination/dist/laravel-vue-pagination.common.js"));
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('pagination', __webpack_require__(/*! laravel-vue-pagination */ "./node_modules/laravel-vue-pagination/dist/laravel-vue-pagination.common.js")); // anything that are imported or use() can be used in any Vue pages
+
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
   mode: "history",
   base: "/",
@@ -110210,7 +110064,8 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
       y: 0
     };
   }
-});
+}); // Initialise Vue app
+
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
   components: {
@@ -111779,10 +111634,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_Admin_Subscription__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./pages/Admin/Subscription */ "./resources/js/pages/Admin/Subscription.vue");
 /* harmony import */ var _pages_Admin_ViewActiveSubs__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./pages/Admin/ViewActiveSubs */ "./resources/js/pages/Admin/ViewActiveSubs.vue");
 /* harmony import */ var _pages_Admin_Logs_LogsPage__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pages/Admin/Logs/LogsPage */ "./resources/js/pages/Admin/Logs/LogsPage.vue");
-/* harmony import */ var _pages_Admin_Logs_ParkingLogs__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./pages/Admin/Logs/ParkingLogs */ "./resources/js/pages/Admin/Logs/ParkingLogs.vue");
-/* harmony import */ var _pages_Admin_Logs_SubscriptionLogs__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./pages/Admin/Logs/SubscriptionLogs */ "./resources/js/pages/Admin/Logs/SubscriptionLogs.vue");
-/* harmony import */ var _pages_Admin_Settings__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./pages/Admin/Settings */ "./resources/js/pages/Admin/Settings.vue");
-/* harmony import */ var _pages_Admin_More__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./pages/Admin/More */ "./resources/js/pages/Admin/More.vue");
+/* harmony import */ var _pages_Admin_Logs_ParkingLogs__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./pages/Admin/Logs/ParkingLogs */ "./resources/js/pages/Admin/Logs/ParkingLogs.vue");
+/* harmony import */ var _pages_Admin_Logs_SubscriptionLogs__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./pages/Admin/Logs/SubscriptionLogs */ "./resources/js/pages/Admin/Logs/SubscriptionLogs.vue");
+/* harmony import */ var _pages_Admin_Settings__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./pages/Admin/Settings */ "./resources/js/pages/Admin/Settings.vue");
+/* harmony import */ var _pages_Admin_More__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./pages/Admin/More */ "./resources/js/pages/Admin/More.vue");
+/*
+| Description: To define all routes to load Vue pages
+*/
 
 
 
@@ -111840,19 +111698,19 @@ var routes = [{
 }, {
   path: "/admin/logs/parking",
   name: "admin_parking_logs",
-  component: _pages_Admin_Logs_ParkingLogs__WEBPACK_IMPORTED_MODULE_13__["default"]
+  component: _pages_Admin_Logs_ParkingLogs__WEBPACK_IMPORTED_MODULE_10__["default"]
 }, {
   path: "/admin/logs/subscription",
   name: "admin_subscription_logs",
-  component: _pages_Admin_Logs_SubscriptionLogs__WEBPACK_IMPORTED_MODULE_14__["default"]
+  component: _pages_Admin_Logs_SubscriptionLogs__WEBPACK_IMPORTED_MODULE_11__["default"]
 }, {
   path: "/admin/settings",
   name: "admin_settings",
-  component: _pages_Admin_Settings__WEBPACK_IMPORTED_MODULE_11__["default"]
+  component: _pages_Admin_Settings__WEBPACK_IMPORTED_MODULE_12__["default"]
 }, {
   path: "/admin/more",
   name: "admin_more",
-  component: _pages_Admin_More__WEBPACK_IMPORTED_MODULE_12__["default"]
+  component: _pages_Admin_More__WEBPACK_IMPORTED_MODULE_13__["default"]
 }];
 
 /***/ }),

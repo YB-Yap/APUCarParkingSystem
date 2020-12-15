@@ -1,5 +1,9 @@
 <?php
 
+/*
+| Description: Creating methods which can be used for CRUD, return view, API and more
+*/
+
 namespace App\Http\Controllers;
 
 use App\Http\Resources\SubscriptionResource;
@@ -135,6 +139,7 @@ class SubscriptionController extends Controller
     public function purchaseSubs(Request $request)
     {
         $viaAdmin = false;
+        // check if the URL has tp_number parameter
         if ($request->has('tp_number')) {
             $user = User::where('tp_number', $request->input('tp_number'))->first();
             if (!$user) {

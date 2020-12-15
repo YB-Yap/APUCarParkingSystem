@@ -1,5 +1,9 @@
 <?php
 
+/*
+| Description: Used as a functions library which the helper functions can be used globally
+*/
+
 use App\Models\Config;
 use App\Models\Parking;
 use App\Models\Subscription;
@@ -8,6 +12,7 @@ use Symfony\Component\Mime\Encoder\EncoderInterface;
 if (!function_exists('toJson')) {
     function toJson($data)
     {
+        // To convert php object to json
         return json_decode(json_encode($data));
     }
 }

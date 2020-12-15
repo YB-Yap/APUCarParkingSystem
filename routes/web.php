@@ -9,14 +9,12 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
+| Description: To define all routes
 */
 
 // login
 Route::get('/login', 'UserController@login')->name('login');
 Route::post('/login', 'UserController@login')->name('login');
-
-// This is the first page and other pages
-// The URLs are processed by Vue.js
 
 // middleware is used to check if the user is authenticated when visiting these pages.
 // if user is not authenticated, user will be redirected to login page
@@ -52,6 +50,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/transaction/subscription-records', 'TransactionController@getSubsRecords');
 
+    // The URLs are processed by Vue.js
     Route::get('/{vue_capture?}', function () {
         return view('index');
     })->where('vue_capture', '[\/\w\.-]*');

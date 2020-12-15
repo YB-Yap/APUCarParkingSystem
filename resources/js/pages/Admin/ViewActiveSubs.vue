@@ -95,11 +95,9 @@
                     .get('/admin/subscription/all-active')
                     .then((result) => {
                         this.$swal.close();
-                        // console.log(result.data);
                         this.subscription_state = _.groupBy(result.data, record => {
                             return record.user_id;
                         });
-                        // console.log(this.subscription_state);
                     });
             },
             estimateSubsRestockDate() {

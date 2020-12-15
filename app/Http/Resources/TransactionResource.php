@@ -1,5 +1,9 @@
 <?php
 
+/*
+| Description: Used for formatting array of data to array of user defined object
+*/
+
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;

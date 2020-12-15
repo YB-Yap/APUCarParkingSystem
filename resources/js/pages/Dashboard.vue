@@ -230,11 +230,9 @@
         mounted() {
             this.getUserProfile();
             this.getAPCardBalance();
-            // this.getCarParkAvailability();
             this.getCarState();
             this.getSubscriptionState();
             this.getSubscriptionAvailability();
-            // this.getSubscriptionSize();
         },
         methods: {
             logout() {
@@ -265,18 +263,10 @@
                         this.apcard_balance = (result.data / 100).toFixed(2);
                     });
             },
-            // getCarParkAvailability() {
-            //     axios
-            //         .get('/api/parking/availability')
-            //         .then((result) => {
-            //             this.parking.availability = result.data;
-            //         });
-            // },
             getCarState() {
                 axios
                     .get('/parking/state')
                     .then((result) => {
-                        console.log(result.data)
                         if (result.data.isInParking) {
                             this.parking.is_in_parking = true;
                             this.parking.car_state = result.data.data[0];
@@ -293,6 +283,8 @@
                             let minutes = (this.parking.latest_record.duration - this.parking.latest_record.hours) * 60;
                             this.parking.latest_record.minutes = Math.floor(minutes);
                         }
+                        // $forceUpdate() is Vue built-in functions to force rerender components
+                        // when data has changed and the page does not redender by itself
                         this.$forceUpdate();
                     });
             },
@@ -300,7 +292,6 @@
                 axios
                     .get('/parking/estimate-fee')
                     .then((result) => {
-                        console.log(result.data)
                         this.parking.estimated_fee = (result.data / 100).toFixed(2);
                         this.$forceUpdate();
                     });
@@ -312,7 +303,6 @@
                 axios
                     .get('/subscription/state')
                     .then((result) => {
-                        console.log(result.data)
                         if (result.data.hasSubscription) {
                             this.subscription.has_subs = true;
                             this.subscription.state = result.data.data;
@@ -347,13 +337,6 @@
                         }
                     });
             },
-            // getSubscriptionSize() {
-            //     axios
-            //         .get('/api/subscription/size')
-            //         .then((result) => {
-            //             this.subscription.size = result.data;
-            //         });
-            // },
         }
     }
 </script>

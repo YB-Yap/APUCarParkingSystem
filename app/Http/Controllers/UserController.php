@@ -1,5 +1,9 @@
 <?php
 
+/*
+| Description: Creating methods which can be used for CRUD, return view, API and more
+*/
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;

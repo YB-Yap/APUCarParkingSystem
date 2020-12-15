@@ -122,7 +122,6 @@
                 axios
                     .get('/api/admin/config')
                     .then((result) => {
-                        console.log(result.data);
                         $.each(result.data, (config_key, config_value) => {
                             if (config_value.key == 'subscription_price') {
                                 this.config[config_value.key] = (config_value.value / 100).toFixed(2);

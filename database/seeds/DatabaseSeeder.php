@@ -1,5 +1,9 @@
 <?php
 
+/*
+| Description: To define which seeder class to be called
+*/
+
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder

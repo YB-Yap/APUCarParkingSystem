@@ -138,8 +138,6 @@
                 is_in_parking: false,
                 car_state: {},
                 estimated_fee: 0,
-                // parking_availability: {},
-                // parking_size: {},
                 has_parked_today: false,
                 latest_record: {
                     hours: 0,
@@ -150,8 +148,6 @@
         },
         mounted() {
             this.getCarState();
-            // this.getCarParkAvailability();
-            // this.getCarParkSize();
             this.getParkingRecords();
         },
         methods: {
@@ -185,20 +181,6 @@
                         this.$forceUpdate();
                     });
             },
-            // getCarParkAvailability() {
-            //     axios
-            //         .get('/api/parking/availability')
-            //         .then((result) => {
-            //             this.parking_availability = result.data;
-            //         });
-            // },
-            // getCarParkSize() {
-            //     axios
-            //         .get('/api/parking/size')
-            //         .then((result) => {
-            //             this.parking_size = result.data;
-            //         });
-            // },
             toDateString(_date) {
                 return _date.getFullYear() + '-' +
                         ("0" + (_date.getMonth() + 1)).slice(-2) + '-' +
@@ -217,12 +199,10 @@
                 axios
                     .get('/parking/records')
                     .then((result) => {
-                        console.log(JSON.parse(JSON.stringify(result.data.data)));
                         this.parking_records = _.groupBy(result.data.data, record => {
                             let _date = new Date(record.time_in.replace(/-/g, '/'));
                             return `${this.toDateString(_date)}, ${this.getWeekDay(_date)}`;
                         });
-                        console.log(this.parking_records);
                         for (var group in this.parking_records) {
                             _.map(this.parking_records[group], record => {
                                 let _hours = Math.floor(record.duration);

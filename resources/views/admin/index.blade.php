@@ -16,13 +16,6 @@
 
         <!-- Styles -->
         <style>
-            /* html, body {
-                position: fixed;
-                max-height: 100%;
-                height: 100%;
-                max-width: 100%;
-                width: 100%;
-            } */
             #app {
                 position: fixed;
                 max-height: 100vh;

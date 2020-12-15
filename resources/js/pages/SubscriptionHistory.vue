@@ -76,8 +76,6 @@
                 axios
                     .get('/transaction/subscription-records')
                     .then((result) => {
-                        // console.log(result.data.data);
-                        // this.subscription_records = result.data.data;
                         this.subscription_records = _.map(result.data.data, record => {
                             if (record.description.toLowerCase().includes('purchase')) {
                                 record.style = 'success';

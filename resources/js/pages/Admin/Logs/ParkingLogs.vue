@@ -98,7 +98,6 @@
                 axios
                     .get(`/api/admin/parking?page=${page}`)
                     .then((result) => {
-                        // console.log(result.data);
                         this.parking_logs = result.data;
                         _.map(this.parking_logs.data, _log => {
                             let _hours = Math.floor(_log.duration);

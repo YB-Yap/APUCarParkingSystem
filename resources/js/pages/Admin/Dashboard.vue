@@ -65,35 +65,19 @@
                     profile_pic_path: '',
                     fullname: '',
                 },
-                // apcard_balance: 0,
                 parking: {
                     availability: {},
-                    // is_in_parking: false,
                     car_state: {},
-                    // estimated_fee: 0,
-                    // has_parked_today: false,
-                    // latest_record: {
-                    //     hours: 0,
-                    //     minutes: 0,
-                    // },
                 },
                 subscription: {
                     availability: 0,
                     size: 0,
-                //     has_subs: false,
-                //     state: [],
-                //     valid_from: '',
-                //     valid_till: '',
-                    estimated_date: '',
                 }
             }
         },
         mounted() {
             this.getUserProfile();
-            // this.getAPCardBalance();
             this.getCarParkAvailability();
-            // this.getCarState();
-            // this.getSubscriptionState();
             this.getSubscriptionAvailability();
             this.getSubscriptionSize();
         },
@@ -119,13 +103,6 @@
                         this.user = result.data;
                     });
             },
-            // getAPCardBalance() {
-            //     axios
-            //         .get('/apcard/balance')
-            //         .then((result) => {
-            //             this.apcard_balance = (result.data / 100).toFixed(2);
-            //         });
-            // },
             getCarParkAvailability() {
                 axios
                     .get('/api/parking/availability')
@@ -133,75 +110,14 @@
                         this.parking.availability = result.data;
                     });
             },
-            // getCarState() {
-            //     axios
-            //         .get('/parking/state')
-            //         .then((result) => {
-            //             console.log(result.data)
-            //             if (result.data.isInParking) {
-            //                 this.parking.is_in_parking = true;
-            //                 this.parking.car_state = result.data.data[0];
-            //                 this.estimateParkingFee();
-            //             }
-            //             if (result.data.hasParkedToday) {
-            //                 this.parking.has_parked_today = true;
-            //                 this.parking.latest_record = result.data.data[1];
-            //                 this.parking.latest_record.hours = Math.floor(this.parking.latest_record.duration);
-            //                 let minutes = (this.parking.latest_record.duration - this.parking.latest_record.hours) * 60;
-            //                 this.parking.latest_record.minutes = Math.floor(minutes);
-            //             }
-            //             this.$forceUpdate();
-            //         });
-            // },
-            estimateParkingFee() {
-                axios
-                    .get('/parking/estimate-fee')
-                    .then((result) => {
-                        console.log(result.data)
-                        this.parking.estimated_fee = (result.data / 100).toFixed(2);
-                        this.$forceUpdate();
-                    });
-            },
             toDateString(_date) {
                 return _date.getFullYear() + '-' + ("0" + (_date.getMonth() + 1)).slice(-2) + '-' + ("0" + _date.getDate()).slice(-2);
-            },
-            // getSubscriptionState() {
-            //     axios
-            //         .get('/subscription/state')
-            //         .then((result) => {
-            //             console.log(result.data)
-            //             if (result.data.hasSubscription) {
-            //                 this.subscription.has_subs = true;
-            //                 this.subscription.state = result.data.data;
-            //             } else {
-            //                 this.subscription.has_subs = false;
-            //                 this.subscription.state = [];
-            //             }
-
-            //             if (this.subscription.has_subs) {
-            //                 let last_index = this.subscription.state.length - 1;
-            //                 let _from = new Date(this.subscription.state[0].valid_at.replace(/-/g, '/'));
-            //                 let _till = new Date(this.subscription.state[last_index].valid_till.replace(/-/g, '/'));
-            //                 this.subscription.valid_from = this.toDateString(_from);
-            //                 this.subscription.valid_till = this.toDateString(_till);
-            //             }
-            //         });
-            // },
-            estimateSubsRestockDate() {
-                axios
-                    .get('/api/subscription/estimate-restock-date')
-                    .then((result) => {
-                        this.subscription.estimated_date = result.data.estimatedDate;
-                    });
             },
             getSubscriptionAvailability() {
                 axios
                     .get('/api/subscription/availability')
                     .then((result) => {
                         this.subscription.availability = result.data;
-                        if (this.subscription.availability == 0) {
-                            this.estimateSubsRestockDate();
-                        }
                     });
             },
             getSubscriptionSize() {

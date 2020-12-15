@@ -143,7 +143,6 @@
             return {
                 has_subscription: false,
                 subscription_availability: 0,
-                // subscription_size: 0,
                 subscription_state: [],
                 estimated_date: '',
                 valid_from: '',
@@ -155,7 +154,6 @@
         mounted() {
             this.getSubscriptionState();
             this.getSubscriptionAvailability();
-            // this.getSubscriptionSize();
         },
         methods: {
             toDateString(_date) {
@@ -167,7 +165,6 @@
                 axios
                     .get('/subscription/state')
                     .then((result) => {
-                        console.log(result.data)
                         if (result.data.hasSubscription) {
                             this.has_subscription = true;
                             this.subscription_state = result.data.data;
@@ -208,13 +205,6 @@
                         }
                     });
             },
-            // getSubscriptionSize() {
-            //     axios
-            //         .get('/api/subscription/size')
-            //         .then((result) => {
-            //             this.subscription_size = result.data;
-            //         });
-            // },
             purchaseSubs() {
                 let data = {
                     valid_at: this.valid_from,

@@ -27,6 +27,8 @@ Vue.use(VueMasonryPlugin);
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 
+// anything that are imported or use() can be used in any Vue pages
+
 const router = new VueRouter({
     mode: "history",
     base: "/",
@@ -37,6 +39,7 @@ const router = new VueRouter({
     }
 });
 
+// Initialise Vue app
 const app = new Vue({
     el: '#app',
     components: { LandingPage, AdminLandingPage },

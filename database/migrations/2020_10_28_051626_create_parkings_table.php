@@ -1,5 +1,9 @@
 <?php
 
+/*
+| Description: Used for creating tables in the database
+*/
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

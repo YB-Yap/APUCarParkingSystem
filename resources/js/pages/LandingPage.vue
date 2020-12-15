@@ -1,6 +1,10 @@
 <template>
     <div class="content-container">
         <div class="content">
+            <!--
+                router view is from Vue-Router
+                allows vue pages to be inserted here based on the url
+             -->
             <router-view></router-view>
         </div>
         <div class="btm-navbar">

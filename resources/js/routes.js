@@ -1,3 +1,7 @@
+/*
+| Description: To define all routes to load Vue pages
+*/
+
 import Dashboard from "./pages/Dashboard";
 import ParkingStatus from "./pages/ParkingStatus";
 import More from "./pages/More";

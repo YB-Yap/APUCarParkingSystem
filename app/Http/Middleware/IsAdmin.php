@@ -1,5 +1,9 @@
 <?php
 
+/*
+| Description: Used for checking admin role in web.php
+*/
+
 namespace App\Http\Middleware;
 
 use Closure;

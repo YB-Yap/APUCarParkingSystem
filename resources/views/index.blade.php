@@ -16,23 +16,12 @@
 
         <!-- Styles -->
         <style>
-            /* html, body {
-                position: fixed;
-                max-height: 100%;
-                height: 100%;
-                max-width: 100%;
-                width: 100%;
-            } */
             #app {
                 position: fixed;
                 max-height: 100%;
                 height: 100%;
                 max-width: 100%;
                 width: 100%;
-                /* max-height: 100vh;
-                height: 100vh;
-                max-width: 100vw;
-                width: 100vw; */
             }
         </style>
     </head>

@@ -187,7 +187,6 @@
                         ("0" + _date.getDate()).slice(-2);
             },
             getStudentSubs(refresh = false) {
-                // let student_id = (this.stored_id == '') ? this.student_id : this.stored_id
                 axios
                     .post('/subscription/state', {tp_number: this.student_id})
                     .then((result) => {
@@ -200,6 +199,7 @@
                                 })
                             }
                             this.has_profile = true;
+                            // json stringify then parse is to remove bind and reactivity from student_id
                             this.stored_id = JSON.parse(JSON.stringify(this.student_id));
 
                             if (result.data.hasSubscription) {

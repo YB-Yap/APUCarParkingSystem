@@ -1,5 +1,9 @@
 <?php
 
+/*
+| Description: Used for inserting data to the database
+*/
+
 use Illuminate\Database\Seeder;
 use App\Models\Config;
 

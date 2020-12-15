@@ -1,5 +1,9 @@
 <?php
 
+/*
+| Description: Creating methods which can be used for CRUD, return view, API and more
+*/
+
 namespace App\Http\Controllers;
 
 use App\Models\Config;
@@ -87,6 +91,7 @@ class ConfigController extends Controller
 
     public function updateConfig(Request $request)
     {
+        // $request->all() is getting all URL parameters
         $config = $request->all();
         $config['subscription_price'] = $config['subscription_price'] * 100;
 

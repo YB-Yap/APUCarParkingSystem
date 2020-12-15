@@ -1,5 +1,9 @@
 <?php
 
+/*
+| Description: Creating command that can be executed using laravel command (php artisan ``command``) in console
+*/
+
 namespace App\Console\Commands;
 
 use App\Models\Parking;
@@ -73,7 +77,6 @@ class ParkingCheck extends Command
         }
 
     }
-
 
     public function deductBalance(User $user, $amount)
     {

@@ -74,7 +74,6 @@
                 axios
                     .get(`/api/admin/subscription?page=${page}`)
                     .then((result) => {
-                        // console.log(result.data);
                         this.subscription_logs = result.data;
                         _.map(this.subscription_logs.data, record => {
                             if (record.description.toLowerCase().includes('purchase')) {
