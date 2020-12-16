@@ -234,12 +234,8 @@ class ParkingController extends Controller
         }
 
         // check if there is other parking record on that day in the same parking zone
-        $today_records = $_user->parking()
-                        ->whereDate('time_in', $_now->toDateString())
-                        ->whereNotNull('time_out')
-                        ->where('parking_zone', $_parking->parking_zone)
-                        ->latest('updated_at')
-                        ->get();
+        $today_records = $_user->parking()->whereDate('time_in', $_now->toDateString())
+                        ->whereNotNull('time_out')->latest('updated_at')->get();
 
         // parking zone A
         if ($_parking->parking_zone == 'A') {
@@ -259,7 +255,6 @@ class ParkingController extends Controller
         if ($today_records->count() > 0) {
             // add previous fee to get remaining payable amount
             foreach ($today_records as $index => $record) {
-                // add up all previous records on the day
                 // if the car park is not full and the fee is not 0
                 if (!$record->is_car_park_full || $record->fee > 0) {
                     $previous_duration += $record->duration;
@@ -269,37 +264,28 @@ class ParkingController extends Controller
             }
             $total_duration = $previous_duration + $data->current_duration;
             // check hour range
-            if (inRange($total_duration, 0, 1)) {
-                // first hour
+            if (inRange($total_duration, 0, 1)) {           // first hour
                 $data->to_pay = $this->FEE_FIRST_HOUR - $previous_paid;
-            } else if (inRange($total_duration, 1, 2)) {
-                // second hour
+            } else if (inRange($total_duration, 1, 2)) {    // second hour
                 $data->to_pay = $this->FEE_SECOND_HOUR - $previous_paid;
-            } else if (inRange($total_duration, 2, 3)) {
-                // third hour
+            } else if (inRange($total_duration, 2, 3)) {    // third hour
                 $data->to_pay = $this->FEE_THIRD_HOUR - $previous_paid;
-            } else {
-                // fourth hour or more
+            } else {                                        // fourth hour or more
                 $data->to_pay = $this->FEE_ZONE_B_MAX - $previous_paid;
             }
         } else {
             // parking zone b - first time
             // check hour range
-            if (inRange($data->current_duration, 0, 1)) {
-                // first hour
+            if (inRange($data->current_duration, 0, 1)) {           // first hour
                 $data->to_pay = $this->FEE_FIRST_HOUR;
-            } else if (inRange($data->current_duration, 1, 2)) {
-                // second hour
+            } else if (inRange($data->current_duration, 1, 2)) {    // second hour
                 $data->to_pay = $this->FEE_SECOND_HOUR;
-            } else if (inRange($data->current_duration, 2, 3)) {
-                // third hour
+            } else if (inRange($data->current_duration, 2, 3)) {    // third hour
                 $data->to_pay = $this->FEE_THIRD_HOUR;
-            } else {
-                // fourth hour or more
+            } else {                                                // fourth hour or more
                 $data->to_pay = $this->FEE_ZONE_B_MAX;
             }
         }
-
         return $data;
     }
 
