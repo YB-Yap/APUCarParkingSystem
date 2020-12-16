@@ -168,7 +168,6 @@ class SubscriptionController extends Controller
         }
 
         $subscription = new Subscription();
-
         $subscription->user_id = $user->id;
         $subscription->valid_at = $request->valid_at;
         $subscription->valid_till = $request->valid_till;
@@ -176,7 +175,6 @@ class SubscriptionController extends Controller
         $subscription->save();
 
         $transaction = new Transaction();
-
         $transaction->user_id = $user->id;
         $transaction->type = "deduct";
         $transaction->category = "subscription";
