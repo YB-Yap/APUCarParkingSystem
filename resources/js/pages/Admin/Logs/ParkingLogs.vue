@@ -15,7 +15,7 @@
                         <li class="breadcrumb-item active" aria-current="page">Parking Logs</li>
                     </ol>
                 </nav>
-                <pagination :data="parking_logs" :show-disabled=true align="right" @pagination-change-page="getParkingLogs">
+                <pagination :data="parking_logs" :limit="1" :show-disabled=true align="right" @pagination-change-page="getParkingLogs">
                     <span slot="prev-nav"><span class="mdi mdi-chevron-left"></span></span>
 	                <span slot="next-nav"><span class="mdi mdi-chevron-right"></span></span>
                 </pagination>
@@ -61,7 +61,7 @@
                         </tbody>
                     </table>
                 </div>
-                <pagination :data="parking_logs" :show-disabled="true" align="right" @pagination-change-page="getParkingLogs">
+                <pagination :data="parking_logs" :limit="1" :show-disabled="true" align="right" @pagination-change-page="getParkingLogs">
                     <span slot="prev-nav"><span class="mdi mdi-chevron-left"></span></span>
 	                <span slot="next-nav"><span class="mdi mdi-chevron-right"></span></span>
                 </pagination>

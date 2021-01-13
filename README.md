@@ -58,6 +58,9 @@ php artisan migrate --seed
 6. DONE
 
 ## Change log
+######  13/1/2021
+- Fixed scheduler update wrong row
+- Fixed `Logs` pagination 
 ######  16/12/2020
 - Code cleanup
 ######  15/12/2020

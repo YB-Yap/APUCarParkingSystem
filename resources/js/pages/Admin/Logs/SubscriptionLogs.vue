@@ -15,7 +15,7 @@
                         <li class="breadcrumb-item active" aria-current="page">Subscription Logs</li>
                     </ol>
                 </nav>
-                <pagination :data="subscription_logs" :show-disabled="true" align="right" @pagination-change-page="getSubscriptionLogs">
+                <pagination :data="subscription_logs" :limit="1" :show-disabled="true" align="right" @pagination-change-page="getSubscriptionLogs">
                     <span slot="prev-nav"><span class="mdi mdi-chevron-left"></span></span>
 	                <span slot="next-nav"><span class="mdi mdi-chevron-right"></span></span>
                 </pagination>
@@ -47,7 +47,7 @@
                         </tbody>
                     </table>
                 </div>
-                <pagination :data="subscription_logs" :show-disabled="true" align="right" @pagination-change-page="getSubscriptionLogs">
+                <pagination :data="subscription_logs" :limit="1" :show-disabled="true" align="right" @pagination-change-page="getSubscriptionLogs">
                     <span slot="prev-nav"><span class="mdi mdi-chevron-left"></span></span>
 	                <span slot="next-nav"><span class="mdi mdi-chevron-right"></span></span>
                 </pagination>

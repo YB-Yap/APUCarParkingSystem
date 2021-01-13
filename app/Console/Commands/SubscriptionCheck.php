@@ -51,7 +51,7 @@ class SubscriptionCheck extends Command
             ->update(['is_active' => false, 'is_expired' => true]);
 
         // activate inactive subscription that is not expired
-        Subscription::where('is_active', false)->whereDate('valid_at', '=', $today->toDateString())
+        Subscription::where('is_active', false)->where('is_expired', false)->whereDate('valid_at', '=', $today->toDateString())
             ->update(['is_active' => true]);
     }
 }

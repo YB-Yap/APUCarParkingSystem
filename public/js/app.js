@@ -90824,6 +90824,7 @@ var render = function() {
             {
               attrs: {
                 data: _vm.parking_logs,
+                limit: 1,
                 "show-disabled": true,
                 align: "right"
               },
@@ -90929,6 +90930,7 @@ var render = function() {
             {
               attrs: {
                 data: _vm.parking_logs,
+                limit: 1,
                 "show-disabled": true,
                 align: "right"
               },
@@ -91080,6 +91082,7 @@ var render = function() {
             {
               attrs: {
                 data: _vm.subscription_logs,
+                limit: 1,
                 "show-disabled": true,
                 align: "right"
               },
@@ -91157,6 +91160,7 @@ var render = function() {
             {
               attrs: {
                 data: _vm.subscription_logs,
+                limit: 1,
                 "show-disabled": true,
                 align: "right"
               },
