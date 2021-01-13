@@ -141,6 +141,8 @@
 
     .pagination {
         background-color: $secondary-bg;
+        display: flex;
+        flex-wrap: wrap;
 
         .page-link {
             color: $main-txt;
